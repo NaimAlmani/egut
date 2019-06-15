@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GroupFeed from './GroupFeed';
-import GroupForm from './GroupForm';
-import EditGroup from './EditGroup';
+import CategoryFeed from './CategoryFeed';
+import CategoryForm from './CategoryForm';
+import EditCategory from './EditCategory';
 import { withStyles } from '@material-ui/core/styles';
-import {
-	Grid,
-	Card,
-	CardActionArea,
-	CardMedia,
-	CardContent,
-	Typography,
-	CardActions,
-	Dialog,
-	DialogContent,
-	Avatar,
-	Button
-} from '@material-ui/core';
-import { customStyles } from './../../theme/customStyles';
+import { Grid, Button } from '@material-ui/core';
 import isEmpty from './../../validation/is-empty';
-import { getAllGroups } from './../../actions/group';
+import { getAllCategories } from './../../actions/category';
 import SearchInput, { createFilter } from 'react-search-input';
 import CustomSearchInput from './../common/CustomSearchInput';
 import Title from '../common/Title';
@@ -66,7 +53,7 @@ const styles = (theme) => ({
 		background: theme.palette.green.main
 	}
 });
-class Groups extends Component {
+class Categories extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -78,7 +65,7 @@ class Groups extends Component {
 		this.onHideNewPlace = this.onHideNewPlace.bind(this);
 	}
 	componentDidMount() {
-		this.props.getAllGroups();
+		this.props.getAllCategories();
 	}
 	// function to search array using for loop
 	searchUpdated(term) {
@@ -95,24 +82,24 @@ class Groups extends Component {
 		});
 	}
 	render() {
-		const { classes, group } = this.props;
-		let groupsContent;
-		const { groups } = group;
-		if (groups === null) {
-			groupsContent = '';
+		const { classes, category } = this.props;
+		let categoriesContent;
+		const { categories } = category;
+		if (categories === null) {
+			categoriesContent = '';
 		} else {
 			if (isEmpty(this.state.searchTerm)) {
-				groupsContent = <GroupFeed groups={groups} />;
+				categoriesContent = <CategoryFeed categories={categories} />;
 			} else {
-				const filteredGroups = groups.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-				groupsContent = <GroupFeed groups={filteredGroups} />;
+				const filteredCategories = categories.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
+				categoriesContent = <CategoryFeed categories={filteredCategories} />;
 			}
 		}
 		return (
 			<div className={classes.relativeContainer}>
 				<Title
-					text=' Groups'
-					subText='You can manage the Groups here'
+					text=' Categories'
+					subText='You can manage the Categories here'
 					color={this.props.theme.palette.primary.main}
 				/>
 				<CustomSearchInput
@@ -121,7 +108,7 @@ class Groups extends Component {
 					color={this.props.theme.palette.primary.main}
 				/>
 				<Grid container spacing={10}>
-					{groupsContent}
+					{categoriesContent}
 					<Grid item xs={12} sm={6} md={3} style={{ textAlign: 'center' }}>
 						<Button color='primary' className={classes.addBtn} onClick={this.ShowCreateForm}>
 							<IconItem name='plus' type='Feather' size={50} color='#fff' />
@@ -129,22 +116,22 @@ class Groups extends Component {
 					</Grid>
 				</Grid>
 				<div />
-				{this.state.isAddNew ? <GroupForm onCancel={this.onHideNewPlace} /> : null}
-				{this.props.group.isEdit === true ? <EditGroup /> : null}
+				{this.state.isAddNew ? <CategoryForm onCancel={this.onHideNewPlace} /> : null}
+				{this.props.category.isEdit === true ? <EditCategory /> : null}
 			</div>
 		);
 	}
 }
 
-Groups.propTypes = {
+Categories.propTypes = {
 	errors: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired,
-	group: PropTypes.object
+	category: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
-	group: state.group
+	category: state.category
 });
 
-export default connect(mapStateToProps, { getAllGroups })(withStyles(styles, { withTheme: true })(Groups));
+export default connect(mapStateToProps, { getAllCategories })(withStyles(styles, { withTheme: true })(Categories));

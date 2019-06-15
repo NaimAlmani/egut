@@ -1,24 +1,24 @@
 import axiosInstance from './../utils/axiosInstance';
 import {
-	GET_ALL_GROUPS,
-	ADD_NEW_GROUP,
-	SHOW_EDIT_GROUP,
-	UPDATE_GROUP,
-	DELETE_GROUP,
-	SELECT_GROUP_iCON,
-	RESET_GROUP_ICON,
-	SHOW_GROUP_ICON
+	GET_ALL_CATEGORIES,
+	ADD_NEW_CATEGORY,
+	SHOW_EDIT_CATEGORY,
+	UPDATE_CATEGORY,
+	DELETE_CATEGORY,
+	SELECT_CATEGORY_iCON,
+	RESET_CATEGORY_ICON,
+	SHOW_CATEGORY_ICON
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
 // Login - Get User Token
-export const getAllGroups = () => (dispatch) => {
+export const getAllCategories = () => (dispatch) => {
 	dispatch(startLoading());
 	axiosInstance
-		.get('/api/groups')
+		.get('/api/categories')
 		.then((res) => {
 			dispatch({
-				type: GET_ALL_GROUPS,
+				type: GET_ALL_CATEGORIES,
 				payload: res.data
 			});
 			dispatch(endLoading());
@@ -28,22 +28,22 @@ export const getAllGroups = () => (dispatch) => {
 			dispatch(getErrors(err.response.data));
 		});
 };
-//create group
-export const addNewGroup = (group) => (dispatch) => {
+//create category
+export const addNewCategory = (category) => (dispatch) => {
 	dispatch(startLoading());
 	const gr = {
-		name: group.name,
-		description: group.description,
-		icon_name: group.icon_name,
-		icon_font: group.icon_font
+		name: category.name,
+		description: category.description,
+		icon_name: category.icon_name,
+		icon_font: category.icon_font
 	};
 	console.table(gr);
 	axiosInstance
-		.post('/api/group/create', gr)
+		.post('/api/category/create', gr)
 		.then((res) => {
 			console.table(res.data);
 			dispatch({
-				type: ADD_NEW_GROUP,
+				type: ADD_NEW_CATEGORY,
 				payload: res.data
 			});
 			dispatch(endLoading());
@@ -53,20 +53,20 @@ export const addNewGroup = (group) => (dispatch) => {
 			dispatch(getErrors(err.response.data));
 		});
 };
-//update group
-export const updateGroup = (group) => (dispatch) => {
+//update category
+export const updateCategory = (category) => (dispatch) => {
 	dispatch(startLoading());
 	const formData = new FormData();
-	formData.set('id', group.id);
-	formData.set('name', group.name);
-	formData.set('description', group.description);
-	formData.set('icon_name', group.icon_name);
-	formData.set('icon_font', group.icon_font);
+	formData.set('id', category.id);
+	formData.set('name', category.name);
+	formData.set('description', category.description);
+	formData.set('icon_name', category.icon_name);
+	formData.set('icon_font', category.icon_font);
 	axiosInstance
-		.post('/api/group/update', formData)
+		.post('/api/category/update', formData)
 		.then((res) => {
 			dispatch({
-				type: UPDATE_GROUP,
+				type: UPDATE_CATEGORY,
 				payload: res.data
 			});
 			dispatch(endLoading());
@@ -77,14 +77,14 @@ export const updateGroup = (group) => (dispatch) => {
 		});
 };
 
-export const deleteGroup = (group) => (dispatch) => {
+export const deleteCategory = (category) => (dispatch) => {
 	dispatch(startLoading());
 	axiosInstance
-		.post('/api/group/delete', group)
+		.post('/api/category/delete', category)
 		.then((res) => {
 			dispatch({
-				type: DELETE_GROUP,
-				payload: group.id
+				type: DELETE_CATEGORY,
+				payload: category.id
 			});
 			dispatch(endLoading());
 		})
@@ -94,27 +94,27 @@ export const deleteGroup = (group) => (dispatch) => {
 		});
 };
 
-export const showEditGroup = (group, isShow) => (dispatch) => {
+export const showEditCategory = (category, isShow) => (dispatch) => {
 	dispatch({
-		type: SHOW_EDIT_GROUP,
-		payload: { group, isShow }
+		type: SHOW_EDIT_CATEGORY,
+		payload: { category, isShow }
 	});
 };
-export const selectGroupIcon = (Icon) => (dispatch) => {
+export const selectCategoryIcon = (Icon) => (dispatch) => {
 	dispatch({
-		type: SELECT_GROUP_iCON,
+		type: SELECT_CATEGORY_iCON,
 		payload: Icon
 	});
 };
 export const showIcon = (isShow) => (dispatch) => {
 	dispatch({
-		type: SHOW_GROUP_ICON,
+		type: SHOW_CATEGORY_ICON,
 		payload: isShow
 	});
 };
 export const resetIcon = () => (dispatch) => {
 	dispatch({
-		type: RESET_GROUP_ICON,
+		type: RESET_CATEGORY_ICON,
 		payload: null
 	});
 };

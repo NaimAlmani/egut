@@ -4,18 +4,18 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Group;
+use App\Category;
 use Validator;
 
 
-class GroupController extends Controller
+class CategoryController extends Controller
 
 {
     //
     public function index(Request $request)
     {
-        $groups = Group::orderBy('created_at' , 'desc')->get();
-        return $groups->toJson();
+        $categorys = Category::orderBy('created_at' , 'desc')->get();
+        return $categorys->toJson();
     }
 
        public function redirected(Request $request)
@@ -34,13 +34,13 @@ class GroupController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
-    $group = Group::create([
+    $category = Category::create([
         'name' => $request->name,
         'description'=> $request->description,
         'icon_name'=>$request->icon_name,
         'icon_font'=>$request->icon_font]);
-    $group->save();
-    return $group->toJson();
+    $category->save();
+    return $category->toJson();
     }
      /**
      * update organization
@@ -63,23 +63,23 @@ class GroupController extends Controller
         $icon_name   = $request->icon_name;
         $icon_font   = $request->icon_font;
         //pring the row
-        $group  = Group::find($request->id);
+        $category  = Category::find($request->id);
         //assign new values to the model
-        $group->name  = $name;
-        $group->description = $description;
-        $group->icon_name   = $icon_name;
-        $group->icon_font   = $icon_font;
-        $group->save();
-    return $group->toJson();
+        $category->name  = $name;
+        $category->description = $description;
+        $category->icon_name   = $icon_name;
+        $category->icon_font   = $icon_font;
+        $category->save();
+    return $category->toJson();
     }
      /**
-     * delete group
+     * delete category
      */
     public function delete(Request $request){
-        $group = Group::find($request->id);
-        if($group->activities->count()<=0){
-             $group->delete();
-              return $group->toJson();
+        $category = Category::find($request->id);
+        if($category->activities->count()<=0){
+             $category->delete();
+              return $category->toJson();
         }else{
            return response()->json(['error'=>'You can not delete this Item it has related activities'], 401);
         }

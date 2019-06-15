@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import config from './../../utils/config';
 import { Grid, Avatar } from '@material-ui/core';
-import { showEditGroup, deleteGroup } from './../../actions/group';
-import customStyles from './../../theme/customStyles';
+import { showEditCategory, deleteCategory } from './../../actions/category';
 import ConfirmDelete from './../common/ConfirmDelete';
 // Generate required css
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardActions, CardContent, Button, Typography } from '@material-ui/core';
 import IconItem from '../common/icons/IconItem';
 
 const styles = (theme) => ({
@@ -45,14 +43,14 @@ const styles = (theme) => ({
 		background: theme.palette.error.contrastText
 	}
 });
-class GroupItem extends React.Component {
+class CategoryItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isDelete: false
 		};
 
-		this.selectGroup = this.selectGroup.bind(this);
+		this.selectCategory = this.selectCategory.bind(this);
 		this.onDelete = this.onDelete.bind(this);
 		this.onConfirmDelete = this.onConfirmDelete.bind(this);
 		this.onCancelDelete = this.onCancelDelete.bind(this);
@@ -66,33 +64,38 @@ class GroupItem extends React.Component {
 		});
 	}
 	onConfirmDelete() {
-		const group = {
-			id: this.props.group.id
+		const category = {
+			id: this.props.category.id
 		};
-		this.props.deleteGroup(group);
+		this.props.deleteCategory(category);
 	}
 	onCancelDelete() {
 		this.setState({
 			isDelete: false
 		});
 	}
-	selectGroup = () => {
-		this.props.showEditGroup(this.props.group, true);
+	selectCategory = () => {
+		this.props.showEditCategory(this.props.category, true);
 	};
 	render() {
-		const { classes, group } = this.props;
+		const { classes, category } = this.props;
 		return (
 			<Grid item xs={12} sm={6} md={3}>
 				<Card className={classes.card}>
 					<CardActionArea className={classes.root}>
 						<CardContent>
 							<Avatar className={classes.avatar}>
-								<IconItem name={group.icon_name} font={group.icon_font} color='#fff' size='30px' />
+								<IconItem
+									name={category.icon_name}
+									font={category.icon_font}
+									color='#fff'
+									size='30px'
+								/>
 							</Avatar>
 							<Typography gutterBottom variant='h5' component='h2'>
-								{group.name}
+								{category.name}
 							</Typography>
-							<Typography component='p'>{group.description}</Typography>
+							<Typography component='p'>{category.description}</Typography>
 						</CardContent>
 					</CardActionArea>
 					<CardActions>
@@ -100,7 +103,7 @@ class GroupItem extends React.Component {
 							<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
 								Delete
 							</Button>
-							<Button size='small' color='primary' onClick={this.selectGroup}>
+							<Button size='small' color='primary' onClick={this.selectCategory}>
 								Edit
 							</Button>
 						</div>
@@ -109,7 +112,7 @@ class GroupItem extends React.Component {
 				<ConfirmDelete
 					open={this.state.isDelete}
 					title='Are you Sure ??'
-					text={'do you want to delete ' + group.name}
+					text={'do you want to delete ' + category.name}
 					onClose={this.onCancelDelete}
 					onDelete={this.onConfirmDelete}
 				/>
@@ -118,11 +121,11 @@ class GroupItem extends React.Component {
 	}
 }
 
-GroupItem.propTypes = {
+CategoryItem.propTypes = {
 	classes: PropTypes.object.isRequired
 };
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { showEditGroup, deleteGroup })(
-	withStyles(styles, { withTheme: true })(GroupItem)
+export default connect(mapStateToProps, { showEditCategory, deleteCategory })(
+	withStyles(styles, { withTheme: true })(CategoryItem)
 );

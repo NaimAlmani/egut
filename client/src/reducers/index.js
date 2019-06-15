@@ -8,6 +8,7 @@ import placeReducer from './placeReducer';
 import groupReducer from './groupReducer';
 import activityReducer from './activityReducer';
 import iconReducer from './iconReducer';
+import categoryReducer from './categoryReducer';
 export default combineReducers({
 	auth: authReducer,
 	errors: errorReducer,
@@ -16,6 +17,7 @@ export default combineReducers({
 	organization: orgReducer,
 	place: placeReducer,
 	group: groupReducer,
+	category: categoryReducer,
 	activity: activityReducer,
 	icon: iconReducer
 });

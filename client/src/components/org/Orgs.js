@@ -32,7 +32,7 @@ const styles = (theme) => ({
 		width: '100%'
 	},
 	actionColor: {
-		color: theme.palette.green.active
+		color: theme.palette.green.main
 	},
 	paperTitle: {
 		position: 'absolute',

@@ -42,6 +42,12 @@ Route::post('group/create','API\GroupController@create');
 Route::post('group/update','API\GroupController@update');
 Route::post('group/delete','API\GroupController@delete');
 
+//category
+Route::get('categories','API\CategoryController@index');
+Route::post('category/create','API\CategoryController@create');
+Route::post('category/update','API\CategoryController@update');
+Route::post('category/delete','API\CategoryController@delete');
+
 //activities
 Route::get('activities','API\activityController@index');
 Route::post('activity/create','API\activityController@create');

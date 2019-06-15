@@ -5,7 +5,8 @@ import {
 	UPDATE_GROUP,
 	DELETE_GROUP,
 	SELECT_GROUP_iCON,
-	SHOW_GROUP_ICON
+	SHOW_GROUP_ICON,
+	RESET_GROUP_ICON
 } from '../actions/types';
 
 const initialState = {
@@ -35,10 +36,12 @@ export default function(state = initialState, action) {
 				isEdit: action.payload.isShow
 			};
 		case UPDATE_GROUP:
-			const oldPlaces = state.groups.filter((o) => o.id !== state.selectedGroup.id);
+			const newGroups = state.groups;
+			const currentIndex = state.groups.findIndex((x) => x.id === action.payload.id);
+			newGroups[currentIndex] = action.payload;
 			return {
 				...state,
-				groups: [ action.payload, ...oldPlaces ]
+				groups: [ ...newGroups ]
 			};
 		case DELETE_GROUP:
 			return {
@@ -55,6 +58,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				isShowIcons: true
+			};
+		case RESET_GROUP_ICON:
+			return {
+				...state,
+				icon: {}
 			};
 		default:
 			return state;

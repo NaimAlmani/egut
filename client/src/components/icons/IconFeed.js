@@ -6,7 +6,7 @@ class IconFeed extends Component {
 	render() {
 		const { icons } = this.props;
 
-		return icons.map((icon) => <IconItem key={icon.name} icon={icon} iconParent={this.props.iconParent} />);
+		return icons.map((icon, index) => <IconItem key={index} icon={icon} iconParent={this.props.iconParent} />);
 	}
 }
 

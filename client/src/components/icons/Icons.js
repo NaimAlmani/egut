@@ -64,7 +64,7 @@ class Icons extends Component {
 								style={{
 									position: 'absolute',
 									right: '0',
-									top: '0',
+									top: '40px',
 									color: '#a9a9a9'
 								}}
 							/>
@@ -76,8 +76,7 @@ class Icons extends Component {
 				<div
 					className='row'
 					style={{
-						height: '300px',
-						overflow: 'scroll'
+						height: 'calc(70vh-50px)'
 					}}
 				>
 					{iconContent}

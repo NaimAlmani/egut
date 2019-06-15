@@ -42,7 +42,7 @@ export default function(state = initialState, action) {
 				isEdit: action.payload.isShow
 			};
 		case UPDATE_ACTIVITY:
-			const oldActivities = state.activities.filter((o) => o.id !== state.selectedActivity.id);
+			const oldActivities = state.activities.filter((o) => o.id !== action.p);
 			return {
 				...state,
 				activities: [ action.payload, ...oldActivities ],

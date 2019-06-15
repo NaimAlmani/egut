@@ -229,12 +229,14 @@ class AdminFrame extends React.Component {
 							</List>
 						) : (
 							<List>
-								<ListItem button key={'login'}>
-									<ListItemIcon>
-										<IconItem name='lock' font='Feather' />
-									</ListItemIcon>
-									<ListItemText primary={'login'} />
-								</ListItem>
+								<Link to='/login' style={{ textDecoration: 'none' }}>
+									<ListItem button key={'login'}>
+										<ListItemIcon>
+											<IconItem name='lock' font='Feather' />
+										</ListItemIcon>
+										<ListItemText primary={'login'} />
+									</ListItem>
+								</Link>
 							</List>
 						)}
 

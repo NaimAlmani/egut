@@ -25,30 +25,30 @@ const initTheme = {
 			contrastText: '#fff'
 		},
 		overlay: {
-			active: '#454545'
+			main: '#454545'
 		},
 		pink: {
-			active: '#fd92df',
+			main: '#fd92df',
 			contrastText: '#fff'
 		},
 		purple: {
-			active: '#a8a0ff',
+			main: '#a8a0ff',
 			contrastText: '#fff'
 		},
 		green: {
-			active: '#32cbc2',
+			main: '#32cbc2',
 			contrastText: '#fff'
 		},
 		blue: {
-			active: '#6ea3fd',
+			main: '#6ea3fd',
 			contrastText: '#fff'
 		},
 		peach: {
-			active: '#ff9797',
+			main: '#ff9797',
 			contrastText: '#fff'
 		},
 		black: {
-			active: '#333',
+			main: '#333',
 			contrastText: '#fff'
 		}
 	}

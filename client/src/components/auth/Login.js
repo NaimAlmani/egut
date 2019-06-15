@@ -7,7 +7,7 @@ import { Paper, Typography, TextField, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Title from '../common/Title';
 
-const styles = theme => customStyles(theme);
+const styles = (theme) => customStyles(theme);
 
 class Login extends Component {
 	constructor() {
@@ -62,7 +62,7 @@ class Login extends Component {
 		const { classes } = this.props;
 		return (
 			<div style={styles.mainLoginCont}>
-				<Paper className={(classes.root, classes.LoginPaper)} elevation={1}>
+				<Paper className={(classes.root, classes.LoginPaper)} elevation={1} style={{ marginBottom: '20px' }}>
 					<Title text='Login' icon='lock' />
 					<div className={classes.FieldContainer}>
 						<TextField
@@ -117,13 +117,10 @@ Login.propTypes = {
 	loading: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	loading: state.loading
 });
 
-export default connect(
-	mapStateToProps,
-	{ loginUser }
-)(withStyles(styles, { withTheme: true })(Login));
+export default connect(mapStateToProps, { loginUser })(withStyles(styles, { withTheme: true })(Login));

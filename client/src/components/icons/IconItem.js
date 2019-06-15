@@ -4,8 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Card } from '@material-ui/core';
 import { selectGroupIcon } from './../../actions/group';
+import { selectCategoryIcon } from './../../actions/category';
 import Icon from 'react-web-vector-icons';
-
 // Generate required css
 
 const styles = (theme) => ({
@@ -33,6 +33,12 @@ class IconItem extends React.Component {
 		switch (this.props.iconParent) {
 			case 'group':
 				this.props.selectGroupIcon({
+					name: this.props.icon.name,
+					type: this.props.icon.type
+				});
+				break;
+			case 'category':
+				this.props.selectCategoryIcon({
 					name: this.props.icon.name,
 					type: this.props.icon.type
 				});
@@ -69,5 +75,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-	selectGroupIcon
+	selectGroupIcon,
+	selectCategoryIcon
 })(withStyles(styles, { withTheme: true })(IconItem));

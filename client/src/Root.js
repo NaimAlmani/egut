@@ -14,6 +14,7 @@ import AdminFrame from './components/headers/AdminFrame';
 import Orgs from './components/org/Orgs';
 import Places from './components/place/Places';
 import Groups from './components/group/Groups';
+import Categories from './components/category/Categories';
 import Activities from './components/activity/Activities';
 import ViewActivity from './components/activity/ViewActivity';
 const theme = createMuiTheme(initTheme);
@@ -44,6 +45,9 @@ class Root extends Component {
 						</Switch>
 						<Switch>
 							<PrivateRoute exact path='/groups' component={Groups} />
+						</Switch>
+						<Switch>
+							<PrivateRoute exact path='/categories' component={Categories} />
 						</Switch>
 						<Switch>
 							<PrivateRoute exact path='/activities' component={Activities} />

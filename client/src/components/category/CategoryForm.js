@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
-import { addNewGroup, resetIcon, showIcon } from '../../actions/group';
-import { Paper, Typography, TextField, Button, Avatar } from '@material-ui/core';
+import { addNewCategory, resetIcon, showIcon } from '../../actions/category';
+import { Paper, TextField, Button, Avatar } from '@material-ui/core';
 import Title from '../common/Title';
 import isEmpty from './../../validation/is-empty';
 import IconsList from './../icons/IconsList';
@@ -62,7 +62,7 @@ const styles = (theme) => ({
 	}
 });
 
-class GroupForm extends Component {
+class CategoryForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -82,14 +82,14 @@ class GroupForm extends Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		const groupData = {
+		const categoryData = {
 			name: this.state.name,
 			description: this.state.description,
-			icon_name: this.props.group.icon.name,
-			icon_font: this.props.group.icon.type
+			icon_name: this.props.category.icon.name,
+			icon_font: this.props.category.icon.type
 		};
 
-		this.props.addNewGroup(groupData);
+		this.props.addNewCategory(categoryData);
 		this.setState({
 			name: '',
 			description: ''
@@ -116,7 +116,7 @@ class GroupForm extends Component {
 							<Icon name='x' font='Feather' />
 						</span>
 					</div>
-					<Title text='GroupForm' color={this.props.theme.palette.primary.main} icon='lock' />
+					<Title text='CategoryForm' color={this.props.theme.palette.primary.main} icon='lock' />
 					<form onSubmit={this.onSubmit} encType='multipart/form-data'>
 						<div className={classes.FieldContainer}>
 							<TextField
@@ -150,11 +150,11 @@ class GroupForm extends Component {
 						</div>
 
 						<div className={classes.iconCont}>
-							{!isEmpty(this.props.group.icon) ? (
+							{!isEmpty(this.props.category.icon) ? (
 								<Button color='primary' className={classes.IconCircle} onClick={this.chooseIcon}>
 									<Icon
-										font={this.props.group.icon.type}
-										name={this.props.group.icon.name}
+										font={this.props.category.icon.type}
+										name={this.props.category.icon.name}
 										color={'#fff'}
 										size={50}
 									/>
@@ -187,8 +187,8 @@ class GroupForm extends Component {
 							</Button>
 						</div>
 					</form>
-					{this.props.group.isShowIcons === true ? (
-						<IconsList onClose={this.hideIcons} iconParent={'group'} />
+					{this.props.category.isShowIcons === true ? (
+						<IconsList onClose={this.hideIcons} iconParent={'category'} />
 					) : null}
 				</Paper>
 			</div>
@@ -196,8 +196,8 @@ class GroupForm extends Component {
 	}
 }
 
-GroupForm.propTypes = {
-	addNewGroup: PropTypes.func.isRequired,
+CategoryForm.propTypes = {
+	addNewCategory: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired,
 	loading: PropTypes.object.isRequired
@@ -207,9 +207,9 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	loading: state.loading,
-	group: state.group
+	category: state.category
 });
 
-export default connect(mapStateToProps, { addNewGroup, showIcon, resetIcon })(
-	withStyles(styles, { withTheme: true })(GroupForm)
+export default connect(mapStateToProps, { addNewCategory, showIcon, resetIcon })(
+	withStyles(styles, { withTheme: true })(CategoryForm)
 );

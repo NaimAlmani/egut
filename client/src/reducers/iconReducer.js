@@ -11,8 +11,9 @@ import { MaterialIcons } from './../components/common/icons/MaterialIcons';
 import { Octicons } from './../components/common/icons/Octicons';
 import { SimpleLineIcons } from './../components/common/icons/SimpleLineIcons';
 import { Zocial } from './../components/common/icons/Zocial';
+import { AllIcons } from './../components/common/icons/AllIcons';
 const initialState = {
-	IconsFeather: Feather,
+	/*IconsFeather: Feather,
 	IconsfontAwsome: FontAwesome,
 	IconsAntDesign: AntDesignIcon,
 	IconsEntypoIcon: EntypoIcon,
@@ -23,7 +24,8 @@ const initialState = {
 	IconsMaterialIcons: MaterialIcons,
 	IconsOcticons: Octicons,
 	IconsSimpleLineIcons: SimpleLineIcons,
-	IconsZocial: Zocial
+	IconsZocial: Zocial,*/
+	allIcons: AllIcons
 };
 
 export default function(state = initialState, action) {

@@ -8,7 +8,7 @@ class Group extends Model
 {
     //
        protected $fillable = [
-        'name', 'description',
+        'name', 'description','icon_name','icon_font'
     ];
 
     public function activities()

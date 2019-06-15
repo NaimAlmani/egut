@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
-import { addNewGroup, resetIcon, showIcon } from '../../actions/group';
-import { Paper, Typography, TextField, Button, Avatar } from '@material-ui/core';
-import Title from '../common/Title';
-import isEmpty from './../../validation/is-empty';
-import IconsList from './../icons/IconsList';
+import { Paper, Typography, TextField, Button } from '@material-ui/core';
 import Icon from 'react-web-vector-icons';
+
+import { updateCategory, showEditCategory } from '../../actions/category';
+import { addNewCategory, resetIcon, showIcon, selectCategoryIcon } from '../../actions/category';
+import IconsList from './../icons/IconsList';
+import Title from '../common/Title';
+import IconItem from '../common/icons/IconItem';
+import isEmpty from './../../validation/is-empty';
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -32,6 +35,23 @@ const styles = (theme) => ({
 		left: 'calc(50% - 200px)',
 		minWidth: '300px'
 	},
+	button: {
+		margin: theme.spacing.unit
+	},
+	closeIcon: {
+		textAlign: 'right'
+	},
+	mediaContaier: {
+		width: '40%',
+		height: 'auto',
+		margin: '0 auto'
+	},
+	image: {
+		// ⚠️ object-fit is not supported by IE 11.
+		objectFit: 'cover',
+		width: '100%'
+	},
+	//icon container style
 	iconCont: {
 		textAlign: 'center',
 		margin: '10px'
@@ -53,49 +73,51 @@ const styles = (theme) => ({
 		borderRadius: '50%',
 		textAlign: 'center',
 		paddingTop: '20px'
-	},
-	button: {
-		margin: theme.spacing.unit
-	},
-	closeIcon: {
-		textAlign: 'right'
 	}
 });
 
-class GroupForm extends Component {
-	constructor(props) {
-		super(props);
+class EditCategory extends Component {
+	constructor() {
+		super();
 		this.state = {
 			name: '',
-			description: '',
-			showIcons: false
+			description: ''
 		};
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.onCancel = this.onCancel.bind(this);
 		this.chooseIcon = this.chooseIcon.bind(this);
 	}
 
 	componentDidMount() {
-		this.props.resetIcon();
+		this.setState({
+			name: this.props.category.selectedCategory.name,
+			description: this.props.category.selectedCategory.description,
+			icon_name: this.props.category.icon_name,
+			icon_font: this.props.icon_font
+		});
+		this.props.selectCategoryIcon({
+			name: this.props.category.selectedCategory.icon_name,
+			type: this.props.category.selectedCategory.icon_font
+		});
 	}
 
+	componentWillReceiveProps(nextProps) {}
+	onCancel() {
+		this.props.showEditCategory(this.props.selectedCategory, false);
+	}
 	onSubmit(e) {
 		e.preventDefault();
-		const groupData = {
+		const placeData = {
+			id: this.props.category.selectedCategory.id,
 			name: this.state.name,
 			description: this.state.description,
-			icon_name: this.props.group.icon.name,
-			icon_font: this.props.group.icon.type
+			icon_name: this.props.category.icon.name,
+			icon_font: this.props.category.icon.type
 		};
-
-		this.props.addNewGroup(groupData);
-		this.setState({
-			name: '',
-			description: ''
-		});
-		this.props.resetIcon();
-		this.props.onCancel();
+		this.props.updateCategory(placeData);
+		this.props.showEditCategory(this.props.selectedCategory, false);
 	}
 
 	onChange(e) {
@@ -104,7 +126,6 @@ class GroupForm extends Component {
 	chooseIcon() {
 		this.props.showIcon(true);
 	}
-
 	render() {
 		const { classes } = this.props;
 		return (
@@ -112,11 +133,11 @@ class GroupForm extends Component {
 				<div className={classes.overlay} />
 				<Paper className={classes.FormContainer} elevation={1}>
 					<div className={classes.closeIcon}>
-						<span onClick={this.props.onCancel} style={{ cursor: 'pointer', width: 'auto' }}>
-							<Icon name='x' font='Feather' />
+						<span onClick={this.onCancel} style={{ cursor: 'pointer', width: 'auto' }}>
+							<IconItem name='x' type='Feather' />
 						</span>
 					</div>
-					<Title text='GroupForm' color={this.props.theme.palette.primary.main} icon='lock' />
+					<Title text='Edit Category' color={this.props.theme.palette.primary.main} icon='map' />
 					<form onSubmit={this.onSubmit} encType='multipart/form-data'>
 						<div className={classes.FieldContainer}>
 							<TextField
@@ -148,13 +169,12 @@ class GroupForm extends Component {
 								value={this.state.description}
 							/>
 						</div>
-
 						<div className={classes.iconCont}>
-							{!isEmpty(this.props.group.icon) ? (
+							{!isEmpty(this.props.category.icon) ? (
 								<Button color='primary' className={classes.IconCircle} onClick={this.chooseIcon}>
 									<Icon
-										font={this.props.group.icon.type}
-										name={this.props.group.icon.name}
+										font={this.props.category.icon.type}
+										name={this.props.category.icon.name}
 										color={'#fff'}
 										size={50}
 									/>
@@ -165,8 +185,7 @@ class GroupForm extends Component {
 								</Button>
 							)}
 						</div>
-
-						<div style={{ textAlign: 'center' }}>
+						<div style={{ textAlign: 'right' }}>
 							<Button
 								variant='outlined'
 								color='primary'
@@ -174,30 +193,30 @@ class GroupForm extends Component {
 								size='large'
 								type='submit'
 							>
-								Add
+								Update
 							</Button>
 							<Button
 								variant='outlined'
 								color='error'
 								className={classes.button}
 								size='large'
-								onClick={this.props.onCancel}
+								onClick={this.onCancel}
 							>
 								cancel
 							</Button>
 						</div>
 					</form>
-					{this.props.group.isShowIcons === true ? (
-						<IconsList onClose={this.hideIcons} iconParent={'group'} />
-					) : null}
 				</Paper>
+				{this.props.category.isShowIcons === true ? (
+					<IconsList onClose={this.hideIcons} iconParent={'category'} />
+				) : null}
 			</div>
 		);
 	}
 }
 
-GroupForm.propTypes = {
-	addNewGroup: PropTypes.func.isRequired,
+EditCategory.propTypes = {
+	updateCategory: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired,
 	loading: PropTypes.object.isRequired
@@ -207,9 +226,9 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	loading: state.loading,
-	group: state.group
+	category: state.category
 });
 
-export default connect(mapStateToProps, { addNewGroup, showIcon, resetIcon })(
-	withStyles(styles, { withTheme: true })(GroupForm)
+export default connect(mapStateToProps, { updateCategory, showEditCategory, showIcon, resetIcon, selectCategoryIcon })(
+	withStyles(styles, { withTheme: true })(EditCategory)
 );
