@@ -4,10 +4,20 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../../utils/config';
 import { Grid } from '@material-ui/core';
-import { deleteOrg } from './../../../actions/activity';
+import { deletePlace } from './../../../actions/activity';
 import ConfirmDelete from '../../common/ConfirmDelete';
+import IconItem from './../../common/icons/IconItem';
 // Generate required css
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import {
+	Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	CardMedia,
+	Button,
+	Typography,
+	Avatar
+} from '@material-ui/core';
 
 const styles = (theme) => ({
 	root: {
@@ -37,9 +47,15 @@ const styles = (theme) => ({
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText,
 		margin: '0 auto'
+	},
+	avatar: {
+		margin: '10px auto',
+		width: 60,
+		height: 60,
+		background: theme.palette.primary.main
 	}
 });
-class OrgItem extends React.Component {
+class PlaceItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -50,23 +66,17 @@ class OrgItem extends React.Component {
 		this.onConfirmDelete = this.onConfirmDelete.bind(this);
 		this.onCancelDelete = this.onCancelDelete.bind(this);
 	}
-	componentDidCatch(error, info) {
-		// You can also log the error to an error reporting service
-		console.log('error');
-		console.log(error);
-		console.log('info');
-		console.log(info);
-	}
+	componentDidCatch(error, info) {}
 	onDelete() {
 		this.setState({
 			isDelete: true
 		});
 	}
 	onConfirmDelete() {
-		const org = {
-			id: this.props.org.id
+		const place = {
+			id: this.props.place.id
 		};
-		this.props.deleteOrg(this.props.activityID, org);
+		this.props.deletePlace(this.props.activityID, place);
 	}
 	onCancelDelete() {
 		this.setState({
@@ -74,19 +84,18 @@ class OrgItem extends React.Component {
 		});
 	}
 	render() {
-		const { classes, org } = this.props;
+		const { classes, place } = this.props;
 		return (
 			<Grid item xs={12} sm={6} md={3}>
 				<Card className={classes.card}>
 					<CardActionArea className={classes.root}>
 						<div className={classes.mediaContaier}>
-							<img className={classes.image} src={config.imagesPath + org.logoPath} alt={org.name} />
+							<img className={classes.image} src={config.imagesPath + place.image} alt={place.name} />
 						</div>
 						<CardContent>
 							<Typography gutterBottom variant='h5' component='h2'>
-								{org.name}
+								{place.name}
 							</Typography>
-							<Typography component='p'>{org.description}</Typography>
 						</CardContent>
 					</CardActionArea>
 					<CardActions>
@@ -98,7 +107,7 @@ class OrgItem extends React.Component {
 				<ConfirmDelete
 					open={this.state.isDelete}
 					title='Are you Sure ??'
-					text={'do you want to delete ' + org.name}
+					text={'do you want to delete ' + place.name}
 					onClose={this.onCancelDelete}
 					onDelete={this.onConfirmDelete}
 				/>
@@ -107,9 +116,9 @@ class OrgItem extends React.Component {
 	}
 }
 
-OrgItem.propTypes = {
+PlaceItem.propTypes = {
 	classes: PropTypes.object.isRequired
 };
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { deleteOrg })(withStyles(styles, { withTheme: true })(OrgItem));
+export default connect(mapStateToProps, { deletePlace })(withStyles(styles, { withTheme: true })(PlaceItem));

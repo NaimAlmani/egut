@@ -54,7 +54,19 @@ Route::post('activity/create','API\activityController@create');
 Route::post('activity/update','API\activityController@update');
 Route::post('activity/delete','API\activityController@delete');
 Route::post('activity/activitybyid','API\activityController@activitybyid');
+//activity orgs
 Route::post('activity/addorgs','API\activityController@addorgs');
 Route::post('activity/deleteorg','API\activityController@deleteorg');
+//activity groups
+Route::post('activity/addgroups','API\activityController@addgroups');
+Route::post('activity/deletegroup','API\activityController@deletegroup');
+
+//activity categories
+Route::post('activity/addcategories','API\activityController@addcategories');
+Route::post('activity/deletecategory','API\activityController@deletecategory');
+
+//activity places
+Route::post('activity/addplaces','API\activityController@addplaces');
+Route::post('activity/deleteplace','API\activityController@deleteplace');
 });
 

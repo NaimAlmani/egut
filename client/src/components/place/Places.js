@@ -14,7 +14,8 @@ import {
 	Typography,
 	CardActions,
 	Dialog,
-	DialogContent
+	DialogContent,
+	Button
 } from '@material-ui/core';
 import { customStyles } from './../../theme/customStyles';
 import isEmpty from './../../validation/is-empty';
@@ -48,6 +49,17 @@ const styles = (theme) => ({
 	},
 	relativeContainer: {
 		position: 'relative'
+	},
+	addBtn: {
+		background: theme.palette.green.main,
+		width: '100px',
+		height: '100px',
+		borderRadius: '50%',
+		color: theme.palette.green.main,
+		marginTop: '25%',
+		'&:hover': {
+			background: theme.palette.primary.main
+		}
 	}
 });
 class Places extends Component {
@@ -105,17 +117,10 @@ class Places extends Component {
 					color={this.props.theme.palette.primary.main}
 				/>
 				<Grid container spacing={10}>
-					<Grid item xs={12} sm={6} md={3} onClick={this.ShowCreateForm}>
-						<Card className={classes.card}>
-							<CardActionArea style={{ minHeight: '290px' }} className={classes.actionColor}>
-								<CardContent>
-									<Typography gutterBottom variant='h5' component='h2'>
-										<IconItem name='plus' type='Feather' size={50} />
-										Add new Place
-									</Typography>
-								</CardContent>
-							</CardActionArea>
-						</Card>
+					<Grid item xs={12} sm={6} md={3} style={{ textAlign: 'center' }}>
+						<Button color='primary' className={classes.addBtn} onClick={this.ShowCreateForm}>
+							<IconItem name='plus' type='Feather' size={50} color='#fff' />
+						</Button>
 					</Grid>
 					{placeContent}
 				</Grid>

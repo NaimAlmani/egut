@@ -31,7 +31,21 @@ class PlaceController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
-    $place = Place::create(['name' => $request->name ,'description'=> $request->description]);
+        //save image
+        $image = $request->image;
+        $imgName="default.jpg";
+        if(!empty($image)){
+        //saving image
+             $imgName  = md5(time().uniqid()).'.'.
+                $image->getClientOriginalExtension();
+                $image->storeAs('/public/images/',$imgName);
+        //save to db
+        }
+        $favorite=false;
+        if($request->favorite==true){
+            $favorite=true;
+        }
+    $place = Place::create(['name' => $request->name ,'description'=> $request->description,'favorite'=>$favorite,'image'=>$imgName]);
     $place->save();
     return $place->toJson();
     }
@@ -51,11 +65,23 @@ class PlaceController extends Controller
         $id = $request->id;
         $name = $request->name;
         $description = $request->description;
+        $favorite = $request->favorite;
+         $image = $request->image;
+        $imgName="default.jpg";
+        if(!empty($image)){
+        //saving image
+             $imgName  = md5(time().uniqid()).'.'.
+                $image->getClientOriginalExtension();
+                $image->storeAs('/public/images/',$imgName);
+        //save to db
+        }
         //pring the row
         $place  = Place::find($request->id);
         //assign new values to the model
         $place->name  = $name;
         $place->description  = $description;
+        $place->favorite  = $favorite;
+        $place->image = $imgName;
         //saving to db
         $place->save();
     return $place->toJson();

@@ -15,5 +15,6 @@ class Category extends Model
     {
          return $this->belongsToMany('App\Activity');
     }
+
     protected $table = 'categories';
 }

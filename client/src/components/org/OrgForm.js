@@ -74,9 +74,6 @@ class OrgForm extends Component {
 		});
 	}
 	onSubmit(e) {
-		console.log(this.state.logo);
-		console.log('this.state.pictures');
-		console.log(this.state.pictures);
 		e.preventDefault();
 		const orgData = {
 			name: this.state.name,

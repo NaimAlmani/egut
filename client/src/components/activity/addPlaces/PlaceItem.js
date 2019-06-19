@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../../utils/config';
 import { Grid } from '@material-ui/core';
-import { SelectOrg, deselectOrg } from './../../../actions/activity';
+import { selectPlace, deselectPlace } from './../../../actions/activity';
 // Generate required css
 import { Chip, Avatar } from '@material-ui/core';
 import IconItem from '../../common/icons/IconItem';
@@ -35,10 +35,16 @@ const styles = (theme) => ({
 		width: 'auto',
 		height: '100%'
 	},
-	chip: {},
+	chip: {
+		paddingLeft: '5px'
+	},
 	deleteBtn: {
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
+	},
+	ChipContainer: {
+		display: 'inline-block',
+		margin: '5px'
 	},
 	deselectedAvatar: {
 		background: theme.palette.primary.main
@@ -47,34 +53,37 @@ const styles = (theme) => ({
 		background: theme.palette.pink.main
 	}
 });
-class OrgItem extends React.Component {
+class PlaceItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isDelete: false
 		};
-		this.onDeselectOrg = this.onDeselectOrg.bind(this);
-		this.onSelectOrg = this.onSelectOrg.bind(this);
+		this.onDeselectPlace = this.onDeselectPlace.bind(this);
+		this.onselectPlace = this.onselectPlace.bind(this);
 	}
-	onSelectOrg = () => {
-		this.props.SelectOrg(this.props.org);
+	componentDidCatch(error, info) {
+		// You can also log the error to an error reporting service
+	}
+	onselectPlace = () => {
+		this.props.selectPlace(this.props.place);
 	};
-	onDeselectOrg = () => {
-		this.props.deselectOrg(this.props.org);
+	onDeselectPlace = () => {
+		this.props.deselectPlace(this.props.place);
 	};
 	render() {
-		const { classes, org, activity } = this.props;
+		const { classes, place, activity } = this.props;
 		let content;
-		if (isContain(this.props.activity.selectedOrgs, this.props.org)) {
+		if (isContain(this.props.activity.selectedPlaces, this.props.place)) {
 			content = (
 				<Chip
 					color='primary'
-					onClick={this.onDeselectOrg}
+					onClick={this.onDeselectPlace}
 					clickable
-					label={org.name}
+					label={place.name}
 					avatar={
 						<Avatar className={classes.selectedAvatar}>
-							<img className={classes.image} src={config.imagesPath + org.logoPath} alt='org' />
+							<img className={classes.image} src={config.imagesPath + place.image} alt='place' />
 						</Avatar>
 					}
 				/>
@@ -83,23 +92,23 @@ class OrgItem extends React.Component {
 			content = (
 				<Chip
 					color='primary'
-					onClick={this.onSelectOrg}
-					label={org.name}
+					onClick={this.onselectPlace}
+					label={place.name}
 					variant='outlined'
 					clickable
 					avatar={
 						<Avatar className={classes.deselectedAvatar}>
-							<img className={classes.image} src={config.imagesPath + org.logoPath} alt='org' />
+							<img className={classes.image} src={config.imagesPath + place.image} alt='place' />
 						</Avatar>
 					}
 				/>
 			);
 		}
-		return <div> {content}</div>;
+		return <div className={classes.ChipContainer}> {content}</div>;
 	}
 }
 
-OrgItem.propTypes = {
+PlaceItem.propTypes = {
 	classes: PropTypes.object.isRequired,
 	activity: PropTypes.object.isRequired
 };
@@ -107,4 +116,6 @@ const mapStateToProps = (state) => ({
 	activity: state.activity
 });
 
-export default connect(mapStateToProps, { deselectOrg, SelectOrg })(withStyles(styles, { withTheme: true })(OrgItem));
+export default connect(mapStateToProps, { deselectPlace, selectPlace })(
+	withStyles(styles, { withTheme: true })(PlaceItem)
+);

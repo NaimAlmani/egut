@@ -37,7 +37,7 @@ button:focus {
 .searchInput i {
 	position: ABSOLUTE;
 	font-size: 20px;
-	right: 0;
+	left: -5px;
 }
 input[type='search' i] {
 	border: none;

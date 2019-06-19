@@ -211,6 +211,15 @@ class AdminFrame extends React.Component {
 									</ListItem>
 								</Link>
 
+								<Link to='/categories' className={classes.Link}>
+									<ListItem button key={'groups'}>
+										<ListItemIcon>
+											<IconItem name='ios-pricetags' font='Ionicons' />
+										</ListItemIcon>
+										<ListItemText primary={'Categories'} />
+									</ListItem>
+								</Link>
+
 								<Link to='/activities' className={classes.Link}>
 									<ListItem button key={'activities'}>
 										<ListItemIcon>

@@ -19,19 +19,19 @@ const custom = {
 			contrastText: ''
 		},
 		pink: {
-			active: '#fd92df'
+			main: '#fd92df'
 		},
 		purple: {
-			active: '#a8a0ff'
+			main: '#a8a0ff'
 		},
 		green: {
-			active: '#32cbc2'
+			main: '#32cbc2'
 		},
 		blue: {
-			active: '#6ea3fd'
+			main: '#6ea3fd'
 		},
 		peach: {
-			active: '#ff9797'
+			main: '#ff9797'
 		}
 	}
 };

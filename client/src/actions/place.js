@@ -26,6 +26,8 @@ export const addNewPlace = (place) => (dispatch) => {
 	const formData = new FormData();
 	formData.set('name', place.name);
 	formData.set('description', place.description);
+	formData.set('favorite', place.favorite);
+	formData.append('image', place.image);
 	axiosInstance
 		.post('/api/place/create', formData)
 		.then((res) => {
@@ -47,6 +49,8 @@ export const updatePlace = (place) => (dispatch) => {
 	formData.set('id', place.id);
 	formData.set('name', place.name);
 	formData.set('description', place.description);
+	formData.set('favorite', place.favorite);
+	formData.append('image', place.image);
 	axiosInstance
 		.post('/api/place/update', formData)
 		.then((res) => {

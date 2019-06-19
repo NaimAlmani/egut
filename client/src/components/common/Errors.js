@@ -62,6 +62,9 @@ class Errors extends React.Component {
 				if (!isEmpty(errors.error.activity)) {
 					allErrors.push(errors.error.activity);
 				}
+				if (!isEmpty(errors.error.icon_name)) {
+					allErrors.push(errors.error.icon_name);
+				}
 			}
 			ErrorsContent = <ErrorsFeed errors={allErrors} />;
 		} else {

@@ -7,14 +7,26 @@ import {
 	UPDATE_ACTIVITY,
 	DELETE_ACTIVITY,
 	ACTIVITY_BY_ID,
+	//org
 	ACTIVITY_SELECT_ORG,
 	ACTIVITY_DESELECT_ORG,
 	ADD_ORG_TO_ACTIVITY,
 	DELETE_ORG_FROM_ACTIVITY,
+	//group
 	ACTIVITY_SELECT_GROUP,
 	ACTIVITY_DESELECT_GROUP,
 	ADD_GROUP_TO_ACTIVITY,
-	DELETE_GROUP_FROM_ACTIVITY
+	DELETE_GROUP_FROM_ACTIVITY,
+	//category
+	ACTIVITY_SELECT_CATEGORY,
+	ACTIVITY_DESELECT_CATEGORY,
+	ADD_CATEGORY_TO_ACTIVITY,
+	DELETE_CATEGORY_FROM_ACTIVITY,
+	//group
+	ACTIVITY_SELECT_PLACE,
+	ACTIVITY_DESELECT_PLACE,
+	ADD_PLACE_TO_ACTIVITY,
+	DELETE_PLACE_FROM_ACTIVITY
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -117,6 +129,7 @@ export const getActivityById = (id) => (dispatch) => {
 			dispatch(endLoading());
 		})
 		.catch((err) => {
+			console.log(err);
 			dispatch(endLoading());
 			dispatch(getErrors(err.response.data));
 		});
@@ -167,7 +180,9 @@ export const deleteOrg = (activityID, orgID) => (dispatch) => {
 			dispatch(getErrors(err.response.data));
 		});
 };
-
+/**
+ * activity groups
+ */
 export const SelectGroup = (group) => (dispatch) => {
 	dispatch({
 		type: ACTIVITY_SELECT_GROUP,
@@ -197,11 +212,10 @@ export const addGroupsToActivity = (activity, groups) => (dispatch) => {
 		});
 };
 
-//delete org from activity
 export const deleteGroup = (activityID, groupID) => (dispatch) => {
 	dispatch(startLoading);
 	axiosInstance
-		.post('/api/activity/deleteorg', { activity: activityID, group: groupID })
+		.post('/api/activity/deletegroup', { activity: activityID, group: groupID })
 		.then((res) => {
 			dispatch({
 				type: DELETE_GROUP_FROM_ACTIVITY,
@@ -214,3 +228,109 @@ export const deleteGroup = (activityID, groupID) => (dispatch) => {
 			dispatch(getErrors(err.response.data));
 		});
 };
+/**
+ * end activity groups
+ */
+
+/**
+* activity categories
+*/
+export const SelectCategory = (category) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_SELECT_CATEGORY,
+		payload: category
+	});
+};
+export const deselectCategory = (category) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_DESELECT_CATEGORY,
+		payload: category
+	});
+};
+export const addCategoriesToActivity = (activity, categories) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/addcategories', { activity: activity, categories: categories })
+		.then((res) => {
+			dispatch({
+				type: ADD_CATEGORY_TO_ACTIVITY,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const deleteCategory = (activityID, categoryID) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/deletecategory', { activity: activityID, category: categoryID })
+		.then((res) => {
+			dispatch({
+				type: DELETE_CATEGORY_FROM_ACTIVITY,
+				payload: categoryID
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+/**
+ * end activity category
+ */
+
+/**
+* activity places
+*/
+export const selectPlace = (place) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_SELECT_PLACE,
+		payload: place
+	});
+};
+export const deselectPlace = (place) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_DESELECT_PLACE,
+		payload: place
+	});
+};
+export const addPlacesToActivity = (activity, places) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/addplaces', { activity: activity, places: places })
+		.then((res) => {
+			dispatch({
+				type: ADD_PLACE_TO_ACTIVITY,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
+export const deletePlace = (activityID, placeID) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/deleteplace', { activity: activityID, place: placeID })
+		.then((res) => {
+			dispatch({
+				type: DELETE_PLACE_FROM_ACTIVITY,
+				payload: placeID
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+/**
+ * end activity places
+ */

@@ -18,7 +18,7 @@ import {
 import isEmpty from './../../../validation/is-empty';
 import { getAllGroups } from './../../../actions/group';
 import { addGroupsToActivity } from './../../../actions/activity';
-
+import foriegnItems from './../../../utils/foriegnItems';
 import SearchInput, { createFilter } from 'react-search-input';
 import CustomSearchInput from './../../common/CustomSearchInput';
 import Title from './../../common/Title';
@@ -30,7 +30,12 @@ function Transition(props) {
 const KEYS_TO_FILTERS = [ 'name' ];
 const styles = (theme) => ({
 	contentContainer: {
-		marginTop: '10px'
+		marginTop: '70px',
+		width: '100%'
+	},
+	dialogPapers: {
+		width: '50%',
+		textAlign: 'center'
 	}
 });
 class AddGroup extends Component {
@@ -57,13 +62,14 @@ class AddGroup extends Component {
 		const { classes, group } = this.props;
 		let content;
 		const { groups } = group;
+		const foreign = foriegnItems(groups, this.props.activity.groups);
 		if (groups === null) {
 			content = '';
 		} else {
 			if (isEmpty(this.state.searchTerm)) {
-				content = <GroupFeed groups={groups} />;
+				content = <GroupFeed groups={foreign} />;
 			} else {
-				const filtered = groups.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
+				const filtered = foreign.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
 				content = <GroupFeed groups={filtered} />;
 			}
 		}
@@ -75,8 +81,13 @@ class AddGroup extends Component {
 				onClose={this.handleClose}
 				aria-labelledby='alert-dialog-slide-title'
 				aria-describedby='alert-dialog-slide-description'
+				classes={{
+					paper: classes.dialogPapers
+				}}
 			>
-				<DialogTitle id='alert-dialog-slide-title'>{'Add organization to this activity'}</DialogTitle>
+				<DialogTitle id='alert-dialog-slide-title'>
+					{'Add group to  ' + this.props.activity.currentActivity.name}
+				</DialogTitle>
 				<DialogContent>
 					<CustomSearchInput
 						placeholder='Search by name'

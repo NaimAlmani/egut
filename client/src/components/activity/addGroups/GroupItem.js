@@ -6,7 +6,7 @@ import config from './../../../utils/config';
 import { Grid } from '@material-ui/core';
 import { SelectGroup, deselectGroup } from './../../../actions/activity';
 // Generate required css
-import { Chip } from '@material-ui/core';
+import { Chip, Avatar } from '@material-ui/core';
 import IconItem from '../../common/icons/IconItem';
 import isContain from './../../../utils/isContain';
 const styles = (theme) => ({
@@ -35,10 +35,22 @@ const styles = (theme) => ({
 		width: 'auto',
 		height: '100%'
 	},
-	chip: {},
+	chip: {
+		paddingLeft: '5px'
+	},
 	deleteBtn: {
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
+	},
+	ChipContainer: {
+		display: 'inline-block',
+		margin: '5px'
+	},
+	deselectedAvatar: {
+		background: theme.palette.primary.main
+	},
+	selectedAvatar: {
+		background: theme.palette.pink.main
 	}
 });
 class GroupItem extends React.Component {
@@ -65,29 +77,44 @@ class GroupItem extends React.Component {
 		if (isContain(this.props.activity.selectedGroups, this.props.group)) {
 			content = (
 				<Chip
-					icon={<img className={classes.image} src={config.imagesPath + group.logoPath} alt='logo' />}
-					label={group.name}
-					clickable
-					className={classes.Selectedchip}
-					color='select'
-					variant='outlined'
+					color='primary'
 					onClick={this.onDeselectGroup}
+					clickable
+					label={group.name}
+					avatar={
+						<Avatar className={classes.selectedAvatar}>
+							<IconItem
+								size='16px'
+								color='#fff'
+								name={this.props.group.icon_name}
+								font={this.props.group.icon_font}
+							/>
+						</Avatar>
+					}
 				/>
 			);
 		} else {
 			content = (
 				<Chip
-					icon={<img className={classes.image} src={config.imagesPath + group.logoPath} alt='logo' />}
-					label={group.name}
-					clickable
-					className={classes.chip}
 					color='primary'
-					variant='outlined'
 					onClick={this.onSelectGroup}
+					label={group.name}
+					variant='outlined'
+					clickable
+					avatar={
+						<Avatar className={classes.deselectedAvatar}>
+							<IconItem
+								size='16px'
+								name={this.props.group.icon_name}
+								font={this.props.group.icon_font}
+								color='#fff'
+							/>
+						</Avatar>
+					}
 				/>
 			);
 		}
-		return <div> {content}</div>;
+		return <div className={classes.ChipContainer}> {content}</div>;
 	}
 }
 

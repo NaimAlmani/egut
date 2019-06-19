@@ -5,12 +5,26 @@ import {
 	UPDATE_ACTIVITY,
 	DELETE_ACTIVITY,
 	ACTIVITY_BY_ID,
+	//activity orgs
 	ACTIVITY_SELECT_ORG,
 	ACTIVITY_DESELECT_ORG,
 	ADD_ORG_TO_ACTIVITY,
 	DELETE_ORG_FROM_ACTIVITY,
+	//activity groups
+	ACTIVITY_SELECT_GROUP,
+	ACTIVITY_DESELECT_GROUP,
 	ADD_GROUP_TO_ACTIVITY,
-	DELETE_GROUP_FROM_ACTIVITY
+	DELETE_GROUP_FROM_ACTIVITY,
+	//activity categories
+	ACTIVITY_SELECT_CATEGORY,
+	ACTIVITY_DESELECT_CATEGORY,
+	ADD_CATEGORY_TO_ACTIVITY,
+	DELETE_CATEGORY_FROM_ACTIVITY,
+	//activity groups
+	ACTIVITY_SELECT_PLACE,
+	ACTIVITY_DESELECT_PLACE,
+	ADD_PLACE_TO_ACTIVITY,
+	DELETE_PLACE_FROM_ACTIVITY
 } from '../actions/types';
 
 const initialState = {
@@ -18,9 +32,20 @@ const initialState = {
 	currentActivity: {},
 	selectedActivity: {},
 	isEdit: false,
+	//activity orgs
 	selectedOrgs: [],
 	orgs: [],
-	groups: []
+	//activity groups
+	selectedGroups: [],
+	groups: [],
+
+	//activity groups
+	selectedPlaces: [],
+	places: [],
+
+	//activity categories
+	selectedCategories: [],
+	categories: []
 };
 
 export default function(state = initialState, action) {
@@ -58,9 +83,10 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				currentActivity: action.payload.activity,
-				orgs: action.payload.organizations
+				orgs: action.payload.organizations,
+				groups: action.payload.groups
 			};
-
+		//activity orgs
 		case ACTIVITY_SELECT_ORG:
 			return {
 				...state,
@@ -81,6 +107,17 @@ export default function(state = initialState, action) {
 				...state,
 				orgs: state.orgs.filter((o) => o.id !== action.payload.id)
 			};
+		//activitry groups
+		case ACTIVITY_SELECT_GROUP:
+			return {
+				...state,
+				selectedGroups: [ ...state.selectedGroups, action.payload ]
+			};
+		case ACTIVITY_DESELECT_GROUP:
+			return {
+				...state,
+				selectedGroups: state.selectedGroups.filter((org) => org.id !== action.payload.id)
+			};
 		case ADD_GROUP_TO_ACTIVITY:
 			return {
 				...state,
@@ -91,6 +128,51 @@ export default function(state = initialState, action) {
 				...state,
 				groups: state.groups.filter((o) => o.id !== action.payload.id)
 			};
+
+		//activity categories
+		case ACTIVITY_SELECT_CATEGORY:
+			return {
+				...state,
+				selectedCategories: [ ...state.selectedCategories, action.payload ]
+			};
+		case ACTIVITY_DESELECT_CATEGORY:
+			return {
+				...state,
+				selectedCategories: state.selectedCategories.filter((category) => category.id !== action.payload.id)
+			};
+		case ADD_CATEGORY_TO_ACTIVITY:
+			return {
+				...state,
+				categories: [ ...state.categories, ...action.payload ]
+			};
+		case DELETE_CATEGORY_FROM_ACTIVITY:
+			return {
+				...state,
+				categories: state.categories.filter((o) => o.id !== action.payload.id)
+			};
+
+		//activitry places
+		case ACTIVITY_SELECT_PLACE:
+			return {
+				...state,
+				selectedPlaces: [ ...state.selectedPlaces, action.payload ]
+			};
+		case ACTIVITY_DESELECT_PLACE:
+			return {
+				...state,
+				selectedPlaces: state.selectedPlaces.filter((pl) => pl.id !== action.payload.id)
+			};
+		case ADD_PLACE_TO_ACTIVITY:
+			return {
+				...state,
+				places: [ ...state.places, ...action.payload ]
+			};
+		case DELETE_PLACE_FROM_ACTIVITY:
+			return {
+				...state,
+				places: state.places.filter((o) => o.id !== action.payload.id)
+			};
+
 		default:
 			return state;
 	}

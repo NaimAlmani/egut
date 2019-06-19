@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Activity;
 use App\Organization;
+use App\Group;
+use App\Category;
+use App\Place;
+
 use Validator;
 
 
@@ -15,9 +19,20 @@ class ActivityController extends Controller
     //
     public function index(Request $request)
     {
-        $acts = Activity::orderBy('created_at' , 'desc')->get();
+        $acts = Activity::with('groups','organizations')->orderBy('created_at' , 'desc')->get();
         return $acts->toJson();
     }
+
+   /**
+     * get activity by ID
+     */
+    public function activitybyid(Request $request){
+        $act = Activity::find($request->id);
+        $orgs = $act->organizations()->get();
+        $groups = $act->groups()->get();
+        return response()->json(['activity'=>$act ,'organizations'=>$orgs,'groups'=>$groups]);
+    }
+
 
        public function redirected(Request $request)
     {
@@ -92,23 +107,10 @@ class ActivityController extends Controller
              $act->delete();
               return $act->toJson();
     }
-    /**
-     * get activity by ID
-     */
-    public function activitybyid(Request $request){
-        $act = Activity::find($request->id);
-        $orgs = $act->organizations()->get();
-        return response()->json(['activity'=>$act ,'organizations'=>$orgs]);
-    }
-    /**
-     * add orgs to activity
-     * @param
-     * {
-     *  activity:{ id  , name , logoPath},
-     * orgs:[org]
-     *
-     * }
-     */
+
+
+
+   /*********************************** Activity orgs *********************************************/
     public function addorgs(Request  $request){
         // validate inputs
 
@@ -157,4 +159,132 @@ class ActivityController extends Controller
                 $act->organizations()->detach($org);
                  return response()->json(true);
     }
+    /**************************************End Activity orgs ***************************************/
+
+
+    /*********************************** Activity groups *********************************************/
+    public function addgroups(Request  $request){
+        // validate inputs
+        $activity = $request['activity'];
+        $groups = $request['groups'];
+        $act  = Activity::find($activity['id']);
+        //check activity is exist
+        if($act->count()<0){
+            return response()->json(['error'=>"activity is not valid"],401);
+        }else{
+            foreach($groups as $group)
+            {
+                //get the gr data
+                $gr = Group::find($group['id']);
+                //check gr is exist
+                if($gr->count<0){
+                     return response()->json(['error'=>$group." , group is not valid"],401);
+                }
+                //check if relation is exist
+                if($act->groups()->find($gr->id)){
+                     return response()->json(['error'=>$gr->name." , is exist "],401);
+                }
+                //add gr to activity
+                $act->groups()->attach($gr->id);
+            }
+            //return requested  groups
+            return response()->json($groups);
+        }
+    }
+
+    public function deletegroup(Request  $request){
+        // validate inputs
+        $activity = $request['activity'];
+        $group = $request['group'];
+        $act  = Activity::find($activity);
+        //check activity is exist
+                $act->groups()->detach($group);
+                 return response()->json(true);
+    }
+    /**************************************End Activity groups ***************************************/
+
+
+       /*********************************** Activity categories *********************************************/
+    public function addcategories(Request  $request){
+        // validate inputs
+        $activity = $request['activity'];
+        $categories = $request['categories'];
+        $act  = Activity::find($activity['id']);
+        //check activity is exist
+        if($act->count()<0){
+            return response()->json(['error'=>"activity is not valid"],401);
+        }else{
+            foreach($categories as $category)
+            {
+                //get the gr data
+                $cat = Category::find($category['id']);
+                //check cat is exist
+                if($cat->count<0){
+                     return response()->json(['error'=>$category." , category is not valid"],401);
+                }
+                //check if relation is exist
+                if($act->categories()->find($cat->id)){
+                     return response()->json(['error'=>$cat->name." , is exist "],401);
+                }
+                //add cat to activity
+                $act->categories()->attach($cat->id);
+            }
+            //return requested  catoups
+            return response()->json($categories);
+        }
+    }
+
+    public function deletecategory(Request  $request){
+        // validate inputs
+        $activity = $request['activity'];
+        $category = $request['category'];
+        $act  = Activity::find($activity);
+        //check activity is exist
+                $act->categories()->detach($category);
+                 return response()->json(true);
+    }
+    /**************************************End Activity categories ***************************************/
+
+
+     /*********************************** Activity places *********************************************/
+    public function addplaces(Request  $request){
+        // validate inputs
+        $activity = $request['activity'];
+        $places = $request['places'];
+        $act  = Activity::find($activity['id']);
+        //check activity is exist
+        if($act->count()<0){
+            return response()->json(['error'=>"activity is not valid"],401);
+        }else{
+            foreach($places as $place)
+            {
+                //get the gr data
+                $gr = Place::find($place['id']);
+                //check gr is exist
+                if($gr->count<0){
+                     return response()->json(['error'=>$place." , place is not valid"],401);
+                }
+                //check if relation is exist
+                if($act->places()->find($gr->id)){
+                     return response()->json(['error'=>$gr->name." , is exist "],401);
+                }
+                //add gr to activity
+                $act->places()->attach($gr->id);
+            }
+            //return requested  places
+            return response()->json($places);
+        }
+    }
+
+    public function deleteplace(Request  $request){
+        // validate inputs
+        $activity = $request['activity'];
+        $place = $request['place'];
+        $act  = Activity::find($activity);
+        //check activity is exist
+                $act->places()->detach($place);
+                 return response()->json(true);
+    }
+    /**************************************End Activity places ***************************************/
+
 }

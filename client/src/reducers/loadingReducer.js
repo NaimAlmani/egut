@@ -1,4 +1,4 @@
-import { LOADING, NOT_LOADING } from '../actions/types';
+import { LOADING, NOT_LOADING, SET_LOADING } from '../actions/types';
 
 const initialState = {};
 
@@ -8,6 +8,8 @@ export default function(state = initialState, action) {
 			return true;
 		case NOT_LOADING:
 			return false;
+		case SET_LOADING:
+			return action.pauload;
 		default:
 			return state;
 	}

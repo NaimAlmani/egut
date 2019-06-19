@@ -5,7 +5,8 @@ import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
 import { addNewPlace } from '../../actions/place';
-import { Paper, Typography, TextField, Button, Avatar } from '@material-ui/core';
+import { Paper, Typography, TextField, Button, FormControlLabel, Switch } from '@material-ui/core';
+import ImageUploader from 'react-images-upload';
 import Title from '../common/Title';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
@@ -44,28 +45,44 @@ class PlaceForm extends Component {
 		super(props);
 		this.state = {
 			name: '',
-			description: ''
+			description: '',
+			favorite: false,
+			pictures: [],
+			image: ''
 		};
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.handleSwitchChange = this.handleSwitchChange.bind(this);
+		this.onDrop = this.onDrop.bind(this);
 	}
 
 	componentDidMount() {
 		if (!isEmpty(this.props.place.selectedPlace)) {
 			this.setState({
 				name: this.props.place.selectedPlace.name,
-				description: this.props.place.selectedPlace.description
+				description: this.props.place.selectedPlace.description,
+				favorite: this.props.place.selectedPlace.favorite,
+				image: this.props.place.selectedPlace.image
 			});
 		}
 	}
 
 	componentWillReceiveProps(nextProps) {}
+
+	onDrop(picture, file) {
+		this.setState({
+			pictures: this.state.pictures.concat(picture),
+			image: file
+		});
+	}
 	onSubmit(e) {
 		e.preventDefault();
 		const placeData = {
 			name: this.state.name,
-			description: this.state.description
+			description: this.state.description,
+			favorite: this.state.favorite,
+			image: this.state.pictures[0]
 		};
 		this.props.addNewPlace(placeData);
 	}
@@ -73,7 +90,9 @@ class PlaceForm extends Component {
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
-
+	handleSwitchChange = (event) => {
+		this.setState({ favorite: event.target.checked });
+	};
 	render() {
 		const { classes } = this.props;
 		return (
@@ -115,7 +134,28 @@ class PlaceForm extends Component {
 								onChange={this.onChange}
 							/>
 						</div>
-
+						<ImageUploader
+							withIcon={true}
+							buttonText='Choose images'
+							onChange={this.onDrop}
+							imgExtension={[ '.jpg', '.gif', '.png', '.gif' ]}
+							maxFileSize={5242880}
+							singleImage={true}
+							withPreview={true}
+							name='fileInput'
+							className='imageInputFile'
+						/>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={this.state.favorite}
+									onChange={this.handleSwitchChange}
+									value='favorite'
+									color='secondary'
+								/>
+							}
+							label='Favorite'
+						/>
 						<div style={{ textAlign: 'right' }}>
 							<Button
 								variant='outlined'

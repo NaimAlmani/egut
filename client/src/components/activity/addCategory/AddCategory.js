@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import OrgFeed from './OrgFeed';
+import CategoryFeed from './CategoryFeed';
 import { withStyles } from '@material-ui/core/styles';
 import {
 	Grid,
@@ -16,14 +16,13 @@ import {
 	Button
 } from '@material-ui/core';
 import isEmpty from './../../../validation/is-empty';
-import { getAllOrgs } from './../../../actions/organization';
-import { addOrgsToActivity } from './../../../actions/activity';
-
+import { getAllCategories } from './../../../actions/category';
+import { addCategoriesToActivity } from './../../../actions/activity';
+import foriegnItems from './../../../utils/foriegnItems';
 import SearchInput, { createFilter } from 'react-search-input';
 import CustomSearchInput from './../../common/CustomSearchInput';
 import Title from './../../common/Title';
 import IconItem from './../../common/icons/IconItem';
-import foriegnItems from '../../../utils/foriegnItems';
 function Transition(props) {
 	return <Slide direction='up' {...props} />;
 }
@@ -39,7 +38,7 @@ const styles = (theme) => ({
 		textAlign: 'center'
 	}
 });
-class AddOrg extends Component {
+class AddCategory extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -50,28 +49,28 @@ class AddOrg extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getAllOrgs();
+		this.props.getAllCategories();
 	}
 	searchUpdated(term) {
 		this.setState({ searchTerm: term });
 	}
 
-	AddOrgs = () => {
-		this.props.addOrgsToActivity(this.props.currentActivity, this.props.activity.selectedOrgs);
+	AddCategorys = () => {
+		this.props.addCategoriesToActivity(this.props.currentActivity, this.props.activity.selectedCategories);
 	};
 	render() {
-		const { classes, organization, activity } = this.props;
-		let orgsContent;
-		const { orgs } = organization;
-		const foreignOrgs = foriegnItems(orgs, this.props.activity.orgs);
-		if (foreignOrgs === null) {
-			orgsContent = '';
+		const { classes, category } = this.props;
+		let content;
+		const { categories } = category;
+		const foreign = foriegnItems(categories, this.props.activity.categories);
+		if (categories === null) {
+			content = '';
 		} else {
 			if (isEmpty(this.state.searchTerm)) {
-				orgsContent = <OrgFeed orgs={foreignOrgs} />;
+				content = <CategoryFeed categories={foreign} />;
 			} else {
-				const filteredOrgs = foreignOrgs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-				orgsContent = <OrgFeed orgs={filteredOrgs} />;
+				const filtered = foreign.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
+				content = <CategoryFeed categories={filtered} />;
 			}
 		}
 		return (
@@ -86,20 +85,22 @@ class AddOrg extends Component {
 					paper: classes.dialogPapers
 				}}
 			>
-				<DialogTitle id='alert-dialog-slide-title'>{'Add organization to this activity'}</DialogTitle>
+				<DialogTitle id='alert-dialog-slide-title'>
+					{'Add category to  ' + this.props.activity.currentActivity.name}
+				</DialogTitle>
 				<DialogContent>
 					<CustomSearchInput
 						placeholder='Search by name'
 						onChange={this.searchUpdated}
 						color={this.props.theme.palette.primary.main}
 					/>
-					<div className={classes.contentContainer}>{orgsContent}</div>
+					<div className={classes.contentContainer}>{content}</div>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={this.props.onCancel} color='primary'>
 						Cancel
 					</Button>
-					<Button onClick={this.AddOrgs} color='primary'>
+					<Button onClick={this.AddCategorys} color='primary'>
 						Add
 					</Button>
 				</DialogActions>
@@ -108,17 +109,17 @@ class AddOrg extends Component {
 	}
 }
 
-AddOrg.propTypes = {
+AddCategory.propTypes = {
 	errors: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
-	organization: state.organization,
+	category: state.category,
 	activity: state.activity
 });
 
-export default connect(mapStateToProps, { getAllOrgs, addOrgsToActivity })(
-	withStyles(styles, { withTheme: true })(AddOrg)
+export default connect(mapStateToProps, { getAllCategories, addCategoriesToActivity })(
+	withStyles(styles, { withTheme: true })(AddCategory)
 );

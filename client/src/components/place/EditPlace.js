@@ -5,7 +5,8 @@ import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
 import { updatePlace, showEditPlace } from '../../actions/place';
-import { Paper, Typography, TextField, Button, Avatar } from '@material-ui/core';
+import { Paper, Typography, TextField, Button, FormControlLabel, Switch } from '@material-ui/core';
+import ImageUploader from 'react-images-upload';
 import Title from '../common/Title';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
@@ -54,19 +55,26 @@ class EditPlace extends Component {
 		super();
 		this.state = {
 			name: '',
-			description: ''
+			description: '',
+			favorite: false,
+			pictures: [],
+			image: ''
 		};
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.onDrop = this.onDrop.bind(this);
 		this.onCancel = this.onCancel.bind(this);
+		this.handleSwitchChange = this.handleSwitchChange.bind(this);
 	}
 
 	componentDidMount() {
 		if (!isEmpty(this.props.place.selectedPlace)) {
 			this.setState({
 				name: this.props.place.selectedPlace.name,
-				description: this.props.place.selectedPlace.description
+				description: this.props.place.selectedPlace.description,
+				favorite: this.props.place.selectedPlace.favorite,
+				image: this.props.place.selectedPlace.image
 			});
 		}
 	}
@@ -75,12 +83,23 @@ class EditPlace extends Component {
 	onCancel() {
 		this.props.showEditPlace(this.props.selectedPlace, false);
 	}
+	onDrop(picture, file) {
+		this.setState({
+			pictures: this.state.pictures.concat(picture),
+			image: file
+		});
+	}
+	handleSwitchChange = (event) => {
+		this.setState({ favorite: event.target.checked });
+	};
 	onSubmit(e) {
 		e.preventDefault();
 		const placeData = {
 			id: this.props.place.selectedPlace.id,
 			name: this.state.name,
-			description: this.state.description
+			description: this.state.description,
+			favorite: this.state.favorite,
+			image: this.state.pictures[0]
 		};
 		this.props.updatePlace(placeData);
 	}
@@ -132,6 +151,29 @@ class EditPlace extends Component {
 								value={this.state.description}
 							/>
 						</div>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={this.state.favorite}
+									onChange={this.handleSwitchChange}
+									value='favorite'
+									color='secondary'
+								/>
+							}
+							label='Favorite'
+						/>
+						<ImageUploader
+							withIcon={true}
+							buttonText='Choose images'
+							onChange={this.onDrop}
+							imgExtension={[ '.jpg', '.gif', '.png', '.gif' ]}
+							maxFileSize={5242880}
+							singleImage={true}
+							withPreview={true}
+							name='fileInput'
+							className='imageInputFile'
+						/>
+
 						<div style={{ textAlign: 'right' }}>
 							<Button
 								variant='outlined'

@@ -19,6 +19,16 @@ class Activity extends Model
     {
          return $this->belongsToMany('App\Group');
     }
+    //categories
+    public function categories()
+    {
+         return $this->belongsToMany('App\Category');
+    }
+     //places
+    public function places()
+    {
+         return $this->belongsToMany('App\Place');
+    }
     // contacts
  public function contacts()
     {

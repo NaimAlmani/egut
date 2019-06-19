@@ -6,8 +6,18 @@ import config from './../../../utils/config';
 import { Grid } from '@material-ui/core';
 import { deleteGroup } from './../../../actions/activity';
 import ConfirmDelete from '../../common/ConfirmDelete';
+import IconItem from './../../common/icons/IconItem';
 // Generate required css
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import {
+	Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	CardMedia,
+	Button,
+	Typography,
+	Avatar
+} from '@material-ui/core';
 
 const styles = (theme) => ({
 	root: {
@@ -18,7 +28,10 @@ const styles = (theme) => ({
 		maxWidth: 345,
 		margin: '24px  auto',
 		height: '350',
-		overflow: 'auto'
+		overflow: 'auto',
+		border: 'none',
+		boxShadow: 'none',
+		textAlign: 'center'
 	},
 	mediaContaier: {
 		width: '40%',
@@ -32,7 +45,14 @@ const styles = (theme) => ({
 	},
 	deleteBtn: {
 		color: theme.palette.error.main,
-		background: theme.palette.error.contrastText
+		background: theme.palette.error.contrastText,
+		margin: '0 auto'
+	},
+	avatar: {
+		margin: '10px auto',
+		width: 60,
+		height: 60,
+		background: theme.palette.primary.main
 	}
 });
 class GroupItem extends React.Component {
@@ -70,7 +90,9 @@ class GroupItem extends React.Component {
 				<Card className={classes.card}>
 					<CardActionArea className={classes.root}>
 						<div className={classes.mediaContaier}>
-							<img className={classes.image} src={config.imagesPath + group.logoPath} alt={group.name} />
+							<Avatar className={classes.avatar}>
+								<IconItem name={group.icon_name} font={group.icon_font} color='#fff' size='30px' />
+							</Avatar>
 						</div>
 						<CardContent>
 							<Typography gutterBottom variant='h5' component='h2'>
