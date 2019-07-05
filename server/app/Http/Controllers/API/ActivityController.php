@@ -4,14 +4,19 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Validator;
+use Image;
+
 use App\Activity;
 use App\Organization;
 use App\Group;
 use App\Category;
 use App\Place;
-
-use Validator;
-
+use App\Day;
+use App\ActivityTime;
+use App\ActivityImage;
+use App\Contact;
 
 class ActivityController extends Controller
 
@@ -30,7 +35,21 @@ class ActivityController extends Controller
         $act = Activity::find($request->id);
         $orgs = $act->organizations()->get();
         $groups = $act->groups()->get();
-        return response()->json(['activity'=>$act ,'organizations'=>$orgs,'groups'=>$groups]);
+        $places = $act->places()->get();
+        $categories=$act->categories()->get();
+        $times = $act->times()->get();
+        $images = $act->images()->get();
+        $contacts = $act->contacts()->get();
+        return response()->json([
+            'activity'=>$act ,
+            'organizations'=>$orgs,
+            'groups'=>$groups ,
+            'places'=>$places,
+            'categories'=>$categories,
+            'times'=>$times,
+            'images'=>$images,
+            'contacts'=>$contacts]
+        );
     }
 
 
@@ -277,14 +296,182 @@ class ActivityController extends Controller
     }
 
     public function deleteplace(Request  $request){
-        // validate inputs
         $activity = $request['activity'];
         $place = $request['place'];
         $act  = Activity::find($activity);
         //check activity is exist
-                $act->places()->detach($place);
-                 return response()->json(true);
+        $act->places()->detach($place);
+         return response()->json(true);
     }
     /**************************************End Activity places ***************************************/
 
+
+    /**************************************activity time******************************************** */
+     public function addtime(Request  $request){
+        // validate inputs
+
+         //validate
+          $validator = Validator::make($request->all(), [
+            'activity_id' => 'required|numeric',
+            'day_id' => 'required|numeric',
+            'place_id' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+           return response()->json(['error'=>$validator->errors()], 401);
+        }
+
+        //asign values
+        $activity_id = $request['activity_id'];
+        $place_id = $request['place_id'];
+        $day_id = $request['day_id'];
+        $start_time = $request['start_time'];
+        $end_time = $request['end_time'];
+        $date = date('Y-m-d', strtotime( $request['date']));
+        $is_weekly = $request['is_weekly'];
+        //
+        $time = ActivityTime::create([
+            'activity_id'=>$activity_id,
+            'place_id'=>$place_id,
+            'day_id'=>$day_id,
+            'start_time'=>$start_time,
+            'end_time'=>$end_time,
+            'is_weekly'=>$is_weekly,
+            'date'=>$date
+        ]);
+        //check activity is exist
+          return response()->json($time);
+    }
+   public function deletetime(Request $request){
+        $time = $request['time'];
+        $removedTime= ActivityTime::find($time);
+        $removedTime->delete();
+         return response()->json(true);
+   }
+    //get ALL DAYS
+    public function alldays(Request $request){
+        $allDays = Day::orderBy('created_at')->get();
+        return response()->json($allDays);
+    }
+    /****************************************end time**************************************************** */
+    /****************************************start images **************************************************** */
+    public function addimage(Request $request){
+
+         $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'activity_id' => 'required',
+            'path' => 'required|image',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
+        //save images
+         $image = $request->path;
+          //deal with images
+            //set the image name
+             $imgName = md5(time().uniqid()).'.'.
+                $image->getClientOriginalExtension();
+            //set th images path
+            $smallPath = 'images/small/';
+            $originalPath ='images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+         $originalImage =  Image::make($image)->resize($width,$height)->save(public_path($originalPath.$imgName));
+            //save small image
+            $smallWidth = $width;
+            $smallHeight = $height;
+            switch(true){
+                case $width<=300:
+                    $smallWidth=$width/2;
+                    $smallHeight=$height/2;
+                break;
+                case $width>=1000:
+                    $smallWidth=$width/4;
+                    $smallHeight=$height/4;
+                default:
+                    $smallWidth=$width/3;
+                    $smallHeight=$height/3;
+            }
+         $smallImage =  Image::make($image)->resize($smallWidth,$smallHeight)->save(public_path($smallPath.$imgName));
+        //save to db
+    $img = ActivityImage::create([
+        'activity_id'=>$request->activity_id,
+        'title'             => $request->title ,
+        'description'       => $request->description,
+        'path'              =>$imgName ,
+         'width'            =>$smallWidth,
+         'height'           =>$smallHeight
+          ]);
+
+    $img->save();
+    return $img->toJson();
+    }
+    // delete Image
+   public function deleteimage(Request $request){
+         $img = $request['id'];
+        $removedImage= ActivityImage::find($img);
+        $removedImage->delete();
+         return response()->json(true);
+   }
+   /******************************* activity contacts**************************************** */
+    public function addcontact(Request $request){
+
+         $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'activity_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        };
+        $imgName="contactImage.jpg";
+        if (!$request->file('image')->isValid()) {
+ //save images
+         $image = $request->image;
+          //deal with images
+            //set the image name
+             $imgName = md5(time().uniqid()).'.'.
+             $image->getClientOriginalExtension();
+            //set th images path
+            $smallPath = 'images/small/';
+            $originalPath ='images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+         $originalImage =  Image::make($image)->resize($width,$height)->save(public_path($originalPath.$imgName));
+            //save small image
+            $smallWidth = $width;
+            $smallHeight = $height;
+            switch(true){
+                case $width<=300:
+                    $smallWidth=$width/2;
+                    $smallHeight=$height/2;
+                break;
+                case $width>=1000:
+                    $smallWidth=$width/4;
+                    $smallHeight=$height/4;
+                default:
+                    $smallWidth=$width/3;
+                    $smallHeight=$height/3;
+            }
+    $smallImage =  Image::make($image)->resize($smallWidth,$smallHeight)->save(public_path($smallPath.$imgName));
+
+        }
+        //save to db
+    $contact = Contact::create([
+        'name'              => $request->name ,
+        'tel'               => $request->tel  ,
+        'email'             => $request->email ,
+        'image'             => $imgName,
+          ]);
+    $contact->save();
+    // add cotnact to activity
+    $activity =Activity::find($request->activity_id);
+    $activity->contacts()->attach($contact->id);
+
+    return $contact->toJson();
+    }
 }

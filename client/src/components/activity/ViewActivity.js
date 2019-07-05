@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../utils/config';
+import changeToGallery from './../../utils/changeToGallery';
+import isEmpty from './../../validation/is-empty';
 import { Grid, CircularProgress } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
-import { getActivityById, showEdit } from './../../actions/activity';
+import { getActivityById, showEdit, getDays, addNewImage } from './../../actions/activity';
 import customStyles from './../../theme/customStyles';
 import ConfirmDelete from './../common/ConfirmDelete';
 // Generate required css
@@ -24,8 +26,14 @@ import AddPlace from './addPlaces/AddPlace';
 import PlaceFeed from './Place/PlaceFeed';
 
 import AddCategory from './addCategory/AddCategory';
-import CategoryFeed from './addCategory/CategoryFeed';
+import CategoryFeed from './Category/CategoryFeed';
+import AddTime from './addTime/AddTime';
+import TimesTable from './Time/TimesTable';
 
+import AddImage from './AddImage';
+import ActivityImages from './ActivityImages';
+
+import CreateContact from './contacts/CreateContact';
 const styles = (theme) => ({
 	header: {
 		position: 'relative',
@@ -101,15 +109,16 @@ class ViewActivity extends React.Component {
 			isShowGroup: false,
 			isShowPlace: false,
 			isShowCategory: false,
-			loading: true
+			isShowTime: false,
+			loading: false,
+			isShowAddImage: false
 		};
 		this.props.startLoading();
 	}
 
 	componentDidMount() {
-		this.props.setLoading(true);
 		this.props.getActivityById(this.props.match.params.id);
-		// You can also log the error to an error reporting service
+		this.props.getDays();
 	}
 	showActivity = () => {
 		this.props.showEdit(this.props.activity.currentActivity, true);
@@ -157,12 +166,32 @@ class ViewActivity extends React.Component {
 			isShowCategory: true
 		});
 	};
+	showAddTimes = () => {
+		this.setState({
+			isShowTime: true
+		});
+	};
 	cancelShowAddCategory = () => {
 		this.setState({
 			isShowCategory: false
 		});
 	};
+	cancelShowAddTime = () => {
+		this.setState({
+			isShowTime: false
+		});
+	};
 
+	showAddImage = () => {
+		this.setState({
+			isShowAddImage: true
+		});
+	};
+	cancelShowAddImage = () => {
+		this.setState({
+			isShowAddImage: false
+		});
+	};
 	render() {
 		const { classes, activity } = this.props;
 		const act = activity.currentActivity;
@@ -237,6 +266,36 @@ class ViewActivity extends React.Component {
 						<CategoryFeed categories={this.props.activity.categories} activityID={act.id} />
 					</Grid>
 				</div>
+				{/**Activity times */}
+				<div className={classes.organizations}>
+					<div className={classes.orgHeader}>
+						<h1> Times </h1>
+						<div onClick={this.showAddTimes} className={classes.iconCont}>
+							<IconItem name='plus' color='#fff' size='2em' />
+						</div>
+					</div>
+					<Grid container justify={'center'} alignItems={'center'}>
+						<TimesTable times={this.props.activity.times} activityID={act.id} />
+					</Grid>
+				</div>
+				{/**end activity times */}
+
+				{/**Activity images */}
+				<div className={classes.organizations}>
+					<div className={classes.orgHeader}>
+						<h1> Images </h1>
+						<div onClick={this.showAddImage} className={classes.iconCont}>
+							<IconItem name='plus' color='#fff' size='2em' />
+						</div>
+					</div>
+					{!isEmpty(this.props.activity.images) ? (
+						<div style={{ width: '80%', margin: '0 auto' }}>
+							<ActivityImages images={changeToGallery(this.props.activity.images)} />
+						</div>
+					) : null}
+				</div>
+				{/**end activity images */}
+				<CreateContact open={this.state.isShowContact} onCancel={this.cancelShowAddContact} activity={act} />
 				<AddOrg open={this.state.isShowOrg} onCancel={this.cancelShowAddOrg} currentActivity={act} />
 
 				<AddGroup open={this.state.isShowGroup} onCancel={this.cancelShowAddGroup} currentActivity={act} />
@@ -248,6 +307,17 @@ class ViewActivity extends React.Component {
 					onCancel={this.cancelShowAddCategory}
 					currentActivity={act}
 				/>
+
+				<AddTime
+					open={this.state.isShowTime}
+					onCancel={this.cancelShowAddTime}
+					currentActivity={act}
+					days={this.props.activity.days}
+				/>
+
+				{this.state.isShowAddImage === true ? (
+					<AddImage activity={act} onCancel={this.cancelShowAddImage} />
+				) : null}
 			</div>
 		);
 	}
@@ -261,6 +331,6 @@ const mapStateToProps = (state) => ({
 	loading: state.loading
 });
 
-export default connect(mapStateToProps, { getActivityById, showEdit, startLoading, endLoading, setLoading })(
+export default connect(mapStateToProps, { getActivityById, getDays, showEdit, startLoading, endLoading, setLoading })(
 	withStyles(styles, { withTheme: true })(ViewActivity)
 );

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Organization;
 use Validator;
-
+use Image;
+use File;
 
 class OrgController extends Controller
 
@@ -33,11 +34,23 @@ class OrgController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
+
          $image = $request->logo;
-        //saving image
-             $imgName  = md5(time().uniqid()).'.'.
+         //deal with images
+            //set the image name
+             $imgName = md5(time().uniqid()).'.'.
                 $image->getClientOriginalExtension();
-                $image->storeAs('/public/images/',$imgName);
+            //set th images path
+            $smallPath = 'images/small/';
+            $originalPath ='images/';
+
+            //get current image sizes
+            $Width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save images
+         $originalImage =  Image::make($image)->resize($Width,$height)->save(public_path($originalPath.$imgName));
+         $smallImage =  Image::make($image)->resize($Width/2,$height/2)->save(public_path($smallPath.$imgName));
+         //end deal with images
         //save to db
     $org = Organization::create(['name' => $request->name ,'description'=> $request->description,'logoPath'=>$imgName  ]);
     $org->save();

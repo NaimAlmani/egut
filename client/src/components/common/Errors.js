@@ -36,8 +36,10 @@ class Errors extends React.Component {
 	}
 	render() {
 		const { classes, errors } = this.props;
-		const allErrors = [];
 		let ErrorsContent;
+
+		const allErrors = [];
+
 		if (!isEmpty(errors)) {
 			if (typeof errors.error === 'string') {
 				allErrors.push(errors.error);
@@ -64,6 +66,12 @@ class Errors extends React.Component {
 				}
 				if (!isEmpty(errors.error.icon_name)) {
 					allErrors.push(errors.error.icon_name);
+				}
+				if (!isEmpty(errors.error.activity_id)) {
+					allErrors.push(errors.error.activity_id);
+				}
+				if (!isEmpty(errors.error.day_id)) {
+					allErrors.push(errors.error.day_id);
 				}
 			}
 			ErrorsContent = <ErrorsFeed errors={allErrors} />;

@@ -68,5 +68,22 @@ Route::post('activity/deletecategory','API\activityController@deletecategory');
 //activity places
 Route::post('activity/addplaces','API\activityController@addplaces');
 Route::post('activity/deleteplace','API\activityController@deleteplace');
+
+//add time to activity
+Route::post('activity/addtime','API\activityController@addtime');
+Route::post('activity/deletetime','API\activityController@deletetime');
+
+
+//get all days
+Route::get('activity/alldays','API\activityController@alldays');
+
+//activity images
+Route::post('activity/addimage','API\activityController@addimage');
+Route::post('activity/deleteimage','API\activityController@deleteimage');
+
+//activity contact
+Route::post('activity/addcontact','API\activityController@addcontact');
+Route::post('activity/deletecontact','API\activityController@deletecontact');
+
 });
 

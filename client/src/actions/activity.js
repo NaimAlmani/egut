@@ -22,11 +22,24 @@ import {
 	ACTIVITY_DESELECT_CATEGORY,
 	ADD_CATEGORY_TO_ACTIVITY,
 	DELETE_CATEGORY_FROM_ACTIVITY,
-	//group
+	//PLACE
 	ACTIVITY_SELECT_PLACE,
 	ACTIVITY_DESELECT_PLACE,
 	ADD_PLACE_TO_ACTIVITY,
-	DELETE_PLACE_FROM_ACTIVITY
+	DELETE_PLACE_FROM_ACTIVITY,
+
+	//TIME
+	ACTIVITY_SELECT_TIME,
+	ACTIVITY_DESELECT_TIME,
+	ADD_TIME_TO_ACTIVITY,
+	DELETE_TIME_FROM_ACTIVITY,
+	GET_ALL_DAYS,
+
+	//IMAGE
+	ADD_NEW_IMAGE,
+	DELETE_IMAGE_FROM_ACTIVITY,
+	//CONTACTS
+	ADD_NEW_CONTACT
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -334,3 +347,135 @@ export const deletePlace = (activityID, placeID) => (dispatch) => {
 /**
  * end activity places
  */
+
+/**
+* activity times
+*/
+export const selectTime = (time) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_SELECT_TIME,
+		payload: time
+	});
+};
+export const deselectTime = (time) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_DESELECT_TIME,
+		payload: time
+	});
+};
+export const addTimesToActivity = (data) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/addtime', data)
+		.then((res) => {
+			dispatch({
+				type: ADD_TIME_TO_ACTIVITY,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
+export const deleteTime = (activityID, timeID) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/deletetime', { activity: activityID, time: timeID })
+		.then((res) => {
+			dispatch({
+				type: DELETE_TIME_FROM_ACTIVITY,
+				payload: timeID
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const getDays = () => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.get('/api/activity/alldays')
+		.then((res) => {
+			dispatch({
+				type: GET_ALL_DAYS,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+/**
+ * end activity times
+ */
+export const addNewImage = (imageData) => (dispatch) => {
+	dispatch(startLoading());
+	const formData = new FormData();
+	formData.set('title', imageData.title);
+	formData.set('description', imageData.description);
+	formData.append('path', imageData.path);
+	formData.append('activity_id', imageData.activity_id);
+
+	axiosInstance
+		.post('/api/activity/addimage', formData)
+		.then((res) => {
+			dispatch({
+				type: ADD_NEW_IMAGE,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const deleteActivityImage = (id) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/deleteimage', { id: id })
+		.then((res) => {
+			dispatch({
+				type: DELETE_IMAGE_FROM_ACTIVITY,
+				payload: id
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+/**
+ * Activity Contacts
+ */
+export const addNewContact = (data) => (dispatch) => {
+	dispatch(startLoading());
+	const formData = new FormData();
+	formData.set('name', data.title);
+	formData.set('email', data.description);
+	formData.append('tel', data.path);
+	formData.append('image', data.logo);
+	formData.append('activity_id', data.activity_id);
+
+	axiosInstance
+		.post('/api/activity/addcontact', formData)
+		.then((res) => {
+			dispatch({
+				type: ADD_NEW_CONTACT,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};

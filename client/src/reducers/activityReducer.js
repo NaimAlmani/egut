@@ -20,11 +20,24 @@ import {
 	ACTIVITY_DESELECT_CATEGORY,
 	ADD_CATEGORY_TO_ACTIVITY,
 	DELETE_CATEGORY_FROM_ACTIVITY,
-	//activity groups
+	//activity places
 	ACTIVITY_SELECT_PLACE,
 	ACTIVITY_DESELECT_PLACE,
 	ADD_PLACE_TO_ACTIVITY,
-	DELETE_PLACE_FROM_ACTIVITY
+	DELETE_PLACE_FROM_ACTIVITY,
+
+	//activity places
+	ACTIVITY_SELECT_TIME,
+	ACTIVITY_DESELECT_TIME,
+	ADD_TIME_TO_ACTIVITY,
+	DELETE_TIME_FROM_ACTIVITY,
+	GET_ALL_DAYS,
+
+	// images
+	ADD_NEW_IMAGE,
+	DELETE_IMAGE_FROM_ACTIVITY,
+	//contacts
+	ADD_NEW_CONTACT
 } from '../actions/types';
 
 const initialState = {
@@ -39,13 +52,24 @@ const initialState = {
 	selectedGroups: [],
 	groups: [],
 
-	//activity groups
+	//activity PLACES
 	selectedPlaces: [],
 	places: [],
 
 	//activity categories
 	selectedCategories: [],
-	categories: []
+	categories: [],
+
+	//activity times
+	selectedTimes: [],
+	times: [],
+	days: [],
+
+	//images
+	images: [],
+
+	//contacts
+	contacts: []
 };
 
 export default function(state = initialState, action) {
@@ -84,7 +108,12 @@ export default function(state = initialState, action) {
 				...state,
 				currentActivity: action.payload.activity,
 				orgs: action.payload.organizations,
-				groups: action.payload.groups
+				groups: action.payload.groups,
+				places: action.payload.places,
+				categories: action.payload.categories,
+				times: action.payload.times,
+				images: action.payload.images,
+				contacts: action.payload.contacts
 			};
 		//activity orgs
 		case ACTIVITY_SELECT_ORG:
@@ -173,6 +202,42 @@ export default function(state = initialState, action) {
 				places: state.places.filter((o) => o.id !== action.payload.id)
 			};
 
+		//activitry TIMES
+		case ACTIVITY_SELECT_TIME:
+			return {
+				...state,
+				selectedTimes: [ ...state.selectedTimes, action.payload ]
+			};
+		case ACTIVITY_DESELECT_TIME:
+			return {
+				...state,
+				selectedTimes: state.selectedTimes.filter((pl) => pl.id !== action.payload.id)
+			};
+		case ADD_TIME_TO_ACTIVITY:
+			return {
+				...state,
+				times: [ ...state.times, action.payload ]
+			};
+		case DELETE_TIME_FROM_ACTIVITY:
+			return {
+				...state,
+				times: state.times.filter((o) => o.id !== action.payload)
+			};
+		case GET_ALL_DAYS:
+			return {
+				...state,
+				days: action.payload
+			};
+		case ADD_NEW_IMAGE:
+			return {
+				...state,
+				images: [ action.payload, ...state.images ]
+			};
+		case DELETE_IMAGE_FROM_ACTIVITY:
+			return {
+				...state,
+				images: state.images.filter((img) => img.id !== action.payload)
+			};
 		default:
 			return state;
 	}

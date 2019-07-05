@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import Fade from 'react-reveal/Fade';
+
 import config from './../../utils/config';
 import { Grid } from '@material-ui/core';
 import { showEdit, deleteActivity } from './../../actions/activity';
@@ -79,9 +81,10 @@ class ActivityItem extends React.Component {
 	};
 	render() {
 		const { classes, activity } = this.props;
+
 		return (
 			<Grid item xs={12} sm={6} md={3}>
-				<div data-aos='fade-up'>
+				<Fade bottom>
 					<Card className={classes.card}>
 						<CardActionArea className={classes.root}>
 							<Link to={'activity/' + activity.id}>
@@ -116,7 +119,7 @@ class ActivityItem extends React.Component {
 						onClose={this.onCancelDelete}
 						onDelete={this.onConfirmDelete}
 					/>
-				</div>
+				</Fade>
 			</Grid>
 		);
 	}

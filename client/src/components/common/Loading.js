@@ -32,7 +32,7 @@ class Loading extends React.Component {
 		const { classes } = this.props;
 		return (
 			<div className={classes.loadingContainer}>
-				<CircularProgress disableShrink className={classes.circle} size={80} />;
+				<CircularProgress disableShrink className={classes.circle} size={80} />
 			</div>
 		);
 	}

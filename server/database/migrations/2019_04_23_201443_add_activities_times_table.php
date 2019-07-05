@@ -19,8 +19,8 @@ class AddActivitiesTimesTable extends Migration
                 $table->integer('activity_id')->unsigned();
                 $table->integer('place_id')->unsigned();
                 $table->integer('day_id')->unsigned();
-                $table->dateTime('start_time');
-                $table->dateTime('end_time');
+                $table->string('start_time');
+                $table->string('end_time');
                 $table->boolean('is_weekly')->default(true);
                 $table->dateTime('date');
                 $table->timestamps();

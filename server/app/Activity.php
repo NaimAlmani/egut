@@ -32,15 +32,15 @@ class Activity extends Model
     // contacts
  public function contacts()
     {
-         return $this->belongsToMany('App\Contact');
+         return $this->belongsToMany('App\Contact','activities_contacts');
     }
     //images
   public function images()
     {
-         return $this->belongsToMany('App\ActivityImage');
+         return $this->hasMany('App\ActivityImage','activity_id');
     }
  public function Times()
     {
-         return $this->belongsToMany('App\ActivityTime');
+         return $this->hasMany('App\ActivityTime','activity_id');
     }
 }

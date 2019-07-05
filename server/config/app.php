@@ -122,6 +122,12 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
+    /***
+     * user
+     */
+    'user_name'=>env('INIT_USER'),
+    'init_email'=>env('INIT_EMAIL'),
+    'init_pass'=>env('INIT_PASS'),
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +180,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        //image library
+        'Intervention\Image\ImageServiceProvider',
 
 
     ],
@@ -226,6 +234,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Image' => 'Intervention\Image\Facades\Image',
 
     ],
 
