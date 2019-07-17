@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import config from './../../utils/config';
 import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress, Button } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
 import { getActivityById, showEdit, getDays, addNewImage } from './../../actions/activity';
 import customStyles from './../../theme/customStyles';
@@ -33,7 +33,10 @@ import TimesTable from './Time/TimesTable';
 import AddImage from './AddImage';
 import ActivityImages from './ActivityImages';
 
-import CreateContact from './contacts/CreateContact';
+import ContactMain from './contacts/ContactMain';
+import ContactTable from './contacts/ContactTable';
+
+import MemberMain from './members/MemberMain';
 const styles = (theme) => ({
 	header: {
 		position: 'relative',
@@ -106,12 +109,15 @@ class ViewActivity extends React.Component {
 		this.state = {
 			isDelete: false,
 			isShowOrg: false,
+			isShowContact: false,
 			isShowGroup: false,
 			isShowPlace: false,
 			isShowCategory: false,
 			isShowTime: false,
 			loading: false,
-			isShowAddImage: false
+			isShowAddImage: false,
+
+			isShowMembers: false
 		};
 		this.props.startLoading();
 	}
@@ -133,6 +139,18 @@ class ViewActivity extends React.Component {
 	cancelShowAddOrg = () => {
 		this.setState({
 			isShowOrg: false
+		});
+	};
+
+	//contacts functions
+	showAddContact = () => {
+		this.setState({
+			isShowContact: true
+		});
+	};
+	cancelShowAddContact = () => {
+		this.setState({
+			isShowContact: false
 		});
 	};
 
@@ -192,6 +210,17 @@ class ViewActivity extends React.Component {
 			isShowAddImage: false
 		});
 	};
+
+	showMembers = () => {
+		this.setState({
+			isShowMembers: true
+		});
+	};
+	cancelShowMembers = () => {
+		this.setState({
+			isShowMembers: false
+		});
+	};
 	render() {
 		const { classes, activity } = this.props;
 		const act = activity.currentActivity;
@@ -214,6 +243,11 @@ class ViewActivity extends React.Component {
 						</div>
 						<div classNam={classes.desc}>
 							<p> {act.description}</p>
+						</div>
+						<div className={classes.memberBtn}>
+							<Button color='primary' onClick={this.showMembers}>
+								Show members
+							</Button>
 						</div>
 					</div>
 					{activity.is_active ? <div className={classes.activeSign} /> : null}
@@ -266,6 +300,19 @@ class ViewActivity extends React.Component {
 						<CategoryFeed categories={this.props.activity.categories} activityID={act.id} />
 					</Grid>
 				</div>
+				{/**Activity contacts */}
+				<div className={classes.organizations}>
+					<div className={classes.orgHeader}>
+						<h1> Contact info </h1>
+						<div onClick={this.showAddContact} className={classes.iconCont}>
+							<IconItem name='plus' color='#fff' size='2em' />
+						</div>
+					</div>
+					<Grid container justify={'center'} alignItems={'center'}>
+						<ContactTable contacts={this.props.activity.contacts} activityID={act.id} />
+					</Grid>
+				</div>
+				{/**end activity contacts */}
 				{/**Activity times */}
 				<div className={classes.organizations}>
 					<div className={classes.orgHeader}>
@@ -295,7 +342,25 @@ class ViewActivity extends React.Component {
 					) : null}
 				</div>
 				{/**end activity images */}
-				<CreateContact open={this.state.isShowContact} onCancel={this.cancelShowAddContact} activity={act} />
+				{/**start activity contacts */}
+				{this.state.isShowContact === true ? (
+					<ContactMain
+						open={this.state.isShowContact}
+						onCancel={this.cancelShowAddContact}
+						currentActivity={act}
+					/>
+				) : null}
+				{/**end activity contacts */}
+				{/**start activity members */}
+				{this.state.isShowMembers === true ? (
+					<MemberMain
+						open={this.state.isShowMembers}
+						onCancel={this.cancelShowMembers}
+						currentActivity={act}
+						members={act.members}
+					/>
+				) : null}
+				{/**end activity members */}
 				<AddOrg open={this.state.isShowOrg} onCancel={this.cancelShowAddOrg} currentActivity={act} />
 
 				<AddGroup open={this.state.isShowGroup} onCancel={this.cancelShowAddGroup} currentActivity={act} />

@@ -39,7 +39,14 @@ import {
 	ADD_NEW_IMAGE,
 	DELETE_IMAGE_FROM_ACTIVITY,
 	//CONTACTS
-	ADD_NEW_CONTACT
+	ADD_NEW_CONTACT,
+	DELETE_CONTACT_FROM_ACTIVITY,
+	ACTIVITY_SELECT_CONTACT,
+	ACTIVITY_DESELECT_CONTACT,
+	GET_ALL_CONTACTS,
+	ADD_EXIST_CONTACTS,
+	//MEMBERS
+	ACTIVITY_ACTIVATE_MEMBER
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -459,9 +466,9 @@ export const deleteActivityImage = (id) => (dispatch) => {
 export const addNewContact = (data) => (dispatch) => {
 	dispatch(startLoading());
 	const formData = new FormData();
-	formData.set('name', data.title);
-	formData.set('email', data.description);
-	formData.append('tel', data.path);
+	formData.set('name', data.name);
+	formData.set('email', data.email);
+	formData.append('tel', data.tel);
 	formData.append('image', data.logo);
 	formData.append('activity_id', data.activity_id);
 
@@ -470,6 +477,88 @@ export const addNewContact = (data) => (dispatch) => {
 		.then((res) => {
 			dispatch({
 				type: ADD_NEW_CONTACT,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
+export const deleteContact = (activityID, contact) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/deletecontact', { activity: activityID, contact: contact })
+		.then((res) => {
+			dispatch({
+				type: DELETE_CONTACT_FROM_ACTIVITY,
+				payload: contact
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
+export const SelectContact = (contact) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_SELECT_CONTACT,
+		payload: contact
+	});
+};
+export const deselectContact = (contact) => (dispatch) => {
+	dispatch({
+		type: ACTIVITY_DESELECT_CONTACT,
+		payload: contact
+	});
+};
+export const getAllContacts = () => (dispatch) => {
+	dispatch(startLoading());
+	axiosInstance
+		.get('/api/activity/allcontacts')
+		.then((res) => {
+			dispatch({
+				type: GET_ALL_CONTACTS,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
+export const addExistedContacts = (activity, contacts) => (dispatch) => {
+	dispatch(startLoading());
+
+	axiosInstance
+		.post('/api/activity/addexistcontacts', { activity: activity, contacts: contacts })
+		.then((res) => {
+			dispatch({
+				type: ADD_EXIST_CONTACTS,
+				payload: contacts
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
+export const activiateMember = (activity, member, isActive) => (dispatch) => {
+	dispatch(startLoading());
+
+	axiosInstance
+		.post('/api/activity/activatemember', { activity: activity, member: member, is_active: isActive })
+		.then((res) => {
+			dispatch({
+				type: ACTIVITY_ACTIVATE_MEMBER,
 				payload: res.data
 			});
 			dispatch(endLoading());

@@ -50,6 +50,9 @@ const initTheme = {
 		black: {
 			main: '#333',
 			contrastText: '#fff'
+		},
+		red: {
+			main: 'f00'
 		}
 	}
 };

@@ -37,7 +37,13 @@ import {
 	ADD_NEW_IMAGE,
 	DELETE_IMAGE_FROM_ACTIVITY,
 	//contacts
-	ADD_NEW_CONTACT
+	ADD_NEW_CONTACT,
+	DELETE_CONTACT_FROM_ACTIVITY,
+	ACTIVITY_SELECT_CONTACT,
+	ACTIVITY_DESELECT_CONTACT,
+	GET_ALL_CONTACTS,
+	ADD_EXIST_CONTACTS,
+	ACTIVITY_ACTIVATE_MEMBER
 } from '../actions/types';
 
 const initialState = {
@@ -69,7 +75,9 @@ const initialState = {
 	images: [],
 
 	//contacts
-	contacts: []
+	contacts: [],
+	allContacts: [],
+	selectedContacts: []
 };
 
 export default function(state = initialState, action) {
@@ -113,7 +121,8 @@ export default function(state = initialState, action) {
 				categories: action.payload.categories,
 				times: action.payload.times,
 				images: action.payload.images,
-				contacts: action.payload.contacts
+				contacts: action.payload.contacts,
+				members: action.payload.members
 			};
 		//activity orgs
 		case ACTIVITY_SELECT_ORG:
@@ -237,6 +246,45 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				images: state.images.filter((img) => img.id !== action.payload)
+			};
+		//contacts
+		case ADD_NEW_CONTACT:
+			return {
+				...state,
+				contacts: [ action.payload, ...state.contacts ]
+			};
+		case DELETE_CONTACT_FROM_ACTIVITY:
+			return {
+				...state,
+				contacts: state.contacts.filter((contact) => contact.id !== action.payload)
+			};
+		case ACTIVITY_SELECT_CONTACT:
+			return {
+				...state,
+				selectedContacts: [ ...state.selectedContacts, action.payload ]
+			};
+		case ACTIVITY_DESELECT_CONTACT:
+			return {
+				...state,
+				selectedContacts: state.selectedContacts.filter((c) => c.id !== action.payload.id)
+			};
+		case GET_ALL_CONTACTS:
+			return {
+				...state,
+				allContacts: action.payload
+			};
+		case ADD_EXIST_CONTACTS:
+			return {
+				...state,
+				selectedContacts: [],
+				contacts: [ ...action.payload, ...state.contacts ]
+			};
+		//members
+
+		case ACTIVITY_ACTIVATE_MEMBER:
+			return {
+				...state,
+				members: state.members
 			};
 		default:
 			return state;

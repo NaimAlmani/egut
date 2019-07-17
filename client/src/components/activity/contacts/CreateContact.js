@@ -11,12 +11,7 @@ import ImageUploader from 'react-images-upload';
 import IconItem from './../../common/icons/IconItem';
 import isEmpty from './../../../validation/is-empty';
 const styles = (theme) => ({
-    popupPageContainer: {
-        position: 'fixed',
-        width: '100%',
-        height: '100vh',
-        top: '0',
-        left: '0'
+    popupPageContainer: {     
     },
     overlay: {
         width: '100%',
@@ -25,12 +20,7 @@ const styles = (theme) => ({
         background: '#333'
     },
     FormContainer: {
-        width: '400px',
-        padding: '20px 50px',
-        position: 'absolute',
-        top: '100px',
-        left: 'calc(50% - 200px)',
-        minWidth: '300px'
+       margin:'20px'
     },
     button: {
         margin: theme.spacing.unit
@@ -74,7 +64,7 @@ class CreateContact extends Component {
             name: this.state.name,
             email: this.state.email,
             tel:this.state.tel,
-            activity_idL:this.props.activityID,
+            activity_id:this.props.activity,
             logo: this.state.pictures[0]
         };
         this.props.addNewContact(data);
@@ -87,15 +77,8 @@ class CreateContact extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.popupPageContainer}>
-                <div className={classes.overlay} />
+          
                 <Paper className={classes.FormContainer} elevation={1}>
-                    <div className={classes.closeIcon}>
-                        <span onClick={this.props.onCancel} style={{ cursor: 'pointer', width: 'auto' }}>
-                            <IconItem name='x' type='Feather' />
-                        </span>
-                    </div>
-                    <Title text='CreateContact' color={this.props.theme.palette.primary.main} icon='lock' />
                     <form onSubmit={this.onSubmit} encType='multipart/form-data'>
                         <div className={classes.FieldContainer}>
                             <TextField
@@ -181,7 +164,7 @@ class CreateContact extends Component {
                         </div>
                     </form>
                 </Paper>
-            </div>
+     
         );
     }
 }
