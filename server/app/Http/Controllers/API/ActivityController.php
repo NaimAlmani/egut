@@ -446,7 +446,7 @@ class ActivityController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         };
         $imgName = "contactImage.jpg";
-        if ($request->image->isValid()) {
+        if ($request->image != 'null') {
             //save images
             $image = $request->image;
             //deal with images
@@ -582,8 +582,38 @@ class ActivityController extends Controller
         $member = $request['member'];
         $activity = $request['activity'];
         $isActive = $request['is_active'];
+        $active = 0;
+        if ($isActive == true) {
+            $active = 1;
+        }
         $act  = Activity::find($activity);
         $mem  = Member::find($member);
-        $act->members()->updateExistingPivot($mem, array('is_active' => $isActive), false);
+        $act->members()->updateExistingPivot($mem, array('is_active' => $active), false);
+        return response()->json($act);
+    }
+    public function activateactivity(Request $request)
+    {
+        $activityID = $request['id'];
+        $isAct = 0;
+        if ($request['is_active'] == true) {
+            $isAct = 1;
+        }
+
+        $activity = Activity::find($activityID);
+        $activity->is_active = $isAct;
+        $activity->save();
+        return response()->json($activity);
+    }
+    // public Area
+
+
+    public function activeactivities(Request $request)
+    {
+        $acts = Activity::with('groups', 'organizations', 'categories', 'Times')->where('is_active', 1)->orderBy('created_at', 'desc')->get();
+        $days = Day::orderBy('created_at', 'desc')->get();
+        $categories = Category::with('activities')->orderBy('created_at', 'desc')->get();
+        $groups = Group::with('activities')->orderBy('created_at', 'desc')->get();
+        //get activities times
+        return response()->json(['activities' => $acts, 'days' => $days, 'categories' => $categories, 'groups' => $groups]);
     }
 }

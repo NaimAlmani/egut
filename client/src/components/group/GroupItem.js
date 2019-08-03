@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../utils/config';
+import randomColor from './../../utils/randomColor';
 import { Grid, Avatar } from '@material-ui/core';
 import { showEditGroup, deleteGroup } from './../../actions/group';
 import customStyles from './../../theme/customStyles';
@@ -28,7 +29,8 @@ const styles = (theme) => ({
 		margin: '10px auto',
 		width: 60,
 		height: 60,
-		background: theme.palette.primary.main
+		background: theme.palette.primary.main,
+		border: '1px solid #fff'
 	},
 	mediaContaier: {
 		width: '40%',
@@ -83,16 +85,18 @@ class GroupItem extends React.Component {
 		const { classes, group } = this.props;
 		return (
 			<Grid item xs={12} sm={6} md={3}>
-				<Card className={classes.card}>
+				<Card className={classes.card} style={{ background: randomColor(this.props.index) }}>
 					<CardActionArea className={classes.root}>
 						<CardContent>
 							<Avatar className={classes.avatar}>
 								<IconItem name={group.icon_name} font={group.icon_font} color='#fff' size='30px' />
 							</Avatar>
-							<Typography gutterBottom variant='h5' component='h2'>
+							<Typography style={{ color: '#fff' }} gutterBottom variant='h5' component='h2'>
 								{group.name}
 							</Typography>
-							<Typography component='p'>{group.description}</Typography>
+							<Typography style={{ color: '#fff' }} component='p'>
+								{group.description}
+							</Typography>
 						</CardContent>
 					</CardActionArea>
 					<CardActions>

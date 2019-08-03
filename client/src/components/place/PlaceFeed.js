@@ -8,7 +8,7 @@ class PlaceFeed extends Component {
 	render() {
 		const { places } = this.props;
 
-		return places.map((place) => <PlaceItem key={place.id} place={place} />);
+		return places.map((place, index) => <PlaceItem key={place.id} place={place} index={index} />);
 	}
 }
 const mapStateToProps = (state) => ({});

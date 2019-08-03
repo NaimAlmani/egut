@@ -5,7 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { Paper, Table, TableHead, TableCell, TableRow, TableBody } from '@material-ui/core';
 import MemberFeed from './MemberFeed';
 
-const styles = (theme) => {};
+const styles = (theme) => ({
+	root: {
+		width: '100%'
+	}
+});
 class MemeberTable extends Component {
 	render() {
 		const { members, classes } = this.props;

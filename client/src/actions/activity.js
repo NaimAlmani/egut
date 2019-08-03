@@ -7,6 +7,7 @@ import {
 	UPDATE_ACTIVITY,
 	DELETE_ACTIVITY,
 	ACTIVITY_BY_ID,
+
 	//org
 	ACTIVITY_SELECT_ORG,
 	ACTIVITY_DESELECT_ORG,
@@ -46,7 +47,8 @@ import {
 	GET_ALL_CONTACTS,
 	ADD_EXIST_CONTACTS,
 	//MEMBERS
-	ACTIVITY_ACTIVATE_MEMBER
+	ACTIVITY_ACTIVATE_MEMBER,
+	ACTIVATE_ACTIVITY
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -559,7 +561,23 @@ export const activiateMember = (activity, member, isActive) => (dispatch) => {
 		.then((res) => {
 			dispatch({
 				type: ACTIVITY_ACTIVATE_MEMBER,
-				payload: res.data
+				payload: { member_id: member, is_active: isActive }
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const ActivateActivity = (activityID, isActive) => (dispatch) => {
+	dispatch(startLoading());
+	axiosInstance
+		.post('/api/activity/activateactivity', { id: activityID, is_active: isActive })
+		.then((res) => {
+			dispatch({
+				type: ACTIVATE_ACTIVITY,
+				payload: { id: activityID, is_active: isActive }
 			});
 			dispatch(endLoading());
 		})

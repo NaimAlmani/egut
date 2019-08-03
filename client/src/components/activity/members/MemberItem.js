@@ -8,7 +8,7 @@ import ConfirmDelete from '../../common/ConfirmDelete';
 import IconItem from './../../common/icons/IconItem';
 import Fade from 'react-reveal/Fade';
 // Generate required css
-import { TableRow, TableCell, Avatar, Button } from '@material-ui/core';
+import { TableRow, TableCell, Switch, Button } from '@material-ui/core';
 
 const styles = (theme) => ({
 	avatar: {
@@ -39,7 +39,7 @@ class MemberItem extends React.Component {
 	}
 	componentDidMount() {
 		this.setState({
-			isActive: this.props.member.is_active
+			isActive: this.props.member.pivot.is_active === 1 ? true : false
 		});
 	}
 
@@ -47,8 +47,8 @@ class MemberItem extends React.Component {
 		this.setState({
 			isActive: !this.state.isActive
 		});
-		const status = this.props.member.is_active === 1 ? true : false;
-		this.props.activiateMember(this.props.activity.currentActivity.id, this.props.member.id, !status);
+
+		this.props.activiateMember(this.props.activity.currentActivity.id, this.props.member.id, !this.state.isActive);
 	};
 	render() {
 		const { classes, member } = this.props;
@@ -61,15 +61,13 @@ class MemberItem extends React.Component {
 				<TableCell>
 					<TableCell align='right'>
 						<div onClick={this.onActivate} className={classes.trashIcon}>
-							{this.props.is_active === 1 ? (
-								<Button color={themeColors.green.main} onClick={this.onActivate}>
-									Activate
-								</Button>
-							) : (
-								<Button color={themeColors.red.main} onClick={this.onActivate}>
-									deActivate
-								</Button>
-							)}
+							<Switch
+								checked={this.state.isActive}
+								onChange={this.onActivate}
+								value='checkedB'
+								color='primary'
+								inputProps={{ 'aria-label': 'primary checkbox' }}
+							/>
 						</div>
 					</TableCell>
 				</TableCell>

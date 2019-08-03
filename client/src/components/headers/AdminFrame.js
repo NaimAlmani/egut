@@ -176,14 +176,14 @@ class AdminFrame extends React.Component {
 									</ListItemIcon>
 									<ListItemText primary={admin.name} />
 								</ListItem>
-
-								<ListItem button key={'logout'} onClick={this.onLogout}>
-									<ListItemIcon>
-										<IconItem name='unlock' font='Feather' />
-									</ListItemIcon>
-									<ListItemText primary='Logout' />
-								</ListItem>
-
+								<Link to='/dashboard' className={classes.Link}>
+									<ListItem button key={'dashboard'}>
+										<ListItemIcon>
+											<IconItem name='home' />
+										</ListItemIcon>
+										<ListItemText primary={'Home'} />
+									</ListItem>
+								</Link>
 								<Link to='/orgs' className={classes.Link}>
 									<ListItem button key={'orgs'}>
 										<ListItemIcon>
@@ -234,6 +234,13 @@ class AdminFrame extends React.Component {
 										<IconItem name='globe' />
 									</ListItemIcon>
 									<div id='translate' />
+								</ListItem>
+
+								<ListItem button key={'logout'} onClick={this.onLogout}>
+									<ListItemIcon>
+										<IconItem name='unlock' font='Feather' />
+									</ListItemIcon>
+									<ListItemText primary='Logout' />
 								</ListItem>
 							</List>
 						) : (

@@ -64,10 +64,11 @@ class CreateContact extends Component {
             name: this.state.name,
             email: this.state.email,
             tel:this.state.tel,
-            activity_id:this.props.activity,
-            logo: this.state.pictures[0]
+            activity_id:this.props.activity.id,
+            logo: isEmpty(this.state.pictures[0]) ? null : this.state.pictures[0]
         };
         this.props.addNewContact(data);
+        this.props.onCancel();
     }
 
     onChange(e) {

@@ -66,6 +66,11 @@ class ContactMain extends Component {
 			showForm: true
 		});
 	}
+	hideForm() {
+		this.setState({
+			showForm: false
+		});
+	}
 	addExistedContact = () => {
 		this.props.addExistedContacts(this.props.currentActivity, this.props.activity.selectedContacts);
 	};
@@ -96,7 +101,7 @@ class ContactMain extends Component {
 					</Grid>
 					{this.state.showForm === true ? (
 						<Grid item md={12} sm={12}>
-							<CreateContact activity={this.props.activity} />
+							<CreateContact activity={this.props.currentActivity} onCancel={this.hideForm} />
 						</Grid>
 					) : null}
 				</Grid>

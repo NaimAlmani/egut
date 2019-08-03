@@ -711,7 +711,6 @@ export const AllIcons = [
 	{ name: 'youtube', type: 'Entypo' },
 	{ name: 'youtube-with-circle', type: 'Entypo' },
 */
-
     { name: 'archive', type: 'EvilIcons' },
     { name: 'arrow-down', type: 'EvilIcons' },
     { name: 'arrow-left', type: 'EvilIcons' },
@@ -1050,7 +1049,6 @@ export const AllIcons = [
     { name: 'zap-off', type: 'Feather' },
     { name: 'zoom-in', type: 'Feather' },
     { name: 'zoom-out', type: 'Feather' },
-
 /*
 	{ name: 'glass', type: 'FontAwesome' },
 	{ name: 'music', type: 'FontAwesome' },
@@ -1838,7 +1836,6 @@ export const AllIcons = [
 	{ name: 'superpowers', type: 'FontAwesome' },
 	{ name: 'wpexplorer', type: 'FontAwesome' },
 	{ name: 'meetup', type: 'FontAwesome' },
-
 */
     { name: 'address-book', type: 'Foundation' },
     { name: 'alert', type: 'Foundation' },

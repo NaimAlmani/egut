@@ -19,6 +19,7 @@ import Groups from './components/group/Groups';
 import Categories from './components/category/Categories';
 import Activities from './components/activity/Activities';
 import ViewActivity from './components/activity/ViewActivity';
+import ViewOrg from './components/org/ViewOrg';
 import { LinearProgress } from '@material-ui/core';
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
@@ -39,12 +40,12 @@ class Root extends Component {
 				<MuiThemeProvider theme={theme}>
 					<AdminFrame>
 						<OnImagesLoaded onLoaded={() => this.props.setLoading(true)}>
-							{this.props.loading === true ? <Loading /> : null}
+							{this.props.loading === true ? <LinearProgress /> : null}
 
 							<Route exact path='/login' component={Login} />
 							<Route exact path='/register' component={Register} />
 							<Switch>
-								<PrivateRoute exact path='/dashboard' component={Dashboard} />
+								<PrivateRoute exact path='/' component={Dashboard} />
 							</Switch>
 							<Switch>
 								<PrivateRoute exact path='/orgs' component={Orgs} />
@@ -63,6 +64,9 @@ class Root extends Component {
 							</Switch>
 							<Switch>
 								<PrivateRoute exact path='/activity/:id' component={ViewActivity} />
+							</Switch>
+							<Switch>
+								<PrivateRoute exact path='/organization/:id' component={ViewOrg} />
 							</Switch>
 						</OnImagesLoaded>
 					</AdminFrame>

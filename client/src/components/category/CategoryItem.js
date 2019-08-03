@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Grid, Avatar } from '@material-ui/core';
+import randomColor from './../../utils/randomColor';
+import { Fade } from 'react-reveal';
 import { showEditCategory, deleteCategory } from './../../actions/category';
 import ConfirmDelete from './../common/ConfirmDelete';
 // Generate required css
@@ -81,41 +83,43 @@ class CategoryItem extends React.Component {
 		const { classes, category } = this.props;
 		return (
 			<Grid item xs={12} sm={6} md={3}>
-				<Card className={classes.card}>
-					<CardActionArea className={classes.root}>
-						<CardContent>
-							<Avatar className={classes.avatar}>
-								<IconItem
-									name={category.icon_name}
-									font={category.icon_font}
-									color='#fff'
-									size='30px'
-								/>
-							</Avatar>
-							<Typography gutterBottom variant='h5' component='h2'>
-								{category.name}
-							</Typography>
-							<Typography component='p'>{category.description}</Typography>
-						</CardContent>
-					</CardActionArea>
-					<CardActions>
-						<div style={{ margin: '0 auto' }}>
-							<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
-								Delete
-							</Button>
-							<Button size='small' color='primary' onClick={this.selectCategory}>
-								Edit
-							</Button>
-						</div>
-					</CardActions>
-				</Card>
-				<ConfirmDelete
-					open={this.state.isDelete}
-					title='Are you Sure ??'
-					text={'do you want to delete ' + category.name}
-					onClose={this.onCancelDelete}
-					onDelete={this.onConfirmDelete}
-				/>
+				<Fade bottom>
+					<Card className={classes.card} style={{ background: randomColor(this.props.index) }}>
+						<CardActionArea className={classes.root}>
+							<CardContent>
+								<Avatar className={classes.avatar}>
+									<IconItem
+										name={category.icon_name}
+										font={category.icon_font}
+										color='#fff'
+										size='30px'
+									/>
+								</Avatar>
+								<Typography gutterBottom variant='h5' component='h2'>
+									{category.name}
+								</Typography>
+								<Typography component='p'>{category.description}</Typography>
+							</CardContent>
+						</CardActionArea>
+						<CardActions>
+							<div style={{ margin: '0 auto' }}>
+								<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
+									Delete
+								</Button>
+								<Button size='small' color='primary' onClick={this.selectCategory}>
+									Edit
+								</Button>
+							</div>
+						</CardActions>
+					</Card>
+					<ConfirmDelete
+						open={this.state.isDelete}
+						title='Are you Sure ??'
+						text={'do you want to delete ' + category.name}
+						onClose={this.onCancelDelete}
+						onDelete={this.onConfirmDelete}
+					/>
+				</Fade>
 			</Grid>
 		);
 	}

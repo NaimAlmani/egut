@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../utils/config';
+import randomColor from './../../utils/randomColor';
 import { Grid } from '@material-ui/core';
 import { showEdit, deleteOrg } from './../../actions/organization';
 import customStyles from './../../theme/customStyles';
+import { Link } from 'react-router-dom';
 import ConfirmDelete from './../common/ConfirmDelete';
+import Fade from 'react-reveal/Fade';
+
 // Generate required css
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
@@ -18,13 +22,16 @@ const styles = (theme) => ({
 	card: {
 		maxWidth: 345,
 		margin: '24px  auto',
-		height: '350',
-		overflow: 'auto'
+		height: '300px',
+		overflow: 'auto',
+		textAlign: 'center'
 	},
 	mediaContaier: {
 		width: '40%',
 		height: 'auto',
-		margin: '0 auto'
+		margin: '0 auto',
+		maxHeight: '150px',
+		overflow: 'hidden'
 	},
 	image: {
 		// ⚠️ object-fit is not supported by IE 11.
@@ -34,7 +41,8 @@ const styles = (theme) => ({
 	deleteBtn: {
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
-	}
+	},
+	btnCont: {}
 });
 class OrgItem extends React.Component {
 	constructor(props) {
@@ -78,34 +86,40 @@ class OrgItem extends React.Component {
 		const { classes, org } = this.props;
 		return (
 			<Grid item xs={12} sm={6} md={3}>
-				<Card className={classes.card}>
-					<CardActionArea className={classes.root}>
-						<div className={classes.mediaContaier}>
-							<img className={classes.image} src={config.imagesPath + org.logoPath} alt='logo' />
-						</div>
-						<CardContent>
-							<Typography gutterBottom variant='h5' component='h2'>
-								{org.name}
-							</Typography>
-							<Typography component='p'>{org.description}</Typography>
-						</CardContent>
-					</CardActionArea>
-					<CardActions>
-						<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
-							Delete
-						</Button>
-						<Button size='small' color='primary' onClick={this.selectOrg}>
-							Edit
-						</Button>
-					</CardActions>
-				</Card>
-				<ConfirmDelete
-					open={this.state.isDelete}
-					title='Are you Sure ??'
-					text={'do you want to delete ' + org.name}
-					onClose={this.onCancelDelete}
-					onDelete={this.onConfirmDelete}
-				/>
+				<Fade bottom>
+					<Card className={classes.card} style={{ background: randomColor(this.props.index) }}>
+						<CardActionArea className={classes.root}>
+							<Link to={'organization/' + org.id}>
+								<div className={classes.mediaContaier}>
+									<img className={classes.image} src={config.imagesPath + org.logoPath} alt='logo' />
+								</div>
+								<CardContent>
+									<Typography gutterBottom variant='h5' component='h2'>
+										{org.name}
+									</Typography>
+									<Typography component='p'>{org.description}</Typography>
+								</CardContent>
+							</Link>
+						</CardActionArea>
+						<CardActions style={{ background: '#fff' }}>
+							<div className={classes.btnCont}>
+								<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
+									Delete
+								</Button>
+								<Button size='small' color='primary' onClick={this.selectOrg}>
+									Edit
+								</Button>
+							</div>
+						</CardActions>
+					</Card>
+					<ConfirmDelete
+						open={this.state.isDelete}
+						title='Are you Sure ??'
+						text={'do you want to delete ' + org.name}
+						onClose={this.onCancelDelete}
+						onDelete={this.onConfirmDelete}
+					/>
+				</Fade>
 			</Grid>
 		);
 	}

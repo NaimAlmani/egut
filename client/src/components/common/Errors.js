@@ -38,40 +38,20 @@ class Errors extends React.Component {
 		const { classes, errors } = this.props;
 		let ErrorsContent;
 
-		const allErrors = [];
+		let allErrors = [];
 
 		if (!isEmpty(errors)) {
 			if (typeof errors.error === 'string') {
 				allErrors.push(errors.error);
 			}
 			if (!isEmpty(errors.error)) {
-				if (!isEmpty(errors.error.name)) {
-					allErrors.push(errors.error.name);
+				if (Array.isArray(errors.error)) {
+					allErrors = errors.error.map((err) => {
+						return Object.values(err);
+					});
 				}
-				if (!isEmpty(errors.error.email)) {
-					allErrors.push(errors.error.email);
-				}
-				if (!isEmpty(errors.error.password)) {
-					allErrors.push(errors.error.password);
-				}
-				if (!isEmpty(errors.error.c_password)) {
-					allErrors.push(errors.error.c_password);
-				}
-				//ADD NEW ORG
-				if (!isEmpty(errors.error.logo)) {
-					allErrors.push(errors.error.logo);
-				}
-				if (!isEmpty(errors.error.activity)) {
-					allErrors.push(errors.error.activity);
-				}
-				if (!isEmpty(errors.error.icon_name)) {
-					allErrors.push(errors.error.icon_name);
-				}
-				if (!isEmpty(errors.error.activity_id)) {
-					allErrors.push(errors.error.activity_id);
-				}
-				if (!isEmpty(errors.error.day_id)) {
-					allErrors.push(errors.error.day_id);
+				if (typeof errors.error === 'object') {
+					allErrors = Object.values(errors.error);
 				}
 			}
 			ErrorsContent = <ErrorsFeed errors={allErrors} />;

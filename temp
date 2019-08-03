@@ -1,0 +1,7 @@
+// on Deploy
+/*
+const config = {
+	endPoint: 'https://service.restadgard-utb.se/',
+	imagesPath: 'https://service.restadgard-utb.se/images/'
+};
+*/

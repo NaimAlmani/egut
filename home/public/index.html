@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+		<!-- material font -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+		<title>Restad Gård Utbeldning AB</title>
+		<style>
+			@font-face {
+				font-family: AntDesign;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/AntDesign.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: Entypo;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/Entypo.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: EvilIcons;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/EvilIcons.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: Feather;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/Feather.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: FontAwesome;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/FontAwesome.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: FontAwesome5;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/FontAwesome5.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: FontAwesome5Brands;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/FontAwesome5_Brands.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: Foundation;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/Foundation.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: Ionicons;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/Ionicons.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: MaterialCommunityIcons;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/MaterialCommunityIcons.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: MaterialIcons;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/MaterialIcons.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: Octicons;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/Octicons.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: SimpleLineIcons;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/SimpleLineIcons.ttf) format('truetype');
+			}
+
+			@font-face {
+				font-family: Zocial;
+				font-style: normal;
+				font-weight: 400;
+				src: url(fonts/Zocial.ttf) format('truetype');
+			}
+			.rcs-custom-scroll {
+  min-height: 0;
+  min-width: 0; }
+  .rcs-custom-scroll .rcs-outer-container {
+    overflow: hidden; }
+    .rcs-custom-scroll .rcs-outer-container .rcs-positioning {
+      position: relative; }
+    .rcs-custom-scroll .rcs-outer-container:hover .rcs-custom-scrollbar {
+      opacity: 1;
+      transition-duration: 0.2s; }
+  .rcs-custom-scroll .rcs-inner-container {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; }
+    .rcs-custom-scroll .rcs-inner-container:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 0;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 60%, transparent 100%);
+      pointer-events: none;
+      transition: height 0.1s ease-in;
+      will-change: height; }
+    .rcs-custom-scroll .rcs-inner-container.rcs-content-scrolled:after {
+      height: 5px;
+      transition: height 0.15s ease-out; }
+  .rcs-custom-scroll.rcs-scroll-handle-dragged .rcs-inner-container {
+    user-select: none; }
+  .rcs-custom-scroll .rcs-custom-scrollbar {
+    position: absolute;
+    height: 100%;
+    width: 6px;
+    right: 3px;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.4s ease-out;
+    padding: 6px 0;
+    box-sizing: border-box;
+    will-change: opacity;
+    pointer-events: none; }
+    .rcs-custom-scroll .rcs-custom-scrollbar.rcs-custom-scrollbar-rtl {
+      right: auto;
+      left: 3px; }
+  .rcs-custom-scroll.rcs-scroll-handle-dragged .rcs-custom-scrollbar {
+    opacity: 1; }
+  .rcs-custom-scroll .rcs-custom-scroll-handle {
+    position: absolute;
+    width: 100%;
+    top: 0; }
+  .rcs-custom-scroll .rcs-inner-handle {
+    height: calc(100% - 12px);
+    margin-top: 6px;
+    background-color: rgba(78, 183, 245, 0.7);
+    border-radius: 3px; }
+		</style>
+	</head>
+	<body>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="root"></div>
+		<!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+		-->
+		<script type="text/javascript">
+			function googleTranslateElementInit() {
+				new google.translate.TranslateElement({ pageLanguage: 'sv' }, 'translate');
+			}
+		</script>
+		<script type="text/javascript"
+			src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	</body>
+</html>

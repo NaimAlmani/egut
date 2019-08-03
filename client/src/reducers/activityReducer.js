@@ -43,7 +43,8 @@ import {
 	ACTIVITY_DESELECT_CONTACT,
 	GET_ALL_CONTACTS,
 	ADD_EXIST_CONTACTS,
-	ACTIVITY_ACTIVATE_MEMBER
+	ACTIVITY_ACTIVATE_MEMBER,
+	ACTIVATE_ACTIVITY
 } from '../actions/types';
 
 const initialState = {
@@ -282,9 +283,20 @@ export default function(state = initialState, action) {
 		//members
 
 		case ACTIVITY_ACTIVATE_MEMBER:
+			const index = state.members.findIndex((c) => c.id === action.payload.member_id);
+			const newMembers = state.members;
+			newMembers[index].pivot.is_active = action.payload.is_active === true ? 1 : 0;
 			return {
 				...state,
-				members: state.members
+				members: newMembers
+			};
+		case ACTIVATE_ACTIVITY:
+			const Actindex = state.activities.findIndex((c) => c.id === action.payload.id);
+			const newActivities = state.activities;
+			newActivities[Actindex].is_active = action.payload.is_active === true ? 1 : 0;
+			return {
+				...state,
+				activities: newActivities
 			};
 		default:
 			return state;

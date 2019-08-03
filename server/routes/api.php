@@ -18,14 +18,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('login', 'API\UserController@login');
 Route::get('login', ['as' => 'login', 'uses' => 'API\OrgController@redirected']);
-Route::post('register', 'API\UserController@register');
+
+
+Route::get('orgs', 'API\OrgController@index');
+Route::get('organization/organizationbyid', 'API\orgController@organizationbyid');
+
+Route::get('activeactivities', 'API\activityController@activeactivities');
+Route::post('activity/activitybyid', 'API\activityController@activitybyid');
+
+
+
 
 //auth routes for admin
 Route::group(['middleware' => ['auth:api', 'cors']], function () {
+    Route::post('register', 'API\UserController@register');
     Route::post('details', 'API\UserController@details');
 
     //organization
-    Route::get('orgs', 'API\OrgController@index');
     Route::post('org/create', 'API\OrgController@create');
     Route::post('org/update', 'API\OrgController@update');
     Route::post('org/delete', 'API\OrgController@delete');
@@ -53,7 +62,6 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('activity/create', 'API\activityController@create');
     Route::post('activity/update', 'API\activityController@update');
     Route::post('activity/delete', 'API\activityController@delete');
-    Route::post('activity/activitybyid', 'API\activityController@activitybyid');
     //activity orgs
     Route::post('activity/addorgs', 'API\activityController@addorgs');
     Route::post('activity/deleteorg', 'API\activityController@deleteorg');
@@ -87,4 +95,12 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('activity/allcontacts', 'API\activityController@allcontacts');
     Route::post('activity/addexistcontacts', 'API\activityController@addexistcontacts');
     Route::post('activity/activatemember', 'API\activityController@activatemember');
+    Route::post('activity/activateactivity', 'API\activityController@activateactivity');
+
+
+    /***********************organization*************** */
+    //organization images
+    Route::post('organization/addimage', 'API\OrgController@addimage');
+    Route::post('organization/deleteimage', 'API\OrgController@deleteimage');
+    Route::post('organization/changebackgound', 'API\OrgController@changebackgound');
 });

@@ -20,6 +20,13 @@ class AddOrganizationTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('logoPath');
+            $table->text('background')->nullable();
+            $table->text('detail')->nullable();
+            $table->text('website')->nullable();
+            $table->text('email')->nullable();
+            $table->text('tel')->nullable();
+            $table->text('contact')->nullable();
+
             $table->timestamps();
         });
     }
@@ -30,7 +37,5 @@ class AddOrganizationTable extends Migration
      * @return void
      */
     public function down()
-    {
-      
-    }
+    { }
 }

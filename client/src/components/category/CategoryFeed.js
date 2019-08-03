@@ -8,7 +8,9 @@ class CategoryFeed extends Component {
 	render() {
 		const { categories } = this.props;
 
-		return categories.map((category) => <CategoryItem key={category.id} category={category} />);
+		return categories.map((category, index) => (
+			<CategoryItem key={category.id} category={category} index={index} />
+		));
 	}
 }
 const mapStateToProps = (state) => ({});

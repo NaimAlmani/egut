@@ -90,3 +90,10 @@ export const GET_ALL_CONTACTS = 'GET_ALL_CONTACTS';
 export const ADD_EXIST_CONTACTS = 'ADD_EXIST_CONTACTS';
 // ACTIVITY members
 export const ACTIVITY_ACTIVATE_MEMBER = 'ACTIVITY_ACTIVATE_MEMBER';
+
+/******************************organization*************************************** */
+export const ORGANIZATION_BY_ID = 'ORGANIZATION_BY_ID';
+export const DELETE_IMAGE_FROM_ORG = 'DELETE_IMAGE_FROM_ORG';
+export const ADD_NEW_IMAGE_TO_ORG = 'ADD_NEW_IMAGE_TO_ORG';
+export const CHANGE_ORG_BACKGROUND = 'CHANGE_ORG_BACKGROUND';
+export const ACTIVATE_ACTIVITY = 'ACTIVATE_ACTIVITY,';

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import isEmpty from './../../../validation/is-empty';
-import './style.css';
 import Icon from 'react-web-vector-icons';
 // Generate required css
 

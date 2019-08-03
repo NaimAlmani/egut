@@ -6,6 +6,7 @@ import { Card } from '@material-ui/core';
 import { selectGroupIcon } from './../../actions/group';
 import { selectCategoryIcon } from './../../actions/category';
 import Icon from 'react-web-vector-icons';
+import './../common/icons/style.css';
 // Generate required css
 
 const styles = (theme) => ({

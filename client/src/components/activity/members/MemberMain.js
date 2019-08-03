@@ -14,11 +14,11 @@ const KEYS_TO_FILTERS = [ 'name', 'email', 'tel' ];
 const styles = (theme) => ({
 	contDed: {
 		position: 'fixed',
-		width: '50%',
+		width: '60%',
 		height: '85vh',
 		overflow: 'auto',
 		top: '100px',
-		left: '25%',
+		left: '20%',
 		background: '#fff',
 		padding: '10px'
 	},
@@ -72,7 +72,9 @@ class ContactMain extends Component {
 						onChange={this.searchUpdated}
 						color={this.props.theme.palette.primary.main}
 					/>
-					<Grid item>{memberContent}</Grid>
+					<Grid item md={12} sm={12}>
+						{memberContent}
+					</Grid>
 				</Grid>
 			</Paper>
 		);
