@@ -2,7 +2,7 @@ const initTheme = {
 	palette: {
 		primary: {
 			light: '',
-			main: '#6ea3fd',
+			main: '#df8546',
 			dark: '',
 			contrastText: '#fff'
 		},

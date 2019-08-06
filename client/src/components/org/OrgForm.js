@@ -33,14 +33,16 @@ const styles = (theme) => ({
 		left: '15%',
 		overflow: 'auto',
 		minWidth: '300px',
-		height: '80vh'
+		height: '80vh',
+		zIndex: '99'
 	},
 	mobileFormContainer: {
 		width: '100%',
 		padding: '20px 50px',
 		position: 'absolute',
 		top: '100px',
-		overflow: 'auto'
+		overflow: 'auto',
+		zIndex: '99'
 	},
 	FieldContainer: {
 		display: 'inline-block',
@@ -106,6 +108,18 @@ class OrgForm extends Component {
 			logo: this.state.pictures[0]
 		};
 		this.props.addNewOrg(orgData);
+		this.setState = {
+			name: '',
+			description: '',
+			pictures: [],
+			logo: null,
+			oldLogo: '',
+			motto: '',
+			website: '',
+			email: '',
+			tel: '',
+			contact: ''
+		};
 	}
 
 	onChange(e) {
@@ -140,6 +154,7 @@ class OrgForm extends Component {
 								variant='outlined'
 								fullWidth={true}
 								onChange={this.onChange}
+								required={true}
 							/>
 						</div>
 
@@ -154,6 +169,7 @@ class OrgForm extends Component {
 								variant='outlined'
 								fullWidth={true}
 								onChange={this.onChange}
+								helperText={'sub title / logo text'}
 							/>
 						</div>
 
@@ -182,6 +198,7 @@ class OrgForm extends Component {
 								fullWidth={true}
 								onChange={this.onChange}
 								multiline
+								helperText={'https://example.com'}
 							/>
 						</div>
 
@@ -196,6 +213,7 @@ class OrgForm extends Component {
 								fullWidth={true}
 								onChange={this.onChange}
 								multiline
+								helperText={'example@example.com'}
 							/>
 						</div>
 
@@ -210,6 +228,7 @@ class OrgForm extends Component {
 								fullWidth={true}
 								onChange={this.onChange}
 								multiline
+								helperText={'ex: 070000000'}
 							/>
 						</div>
 
@@ -224,6 +243,7 @@ class OrgForm extends Component {
 								fullWidth={true}
 								onChange={this.onChange}
 								multiline
+								helperText={'contact person name'}
 							/>
 						</div>
 

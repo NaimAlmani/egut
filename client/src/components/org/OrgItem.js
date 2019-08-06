@@ -10,7 +10,7 @@ import customStyles from './../../theme/customStyles';
 import { Link } from 'react-router-dom';
 import ConfirmDelete from './../common/ConfirmDelete';
 import Fade from 'react-reveal/Fade';
-
+import LinesEllipsis from 'react-lines-ellipsis';
 // Generate required css
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
@@ -42,7 +42,13 @@ const styles = (theme) => ({
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
 	},
-	btnCont: {}
+	btnCont: {},
+	linkClass: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
+	}
 });
 class OrgItem extends React.Component {
 	constructor(props) {
@@ -89,7 +95,7 @@ class OrgItem extends React.Component {
 				<Fade bottom>
 					<Card className={classes.card} style={{ background: randomColor(this.props.index) }}>
 						<CardActionArea className={classes.root}>
-							<Link to={'organization/' + org.id}>
+							<Link to={'organization/' + org.id} className={classes.linkClass}>
 								<div className={classes.mediaContaier}>
 									<img className={classes.image} src={config.imagesPath + org.logoPath} alt='logo' />
 								</div>
@@ -97,7 +103,17 @@ class OrgItem extends React.Component {
 									<Typography gutterBottom variant='h5' component='h2'>
 										{org.name}
 									</Typography>
-									<Typography component='p'>{org.description}</Typography>
+
+									<LinesEllipsis
+										text={org.description}
+										maxLine='2'
+										ellipsis='...'
+										trimRight
+										basedOn='letters'
+										style={{
+											color: '#505050'
+										}}
+									/>
 								</CardContent>
 							</Link>
 						</CardActionArea>

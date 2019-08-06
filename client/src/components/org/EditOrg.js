@@ -25,12 +25,14 @@ const styles = (theme) => ({
 		background: '#333'
 	},
 	FormContainer: {
-		width: '400px',
+		width: '600px',
 		padding: '20px 50px',
 		position: 'absolute',
 		top: '100px',
 		left: 'calc(50% - 200px)',
-		minWidth: '300px'
+		minWidth: '300px',
+		height: '700px',
+		overflow: 'auto'
 	},
 	button: {
 		margin: theme.spacing.unit
@@ -58,7 +60,12 @@ class EditOrg extends Component {
 			description: '',
 			pictures: [],
 			logo: null,
-			oldLogo: ''
+			oldLogo: '',
+			motto: '',
+			website: '',
+			email: '',
+			tel: '',
+			contact: ''
 		};
 
 		this.onChange = this.onChange.bind(this);
@@ -72,7 +79,12 @@ class EditOrg extends Component {
 			this.setState({
 				name: this.props.organization.selectedOrg.name,
 				description: this.props.organization.selectedOrg.description,
-				oldLogo: this.props.organization.selectedOrg.logoPath
+				oldLogo: this.props.organization.selectedOrg.logoPath,
+				motto: this.props.organization.selectedOrg.motto,
+				website: this.props.organization.selectedOrg.website,
+				email: this.props.organization.selectedOrg.email,
+				tel: this.props.organization.selectedOrg.tel,
+				contact: this.props.organization.selectedOrg.contact
 			});
 		}
 	}
@@ -94,9 +106,26 @@ class EditOrg extends Component {
 			id: this.props.organization.selectedOrg.id,
 			name: this.state.name,
 			description: this.state.description,
-			logo: newLogo
+			logo: newLogo,
+			detail: this.state.motto,
+			website: this.state.website,
+			email: this.state.email,
+			tel: this.state.tel,
+			contact: this.state.contact
 		};
 		this.props.updateOrg(orgData);
+		this.setState = {
+			name: '',
+			description: '',
+			pictures: [],
+			logo: null,
+			oldLogo: '',
+			motto: '',
+			website: '',
+			email: '',
+			tel: '',
+			contact: ''
+		};
 	}
 
 	onChange(e) {
@@ -129,6 +158,86 @@ class EditOrg extends Component {
 								fullWidth={true}
 								onChange={this.onChange}
 								value={this.state.name}
+							/>
+						</div>
+						<div className={classes.FieldContainer}>
+							<TextField
+								id='outlined-email-input'
+								label='Motto'
+								className={(classes.textField, classes.textfield)}
+								type='text'
+								name='motto'
+								autoComplete='motto'
+								margin='normal'
+								variant='outlined'
+								fullWidth={true}
+								onChange={this.onChange}
+								value={this.state.motto}
+								multiline={true}
+							/>
+						</div>
+
+						<div className={classes.FieldContainer}>
+							<TextField
+								id='outlined-email-input'
+								label='Website'
+								className={(classes.textField, classes.textfield)}
+								type='text'
+								name='website'
+								autoComplete='website'
+								margin='normal'
+								variant='outlined'
+								fullWidth={true}
+								onChange={this.onChange}
+								value={this.state.website}
+							/>
+						</div>
+
+						<div className={classes.FieldContainer}>
+							<TextField
+								id='outlined-email-input'
+								label='email'
+								className={(classes.textField, classes.textfield)}
+								type='text'
+								name='email'
+								autoComplete='email'
+								margin='normal'
+								variant='outlined'
+								fullWidth={true}
+								onChange={this.onChange}
+								value={this.state.email}
+							/>
+						</div>
+
+						<div className={classes.FieldContainer}>
+							<TextField
+								id='outlined-email-input'
+								label='tel'
+								className={(classes.textField, classes.textfield)}
+								type='text'
+								name='tel'
+								autoComplete='tel'
+								margin='normal'
+								variant='outlined'
+								fullWidth={true}
+								onChange={this.onChange}
+								value={this.state.tel}
+							/>
+						</div>
+
+						<div className={classes.FieldContainer}>
+							<TextField
+								id='outlined-email-input'
+								label='contact'
+								className={(classes.textField, classes.textfield)}
+								type='text'
+								name='contact'
+								autoComplete='contact'
+								margin='normal'
+								variant='outlined'
+								fullWidth={true}
+								onChange={this.onChange}
+								value={this.state.contact}
 							/>
 						</div>
 

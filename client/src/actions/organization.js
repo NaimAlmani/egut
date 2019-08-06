@@ -114,7 +114,7 @@ export const showEdit = (org, isShow) => (dispatch) => {
 export const getOrgById = (id) => (dispatch) => {
 	dispatch(startLoading());
 	axiosInstance
-		.post('/api/organization/organizationbyid', {
+		.get('/api/organization/organizationbyid', {
 			params: {
 				id: id
 			}

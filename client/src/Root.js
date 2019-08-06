@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { withStyles, withTheme, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import OnImagesLoaded from 'react-on-images-loaded';
 import Loading from './components/common/Loading';
@@ -43,7 +43,10 @@ class Root extends Component {
 							{this.props.loading === true ? <LinearProgress /> : null}
 
 							<Route exact path='/login' component={Login} />
-							<Route exact path='/register' component={Register} />
+							<Route />
+							<Switch>
+								<PrivateRoute exact path='/register' component={Register} />
+							</Switch>
 							<Switch>
 								<PrivateRoute exact path='/' component={Dashboard} />
 							</Switch>

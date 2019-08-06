@@ -20,6 +20,7 @@
     "react-grid-gallery": "^0.5.5",
     "react-images-upload": "^1.2.6",
     "react-images-uploader": "^1.2.0-rc1",
+    "react-lines-ellipsis": "^0.14.1",
     "react-on-images-loaded": "^2.2.3",
     "react-photo-gallery": "^8.0.0",
     "react-progress-button": "^5.1.0",

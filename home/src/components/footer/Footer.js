@@ -11,9 +11,9 @@ const styles = (theme) => ({
 	container: {
 		flexGrow: 1,
 		width: '100%',
-		background: '#333',
+		background: '#df8546',
 		padding: '20px',
-		marginTop: '40px'
+		marginTop: '60px'
 	},
 	contactInfo: {
 		position: 'relative'
@@ -49,9 +49,11 @@ const styles = (theme) => ({
 	rights: {
 		width: '100%',
 		height: '50px',
-		background: '#f0f0f0',
-		padding: '10px',
-		textAlign: 'center'
+		padding: '10px 0',
+		textAlign: 'center',
+		margin: '10px 0',
+		background: 'rgb(97, 96, 84)',
+		color: '#fff'
 	}
 });
 

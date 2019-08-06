@@ -84,6 +84,7 @@ class Orgs extends Component {
 		return (
 			<div className={classes.relativeContainer}>
 				<CustomSlideShow content={orgs} />
+				<h1 style={{ textAlign: 'center', margin: '20px' }}>Våra partners</h1>
 				<Grid container spacing={10}>
 					{orgsContent}
 				</Grid>

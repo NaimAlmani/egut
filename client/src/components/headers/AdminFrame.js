@@ -176,7 +176,7 @@ class AdminFrame extends React.Component {
 									</ListItemIcon>
 									<ListItemText primary={admin.name} />
 								</ListItem>
-								<Link to='/dashboard' className={classes.Link}>
+								<Link to='/' className={classes.Link}>
 									<ListItem button key={'dashboard'}>
 										<ListItemIcon>
 											<IconItem name='home' />

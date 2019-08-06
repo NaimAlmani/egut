@@ -42,12 +42,6 @@ class Logo extends React.Component {
 			open: false
 		};
 	}
-
-	componentDidMount() {
-		if (this.props.auth.isAuthenticated === true) {
-			this.props.setCurrentUser();
-		}
-	}
 	render() {
 		const { classes, theme } = this.props;
 

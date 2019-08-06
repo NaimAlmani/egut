@@ -123,16 +123,44 @@ class OrgController extends Controller
         $org->email  = $email;
         $org->tel  = $tel;
         $org->contact  = $contact;
-        if (isset($image) && $image != "null" && $image != null) {
+        if ($request->logo->isValid()) {
             $logoValidator = Validator::make($request->all(), [
                 'logo' => 'image',
             ]);
             if ($logoValidator->fails()) {
                 return response()->json(['error' => $logoValidator->errors()], 401);
             }
-            $imgName  = md5(time() . uniqid()) . '.' .
+            //save images
+            $image = $request->logo;
+            //deal with images
+            //set the image name
+            $imgName = md5(time() . uniqid()) . '.' .
                 $image->getClientOriginalExtension();
-            $image->storeAs('/public/images/', $imgName);
+            //set th images path
+            $smallPath = 'images/small/';
+            $originalPath = 'images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+            $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+            //save small image
+            $smallWidth = $width;
+            $smallHeight = $height;
+            switch (true) {
+                case $width <= 300:
+                    $smallWidth = $width / 2;
+                    $smallHeight = $height / 2;
+                    break;
+                case $width >= 1000:
+                    $smallWidth = $width / 4;
+                    $smallHeight = $height / 4;
+                default:
+                    $smallWidth = $width / 3;
+                    $smallHeight = $height / 3;
+            }
+            $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
             $org->logoPath = $imgName;
         }
         //saving to db

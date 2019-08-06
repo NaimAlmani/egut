@@ -172,11 +172,11 @@ class Dashboard extends Component {
 					<Grid item xs={4}>
 						<Fade bottom>
 							<Card style={{ background: randomColor(4), margin: '10px' }}>
-								<Link to='/orgs' className={classes.Link}>
+								<Link to='/activities' className={classes.Link}>
 									<CardActionArea className={classes.root}>
 										<CardContent>
 											<Avatar className={classes.avatar}>
-												<IconItem name={'globe'} color='#fff' size='30px' />
+												<IconItem name={'heart'} color='#fff' size='30px' />
 											</Avatar>
 											<Typography
 												className={classes.whiteText}
@@ -184,10 +184,10 @@ class Dashboard extends Component {
 												variant='h5'
 												component='h2'
 											>
-												{'Organizations'}
+												{'Activities'}
 											</Typography>
 											<Typography className={classes.whiteText} component='p'>
-												{'Manage organizations'}
+												{'Manage activities '}
 											</Typography>
 										</CardContent>
 									</CardActionArea>
@@ -199,11 +199,11 @@ class Dashboard extends Component {
 					<Grid item xs={4}>
 						<Fade bottom>
 							<Card style={{ background: randomColor(0), margin: '10px' }}>
-								<Link to='/orgs' className={classes.Link}>
+								<Link to='/register' className={classes.Link}>
 									<CardActionArea className={classes.root}>
 										<CardContent>
 											<Avatar className={classes.avatar}>
-												<IconItem name={'globe'} color='#fff' size='30px' />
+												<IconItem name={'user-plus'} color='#fff' size='30px' />
 											</Avatar>
 											<Typography
 												className={classes.whiteText}
@@ -211,10 +211,10 @@ class Dashboard extends Component {
 												variant='h5'
 												component='h2'
 											>
-												{'Organizations'}
+												{'Add user'}
 											</Typography>
 											<Typography className={classes.whiteText} component='p'>
-												{'Manage organizations'}
+												{'add site admin'}
 											</Typography>
 										</CardContent>
 									</CardActionArea>

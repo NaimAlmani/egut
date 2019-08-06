@@ -6,6 +6,7 @@ import Slider from 'react-animated-slider';
 import './slideStyle.css';
 import 'react-animated-slider/build/horizontal.css';
 import { Button } from '@material-ui/core';
+import randomBackground from './../../utils/randomBackground';
 import randomColor from './../../utils/randomColor';
 const styles = (theme) => ({
 	slideContent: {
@@ -30,22 +31,36 @@ const styles = (theme) => ({
 });
 class CustomSlideShow extends Component {
 	render() {
-		const { content, classes } = this.props;
-
+		const { classes } = this.props;
+		const images = [
+			{
+				title: 'Restad gård utbildning AB',
+				image: randomBackground(1)
+			},
+			{
+				title: 'Restad gård utbildning AB',
+				image: randomBackground(2)
+			},
+			{
+				title: 'Restad gård utbildning AB',
+				image: randomBackground(3)
+			}
+		];
 		return (
 			<Slider autoplay={3000}>
-				{content.map((item, index) => (
+				{images.map((item, index) => (
 					<div
 						key={index}
-						style={{ background: `url('${item.image}') no-repeat center cover`, backgroundSize: 'cover' }}
+						style={{
+							background: `url('${item.image}') no-repeat center center`,
+							backgroundSize: 'cover',
+							backgroundAttachment: 'fixed'
+						}}
 					>
 						<div className={classes.overlay} style={{ background: randomColor(index) }} />
-						<div className='center'>
+						<div className='center' style={{ marginTop: '15%' }}>
 							<h1>{item.title}</h1>
 							<p>{item.description}</p>
-							<Button className={classes.btn} variant='outlined' color='primary'>
-								Mer
-							</Button>
 						</div>
 					</div>
 				))}

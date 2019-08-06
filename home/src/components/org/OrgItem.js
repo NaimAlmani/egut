@@ -9,6 +9,8 @@ import {} from './../../actions/organization';
 import customStyles from './../../theme/customStyles';
 import { Link } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
+import isEmpty from './../../validation/is-empty';
+import LinesEllipsis from 'react-lines-ellipsis';
 
 // Generate required css
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
@@ -104,7 +106,23 @@ class OrgItem extends React.Component {
 									<Typography gutterBottom variant='h5' component='h2'>
 										{org.name}
 									</Typography>
-									<Typography component='p'>{org.description}</Typography>
+									{!isEmpty(org.detail) ? (
+										<Typography component='h6' style={{ fontWeight: 'bold' }}>
+											{org.detail}
+										</Typography>
+									) : null}
+									{!isEmpty(org.description) ? (
+										<LinesEllipsis
+											text={org.description}
+											maxLine='2'
+											ellipsis='...'
+											trimRight
+											basedOn='letters'
+											style={{
+												color: '#c5c5c5'
+											}}
+										/>
+									) : null}
 								</CardContent>
 							</Link>
 						</CardActionArea>

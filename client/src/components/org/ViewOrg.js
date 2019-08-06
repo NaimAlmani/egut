@@ -6,7 +6,7 @@ import config from './../../utils/config';
 
 import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
-import { Grid, CircularProgress, Button, Chip } from '@material-ui/core';
+import { Grid, CircularProgress, Button, Chip, Paper } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
 import { getOrgById, showEdit } from './../../actions/organization';
 import customStyles from './../../theme/customStyles';
@@ -27,6 +27,7 @@ const styles = (theme) => ({
 		height: '80vh',
 		backgroundPosition: 'center',
 		backgroundRepeat: 'no-repeat',
+		backgroundAttachment: 'fixed',
 		backgroundSize: 'cover'
 	},
 	headerContent: {
@@ -86,8 +87,8 @@ const styles = (theme) => ({
 		cursor: 'pointer'
 	},
 	orgInfoContainer: {
-		width: '50%',
-		margin: '0 auto',
+		width: '80%',
+		margin: '40px auto',
 		textAlign: 'center',
 		fontSize: '1.25em'
 	},
@@ -104,11 +105,15 @@ const styles = (theme) => ({
 		margin: '0 auto',
 		overflow: 'hidden',
 		boxShadow: '1px 1px 1px #f0f0f0',
-		padding: '5px'
+		padding: '5px',
+		maxWidth: '500px'
 	},
 	img: {
-		width: '90%',
-		height: 'auto'
+		// ⚠️ object-fit is not supported by IE 11.
+		objectFit: 'cover',
+		width: '100%',
+		height: 'auto',
+		maxHeight: '200px'
 	},
 	activityContainer: {
 		textAlign: 'center'
@@ -159,20 +164,22 @@ class ViewOrg extends React.Component {
 		const logo = config.imagesPath + org.logoPath;
 		return (
 			<div className={classes.container}>
-				{this.props.loading === true ? <CircularProgress disableShrink /> : null}
 				{/* organization info  section */}
 				{organization.isEdit === true ? <EditOrg /> : null}
 				<div className={classes.header} style={{ backgroundImage: background }}>
 					<div className={classes.headerContent}>
 						<div className={classes.logoContainer}>
-							<img src={logo} classsName={classes.img} alt={org.name} />
+							<img src={logo} className={classes.img} alt={org.name} />
 						</div>
 						<div className={classes.title}>
 							<h1>{org.name}</h1>
 						</div>
-						<div classNam={classes.desc}>
-							<p> {org.detail}</p>
-						</div>
+						{!isEmpty(org.detail) ? (
+							<div className={classes.desc}>
+								<p> {org.detail}</p>
+							</div>
+						) : null}
+
 						<div className={classes.memberBtn}>
 							<Button color='primary' onClick={this.showChangeBackground}>
 								Change background
@@ -180,68 +187,102 @@ class ViewOrg extends React.Component {
 						</div>
 					</div>
 				</div>
+
+				<div className={classes.chipsCont}>
+					<Paper
+						style={{
+							width: '100%',
+							margin: ' 20px auto',
+							padding: '20px 10px'
+						}}
+					>
+						<h3 style={{ textAlign: 'center' }}>Contact info</h3>
+
+						<Grid container justify='center'>
+							{!isEmpty(org.website) ? (
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									md={3}
+									style={{
+										fontSize: '1.25em',
+										textAlign: 'center'
+									}}
+								>
+									<span style={{ margin: '2px' }}>
+										<IconItem name='globe' font='Feather' color={mainColor} size={'1em'} />
+									</span>
+									<a className={classes.extLink} href={org.website}>
+										{org.website}
+									</a>
+								</Grid>
+							) : null}
+
+							{!isEmpty(org.contact) ? (
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									md={3}
+									style={{
+										fontSize: '1.25em',
+										textAlign: 'center'
+									}}
+								>
+									<span style={{ margin: '2px' }}>
+										<IconItem name='user' font='Feather' color={mainColor} size={'1.2em'} />
+									</span>
+
+									{org.contact}
+								</Grid>
+							) : null}
+							{!isEmpty(org.email) ? (
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									md={3}
+									style={{
+										fontSize: '1.25em',
+										textAlign: 'center'
+									}}
+								>
+									<span style={{ margin: '2px' }}>
+										<IconItem name='mail' font='Feather' color={mainColor} size={'1.2em'} />
+									</span>
+									<a className={classes.extLink} href={'mailto:' + org.email}>
+										{org.email}
+									</a>
+								</Grid>
+							) : null}
+							{!isEmpty(org.tel) ? (
+								<Grid
+									item
+									xs={12}
+									sm={6}
+									md={3}
+									style={{
+										fontSize: '1.25em',
+										textAlign: 'center'
+									}}
+								>
+									<span style={{ margin: '2px' }}>
+										<IconItem name='phone-call' font='Feather' color={mainColor} size={'1.2em'} />
+									</span>
+									<a className={classes.extLink} href={'tel:' + org.email}>
+										{org.tel}
+									</a>
+								</Grid>
+							) : null}
+						</Grid>
+					</Paper>
+				</div>
+
 				<div className={classes.orgInfoContainer}>
 					<p className={classes.desc}>{org.description}</p>
 				</div>
-				<div className={classes.chipsCont}>
-					{!isEmpty(org.website) ? (
-						<Chip
-							icon={
-								<span style={{ margin: '2px' }}>
-									<IconItem name='globe' font='Feather' color={mainColor} size={'1.2em'} />
-								</span>
-							}
-							label={org.website}
-							clickable
-							className={classes.chip}
-							color='primary'
-							variant='outlined'
-						/>
-					) : null}
 
-					{!isEmpty(org.contact) ? (
-						<Chip
-							icon={
-								<span style={{ margin: '2px' }}>
-									<IconItem name='user' font='Feather' color={mainColor} size={'1.2em'} />
-								</span>
-							}
-							label={org.contact}
-							clickable
-							className={classes.chip}
-							color='primary'
-							variant='outlined'
-						/>
-					) : null}
-					{!isEmpty(org.email) ? (
-						<Chip
-							icon={
-								<span style={{ margin: '2px' }}>
-									<IconItem name='mail' font='Feather' color={mainColor} size={'1.2em'} />
-								</span>
-							}
-							label={org.email}
-							clickable
-							className={classes.chip}
-							color='primary'
-							variant='outlined'
-						/>
-					) : null}
-					{!isEmpty(org.tel) ? (
-						<Chip
-							icon={
-								<span style={{ margin: '2px' }}>
-									<IconItem name='phone-call' font='Feather' color={mainColor} size={'1.2em'} />
-								</span>
-							}
-							label={org.tel}
-							clickable
-							className={classes.chip}
-							color='primary'
-							variant='outlined'
-						/>
-					) : null}
-				</div>
 				<div className={classes.organizations}>
 					<div className={classes.orgHeader}>
 						<h1> Images </h1>

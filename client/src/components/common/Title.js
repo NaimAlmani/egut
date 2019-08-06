@@ -56,7 +56,6 @@ class Title extends React.Component {
 						{this.props.subText}
 					</Typography>
 				</div>
-				{this.props.loading === true ? <LinearProgress color='primary' /> : null}
 			</div>
 		);
 	}

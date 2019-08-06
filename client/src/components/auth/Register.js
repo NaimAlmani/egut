@@ -7,7 +7,7 @@ import { Paper, Typography, TextField, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Title from '../common/Title';
 
-const styles = theme => customStyles(theme);
+const styles = (theme) => customStyles(theme);
 
 class Register extends Component {
 	constructor() {
@@ -25,17 +25,9 @@ class Register extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	componentDidMount() {
-		if (this.props.auth.isAuthenticated) {
-			this.props.history.push('/dashboard');
-		}
-	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.auth.isAuthenticated) {
-			this.props.history.push('/dashboard');
-		}
-
 		if (nextProps.errors) {
 			this.setState({ errors: nextProps.errors });
 		}
@@ -65,11 +57,7 @@ class Register extends Component {
 		return (
 			<div style={styles.mainLoginCont}>
 				<Paper className={(classes.root, classes.LoginPaper)} elevation={1}>
-					<Title
-						text='Register'
-						color={this.props.theme.palette.purple.active}
-						icon='lock'
-					/>
+					<Title text='Register' color={this.props.theme.palette.purple.active} icon='lock' />
 					<div className={classes.FieldContainer}>
 						<TextField
 							id='outlined-email-input'
@@ -149,13 +137,10 @@ Register.propTypes = {
 	loading: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	loading: state.loading
 });
 
-export default connect(
-	mapStateToProps,
-	{ registerUser }
-)(withStyles(styles, { withTheme: true })(Register));
+export default connect(mapStateToProps, { registerUser })(withStyles(styles, { withTheme: true })(Register));

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { withStyles, withTheme, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import OnImagesLoaded from 'react-on-images-loaded';
 import Loading from './components/common/Loading';
@@ -20,6 +20,7 @@ import Footer from './components/footer/Footer';
 import Activities from './components/activity/Activities';
 import ViewActivity from './components/activity/ViewActivity';
 import { Scrollbars } from 'react-custom-scrollbars';
+import NotFound from './components/layouts/NotFound';
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
 	textField: {
@@ -62,12 +63,14 @@ class Root extends Component {
 						<Logo />
 						<BootstrapNavBar />
 						<OnImagesLoaded onLoaded={() => this.props.setLoading(true)}>
-							<Route exact path='/' component={Home} />
-							<Route exact path='/organization/:id' component={ViewOrg} />
-							<Route exact path='/organizations' component={Orgs} />
-							<Route exact path='/activities' component={Activities} />
-							<Route exact path='/activity/:id' component={ViewActivity} />
-
+							<Switch>
+								<Route exact path='/' component={Home} />
+								<Route exact path='/organization/:id' component={ViewOrg} />
+								<Route exact path='/organizations' component={Orgs} />
+								<Route exact path='/activities' component={Activities} />
+								<Route exact path='/activity/:id' component={ViewActivity} />
+								<Route component={NotFound} />
+							</Switch>
 							<Footer />
 						</OnImagesLoaded>
 					</Scrollbars>

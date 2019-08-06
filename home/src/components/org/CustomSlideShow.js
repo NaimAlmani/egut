@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Slider from 'react-animated-slider';
-import './slideStyle.css';
+
 import { Button } from '@material-ui/core';
 import randomColor from './../../utils/randomColor';
 import 'react-animated-slider/build/horizontal.css';
 import config from './../../utils/config';
 import isEmpty from './../../validation/is-empty';
 import { Link } from 'react-router-dom';
+import './slideStyle.css';
+import LinesEllipsis from 'react-lines-ellipsis';
 const styles = (theme) => ({
 	slideContent: {
 		width: '100%'
@@ -30,6 +32,7 @@ const styles = (theme) => ({
 		color: '#fff',
 		borderColor: '#fff',
 		padding: '10px',
+		margin: '10px',
 		borderRadius: '5px',
 		border: '1px solid #fff',
 		'&:hover': {
@@ -44,11 +47,19 @@ const styles = (theme) => ({
 		width: '200px',
 		height: 'auto',
 		overflow: 'hidden',
-		margin: '0 auto'
+		margin: '20px auto'
 	},
 	logo: {
 		width: '100%',
 		height: 'auto'
+	},
+	name: {
+		margin: '20px'
+	},
+	description: {
+		width: '70%',
+		margin: '20px auto',
+		color: '#fff'
 	}
 });
 class CustomSlideShow extends Component {
@@ -67,13 +78,27 @@ class CustomSlideShow extends Component {
 					}}
 				>
 					<div className={classes.overlay} style={{ background: randomColor(index) }} />
-					<div className='center'>
+					<div className='center' style={{ marginTop: '15%' }}>
 						<div className={classes.logoContanier}>
 							<img className={classes.logo} src={config.imagesPath + item.logoPath} alt={item.name} />
 						</div>
-						<h1>{item.name}</h1>
-						<p>{item.detail}</p>
-						<p>{item.description}</p>
+						<h1 className={classes.name}>{item.name}</h1>
+						{!isEmpty(item.detail) ? <p>{item.detail}</p> : null}
+						{!isEmpty(item.description) ? (
+							<div className={classes.description}>
+								{' '}
+								<LinesEllipsis
+									text={item.description}
+									maxLine='2'
+									ellipsis='...'
+									trimRight
+									basedOn='letters'
+									style={{
+										color: '#fff'
+									}}
+								/>
+							</div>
+						) : null}
 
 						<Link className={classes.btn} to={'/organization/' + item.id}>
 							Visa mer

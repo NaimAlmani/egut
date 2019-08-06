@@ -33,7 +33,7 @@ export default class BootstrapNavBar extends React.Component {
 	render() {
 		return (
 			<div>
-				<Navbar color='dark' dark expand='md'>
+				<Navbar style={{ background: '#616054' }} dark expand='md'>
 					<NavbarBrand to='/'>
 						<img src='/images/rgText.png' alt='RESTAD GÅRD UTBILDNIND AB' />
 					</NavbarBrand>
@@ -57,14 +57,30 @@ export default class BootstrapNavBar extends React.Component {
 							<NavItem>
 								<NavLink>
 									<Link to='/organizations/' className='navlink'>
-										<IconItem name='globe' font='Feather' size={'1rem'} /> Organisationer
+										<IconItem name='globe' font='Feather' size={'1rem'} /> Partners
 									</Link>
 								</NavLink>
 							</NavItem>
 							<NavItem>
 								<NavLink>
+									<Link to='/places' className='navlink'>
+										<IconItem name='map-pin' font='Feather' size={'1rem'} /> Vara lokaler
+									</Link>
+								</NavLink>
+							</NavItem>
+
+							<NavItem>
+								<NavLink>
 									<Link to='/aboutus/' className='navlink'>
 										<IconItem name='info' font='Feather' size={'1rem'} /> Om oss
+									</Link>
+								</NavLink>
+							</NavItem>
+
+							<NavItem>
+								<NavLink>
+									<Link to='/contact/' className='navlink'>
+										<IconItem name='phone-call' font='Feather' size={'1rem'} /> Kontakta
 									</Link>
 								</NavLink>
 							</NavItem>
