@@ -30,11 +30,25 @@ import { setCurrentUser, logoutUser } from './../../actions/auth';
 import IconItem from '../common/icons/IconItem';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+import Pusher from 'pusher-js';
+import config from './../../utils/config';
+import Badge from '@material-ui/core/Badge';
+import SearchIcon from '@material-ui/icons/Search';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import { getAllEmails, addPushedEmail, clearNewEmail } from './../../actions/email';
+import { addPushedNotification } from './../../actions/notification';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import isEmpty from './../../validation/is-empty';
 const drawerWidth = 240;
 
 const styles = (theme) => ({
 	root: {
 		display: 'flex'
+	},
+	grow: {
+		flexGrow: 1
 	},
 	appBar: {
 		transition: theme.transitions.create([ 'margin', 'width' ], {
@@ -74,6 +88,7 @@ const styles = (theme) => ({
 	content: {
 		flexGrow: 1,
 		padding: '0',
+		marginTop: '50px',
 		transition: theme.transitions.create('margin', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen
@@ -87,11 +102,32 @@ const styles = (theme) => ({
 		}),
 		marginLeft: 0
 	},
+
 	ListLink: {
 		display: 'inline-block'
 	},
 	Link: {
 		textDecoration: 'none !important'
+	},
+	sectionDesktop: {
+		display: 'none',
+		[theme.breakpoints.up('md')]: {
+			display: 'flex'
+		}
+	},
+	sectionMobile: {
+		display: 'flex',
+		[theme.breakpoints.up('md')]: {
+			display: 'none'
+		}
+	},
+	subMenu: {
+		maxWidth: '600px',
+		width: '50%',
+		minWidth: '200px'
+	},
+	subMenuItemRoot: {
+		height: 'auto'
 	}
 });
 
@@ -99,7 +135,8 @@ class AdminFrame extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			open: false
+			open: false,
+			emailsAnchor: ''
 		};
 		this.onLogout = this.onLogout.bind(this);
 		this.goto = this.goto.bind(this);
@@ -108,6 +145,46 @@ class AdminFrame extends React.Component {
 	componentDidMount() {
 		if (this.props.auth.isAuthenticated === true) {
 			this.props.setCurrentUser();
+
+			// start pusher to get emails
+			var pusherEmail = new Pusher(config.pusher.key, {
+				cluster: 'eu',
+				forceTLS: true,
+				authEndpoint: config.endPoint + '/api/login',
+				auth: {
+					headers: {
+						Authorization: `Bearer ${localStorage.jwtToken}`,
+						Accept: 'application/json'
+					}
+				}
+			});
+
+			var channel = pusherEmail.subscribe('new-email-channel');
+			channel.bind('new-email-event', (data) => {
+				this.props.addPushedEmail(data.email);
+			});
+			//end pusher
+
+			// start pusher to get emails
+			var pusherSubscrip = new Pusher(config.pusher.key, {
+				cluster: 'eu',
+				forceTLS: true,
+				authEndpoint: config.endPoint + '/api/login',
+				auth: {
+					headers: {
+						Authorization: `Bearer ${localStorage.jwtToken}`,
+						Accept: 'application/json'
+					}
+				}
+			});
+
+			var channelNotification = pusherSubscrip.subscribe('new-notification-channel');
+			channelNotification.bind('new-notification-event', (data) => {
+				this.props.addPushedNotification(data.note);
+			});
+			//end pusher
+
+			this.props.getAllEmails();
 		}
 	}
 	handleDrawerOpen = () => {
@@ -124,10 +201,69 @@ class AdminFrame extends React.Component {
 		return <Redirect to={link} />;
 	}
 
+	//start email
+	openEmailMenu = (e) => {
+		this.setState({
+			emailsAnchor: e.currentTarget
+		});
+	};
+	closeEmailMenu = () => {
+		this.setState({
+			emailsAnchor: ''
+		});
+	};
+
+	onCloseEmailNotification = () => {
+		this.props.clearNewEmail();
+	};
 	render() {
-		const { classes, theme } = this.props;
-		const { open } = this.state;
+		const { classes, theme, email } = this.props;
+		const { open, emailsAnchor } = this.state;
 		const { isAuthenticated, admin } = this.props.auth;
+		const { emails, newEmail } = email;
+		const unreadEmails = emails.filter((c) => c.read === 0);
+		const latestEmails = emails.slice(0, 5);
+		const emailMenu = (
+			<Menu
+				id='email-menu'
+				anchorEl={emailsAnchor}
+				keepMounted
+				open={Boolean(emailsAnchor)}
+				onClose={this.closeEmailMenu}
+				classes={{ paper: classes.subMenu }}
+			>
+				{latestEmails.map((email) => {
+					return (
+						<MenuItem classes={{ root: classes.subMenuItemRoot }}>
+							<div className={classes.subMenuItem}>
+								<span style={{ margin: '10px' }}>
+									{email.read === 1 ? (
+										<IconItem name='drafts' font='MaterialIcons' color='#9E9E9E' size={15} />
+									) : (
+										<IconItem name='email' font='MaterialIcons' color='#8BC34A' size={15} />
+									)}
+								</span>
+								<Typography
+									component='h3'
+									style={{
+										fontWeight: 'bold',
+										display: 'inline-block'
+									}}
+								>
+									{email.email}
+								</Typography>
+								<Typography noWrap style={{ paddingLeft: '40px' }}>
+									{'    ' + email.message}
+								</Typography>
+							</div>
+						</MenuItem>
+					);
+				})}
+
+				<MenuItem>More</MenuItem>
+			</Menu>
+		);
+
 		return (
 			<ScrollArea speed={0.8} className='area' contentClassName='content' horizontal={true}>
 				<div className={classes.root}>
@@ -150,9 +286,62 @@ class AdminFrame extends React.Component {
 							<Typography variant='h6' color='inherit' noWrap>
 								RG utbildning
 							</Typography>
+							<div className={classes.grow} />
+							{isAuthenticated && (
+								<div>
+									<div className={classes.sectionDesktop}>
+										<IconButton
+											aria-controls='email-menu'
+											aria-label='show 4 new mails'
+											color='inherit'
+											onClick={this.openEmailMenu}
+										>
+											<Badge badgeContent={unreadEmails.length} color='secondary'>
+												<MailIcon />
+											</Badge>
+										</IconButton>
+										<IconButton aria-label='show 17 new notifications' color='inherit'>
+											<Badge badgeContent={17} color='secondary'>
+												<NotificationsIcon />
+											</Badge>
+										</IconButton>
+										<IconButton
+											edge='end'
+											aria-label='account of current user'
+											aria-haspopup='true'
+											color='inherit'
+										>
+											<AccountCircle />
+										</IconButton>
+									</div>
+									<div className={classes.sectionMobile}>
+										<IconButton aria-label='show more' aria-haspopup='true' color='inherit'>
+											<MoreIcon />
+										</IconButton>
+									</div>
+								</div>
+							)}
 						</Toolbar>
-						<div className={classes.grow} />
 					</AppBar>
+					{/* * start email notification */}
+					{emailMenu}
+
+					<Snackbar
+						anchorOrigin={{
+							vertical: 'top',
+							horizontal: 'right'
+						}}
+						open={!isEmpty(newEmail)}
+						autoHideDuration={6000}
+						onClose={this.onCloseEmailNotification}
+					>
+						<SnackbarContent
+							onClose={this.onCloseEmailNotification}
+							variant='success'
+							message={newEmail.email + ' : ' + newEmail.message}
+						/>
+					</Snackbar>
+					{/* * end email notification */}
 					<Drawer
 						className={classes.drawer}
 						variant='persistent'
@@ -263,7 +452,6 @@ class AdminFrame extends React.Component {
 							[classes.contentShift]: open
 						})}
 					>
-						<div className={classes.drawerHeader} />
 						<div className={classes.mainContainer}>{this.props.children}</div>
 					</main>
 					<Errors errors={this.props.errors} />
@@ -279,8 +467,15 @@ AdminFrame.propTypes = {
 };
 const mapStateToProps = (state) => ({
 	auth: state.auth,
-	errors: state.errors
+	errors: state.errors,
+	email: state.email,
+	notification: state.notification
 });
-export default connect(mapStateToProps, { logoutUser, setCurrentUser })(
-	withStyles(styles, { withTheme: true })(AdminFrame)
-);
+export default connect(mapStateToProps, {
+	logoutUser,
+	setCurrentUser,
+	getAllEmails,
+	addPushedEmail,
+	clearNewEmail,
+	addPushedNotification
+})(withStyles(styles, { withTheme: true })(AdminFrame));

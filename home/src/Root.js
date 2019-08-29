@@ -17,10 +17,14 @@ import ViewOrg from './components/org/ViewOrg';
 import BootstrapNavBar from './components/headers/BootstrapNavBar';
 import Logo from './components/headers/Logo';
 import Footer from './components/footer/Footer';
+import CustomSneakBar from './components/common/CustomSneakBar';
 import Activities from './components/activity/Activities';
 import ViewActivity from './components/activity/ViewActivity';
 import { Scrollbars } from 'react-custom-scrollbars';
 import NotFound from './components/layouts/NotFound';
+import Places from './components/place/Places';
+import ViewPlace from './components/place/ViewPlace';
+
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
 	textField: {
@@ -31,6 +35,9 @@ const styles = (theme) => ({
 });
 let BrowserHistory = Router.BrowserHistory;
 class Root extends Component {
+	constructor(props) {
+		super(props);
+	}
 	componentDidMount() {
 		this.props.setLoading(false);
 	}
@@ -60,6 +67,7 @@ class Root extends Component {
 								color='primary'
 							/>
 						) : null}
+						<CustomSneakBar />
 						<Logo />
 						<BootstrapNavBar />
 						<OnImagesLoaded onLoaded={() => this.props.setLoading(true)}>
@@ -67,10 +75,13 @@ class Root extends Component {
 								<Route exact path='/' component={Home} />
 								<Route exact path='/organization/:id' component={ViewOrg} />
 								<Route exact path='/organizations' component={Orgs} />
+								<Route exact path='/place/:id' component={ViewPlace} />
+								<Route exact path='/places' component={Places} />
 								<Route exact path='/activities' component={Activities} />
 								<Route exact path='/activity/:id' component={ViewActivity} />
 								<Route component={NotFound} />
 							</Switch>
+
 							<Footer />
 						</OnImagesLoaded>
 					</Scrollbars>

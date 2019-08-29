@@ -59,7 +59,7 @@ class GroupItem extends React.Component {
 	render() {
 		const { classes, group } = this.props;
 		return (
-			<Grid item xs={12} sm={3} md={2}>
+			<Grid item xs={6} sm={3} md={2}>
 				<Fade>
 					<div className={classes.card}>
 						<div className={classes.mediaContaier}>

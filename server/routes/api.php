@@ -23,9 +23,23 @@ Route::get('login', ['as' => 'login', 'uses' => 'API\OrgController@redirected'])
 Route::get('orgs', 'API\OrgController@index');
 Route::get('organization/organizationbyid', 'API\orgController@organizationbyid');
 
+Route::get('places', 'API\PlaceController@index');
+Route::get('place/placebyid', 'API\PlaceController@placebyid');
+
 Route::get('activeactivities', 'API\activityController@activeactivities');
 Route::post('activity/activitybyid', 'API\activityController@activitybyid');
 
+//email
+Route::post('email/income', 'API\emailsController@create');
+
+// add subscription
+Route::post('subscription/create', 'API\subscriptionsController@create');
+
+//inbound email fetch emails from mailgun
+Route::post('email/inbound', 'API\emailsController@inbound');
+
+//participate
+Route::post('member/participate', 'API\membersController@participate');
 
 
 
@@ -44,7 +58,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('place/create', 'API\PlaceController@create');
     Route::post('place/update', 'API\PlaceController@update');
     Route::post('place/delete', 'API\PlaceController@delete');
-
+    Route::post('place/changebackgound', 'API\PlaceController@changebackgound');
     //groups
     Route::get('groups', 'API\GroupController@index');
     Route::post('group/create', 'API\GroupController@create');
@@ -103,4 +117,11 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('organization/addimage', 'API\OrgController@addimage');
     Route::post('organization/deleteimage', 'API\OrgController@deleteimage');
     Route::post('organization/changebackgound', 'API\OrgController@changebackgound');
+
+
+    /************************* EMAILS *************** */
+
+    Route::get('email/allemails', 'API\emailsController@allemails');
+    Route::post('email/markasread', 'API\emailsController@markasread');
+    Route::post('email/send', 'API\emailsController@send');
 });

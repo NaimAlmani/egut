@@ -125,9 +125,9 @@ return [
     /***
      * user
      */
-    'user_name'=>env('INIT_USER'),
-    'init_email'=>env('INIT_EMAIL'),
-    'init_pass'=>env('INIT_PASS'),
+    'user_name' => env('INIT_USER'),
+    'init_email' => env('INIT_EMAIL'),
+    'init_pass' => env('INIT_PASS'),
 
     /*
     |--------------------------------------------------------------------------
@@ -177,7 +177,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         //image library

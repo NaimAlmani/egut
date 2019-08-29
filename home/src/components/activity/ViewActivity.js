@@ -27,6 +27,7 @@ import ActivityImages from './ActivityImages';
 
 import ContactTable from './contacts/ContactTable';
 
+import Participate from './Participate';
 import randomColor from './../../utils/randomColor';
 import MemberMain from './members/MemberMain';
 const styles = (theme) => ({
@@ -75,7 +76,7 @@ const styles = (theme) => ({
 	sectionBlack: {
 		padding: '50px 20px',
 		color: '#fff',
-		background: '#333'
+		background: theme.palette.secondary.main
 	},
 	mediaContaier: {
 		width: '40%',
@@ -119,10 +120,22 @@ class ViewActivity extends React.Component {
 			loading: false,
 			isShowAddImage: false,
 
-			isShowMembers: false
+			isShowMembers: false,
+
+			isParticipate: false
 		};
 		this.props.startLoading();
 	}
+	onParticipate = () => {
+		this.setState({
+			isParticipate: true
+		});
+	};
+	hideParticipation = () => {
+		this.setState({
+			isParticipate: false
+		});
+	};
 
 	componentDidMount() {
 		this.props.getActivityById(this.props.match.params.id);
@@ -134,7 +147,6 @@ class ViewActivity extends React.Component {
 			'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) , url(' + config.imagesPath + act.logoPath + ')';
 		return (
 			<div className={classes.container}>
-				{this.props.loading === true ? <CircularProgress disableShrink /> : null}
 				{/* activity info  section */}
 				<div className={classes.header} style={{ backgroundImage: imgPath }}>
 					<div className={classes.headerContent}>
@@ -145,7 +157,9 @@ class ViewActivity extends React.Component {
 							<p> {act.description}</p>
 						</div>
 						<div className={classes.memberBtn}>
-							<Button color='primary'>Ansluta</Button>
+							<Button color='primary' onClick={this.onParticipate}>
+								Delta nu
+							</Button>
 						</div>
 					</div>
 				</div>
@@ -153,7 +167,7 @@ class ViewActivity extends React.Component {
 				{!isEmpty(this.props.activity.orgs) ? (
 					<div className={classes.sectionWhite}>
 						<div className={classes.orgHeader}>
-							<h1>Organizations</h1>
+							<h1>Arrangerat av</h1>
 						</div>
 						<Grid container justify={'center'} alignItems={'center'}>
 							<OrgFeed orgs={this.props.activity.orgs} activityID={act.id} />
@@ -161,39 +175,41 @@ class ViewActivity extends React.Component {
 					</div>
 				) : null}
 				{/* activity groups */}
-				{!isEmpty(this.props.activity.groups) ? (
-					<div className={classes.sectionBlack}>
-						<div className={classes.orgHeader}>
-							<h1>Groups</h1>
-						</div>
-						<Grid container justify={'center'} alignItems={'center'}>
-							<GroupFeed groups={this.props.activity.groups} activityID={act.id} />
+				<Grid container>
+					{!isEmpty(this.props.activity.groups) ? (
+						<Grid item lg={6} md={6} sm={12} className={classes.sectionBlack}>
+							<div className={classes.orgHeader} style={{ marginBottom: '20px' }}>
+								<h1>Målgrupper</h1>
+							</div>
+							<Grid container justify={'center'} alignItems={'center'}>
+								<GroupFeed groups={this.props.activity.groups} activityID={act.id} />
+							</Grid>
 						</Grid>
-					</div>
-				) : null}
+					) : null}
 
-				{/* activity categories */}
-				{!isEmpty(this.props.activity.categories) ? (
-					<div className={classes.sectionWhite}>
-						<div className={classes.orgHeader}>
-							<h1>Categories</h1>
-						</div>
-						<Grid container justify={'center'} alignItems={'center'}>
-							<CategoryFeed categories={this.props.activity.categories} activityID={act.id} />
+					{/* activity categories */}
+					{!isEmpty(this.props.activity.categories) ? (
+						<Grid item lg={6} md={6} sm={12} className={classes.sectionWhite}>
+							<div className={classes.orgHeader} style={{ marginBottom: '20px' }}>
+								<h1>kategorier</h1>
+							</div>
+							<Grid container justify={'center'} alignItems={'center'}>
+								<CategoryFeed categories={this.props.activity.categories} activityID={act.id} />
+							</Grid>
 						</Grid>
-					</div>
-				) : null}
-				{/**Activity contacts */}
-				{!isEmpty(this.props.activity.contacts) ? (
-					<div className={classes.organizations}>
-						<div className={classes.orgHeader}>
-							<h1> Contact info </h1>
-						</div>
-						<Grid container justify={'center'} alignItems={'center'}>
-							<ContactTable contacts={this.props.activity.contacts} activityID={act.id} />
+					) : null}
+					{/**Activity contacts */}
+					{!isEmpty(this.props.activity.contacts) ? (
+						<Grid item lg={6} md={6} sm={12} className={classes.sectionWhite}>
+							<div className={classes.orgHeader}>
+								<h1> Contact info </h1>
+							</div>
+							<Grid container justify={'center'} alignItems={'center'}>
+								<ContactTable contacts={this.props.activity.contacts} activityID={act.id} />
+							</Grid>
 						</Grid>
-					</div>
-				) : null}
+					) : null}
+				</Grid>
 				{/**end activity contacts */}
 				{/**Activity times */}
 				{!isEmpty(this.props.activity.times) ? (
@@ -221,6 +237,7 @@ class ViewActivity extends React.Component {
 					</div>
 				) : null}
 				{/**end activity images */}
+				<Participate open={this.state.isParticipate} activity={act} onClose={this.hideParticipation} />
 			</div>
 		);
 	}

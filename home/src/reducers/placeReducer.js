@@ -1,8 +1,16 @@
-import { GET_ALL_PLACES, ADD_NEW_PLACE, SHOW_EDIT_PLACE, UPDATE_PLACE, DELETE_PLACE } from '../actions/types';
+import {
+	GET_ALL_PLACES,
+	ADD_NEW_PLACE,
+	SHOW_EDIT_PLACE,
+	UPDATE_PLACE,
+	DELETE_PLACE,
+	PLACE_BY_ID
+} from '../actions/types';
 
 const initialState = {
 	places: [],
 	selectedPlace: {},
+	currentPlace: {},
 	isEdit: false
 };
 
@@ -34,6 +42,13 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				places: state.places.filter((c) => c.id !== action.payload)
+			};
+		case PLACE_BY_ID:
+			return {
+				...state,
+				currentPlace: action.payload.place,
+
+				activities: action.payload.activities
 			};
 		default:
 			return state;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import config from './../../utils/config';
 import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
-import { Grid, CircularProgress, Button } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
 import { getActivityById, showEdit, getDays, addNewImage } from './../../actions/activity';
 import customStyles from './../../theme/customStyles';
@@ -228,7 +228,6 @@ class ViewActivity extends React.Component {
 			'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) , url(' + config.imagesPath + act.logoPath + ')';
 		return (
 			<div className={classes.container}>
-				{this.props.loading === true ? <CircularProgress disableShrink /> : null}
 				{/* activity info  section */}
 				{activity.isEdit === true ? <EditActivity /> : null}
 				<div className={classes.header} style={{ backgroundImage: imgPath }}>
@@ -357,7 +356,7 @@ class ViewActivity extends React.Component {
 						open={this.state.isShowMembers}
 						onCancel={this.cancelShowMembers}
 						currentActivity={act}
-						members={act.members}
+						members={this.props.activity.members}
 					/>
 				) : null}
 				{/**end activity members */}

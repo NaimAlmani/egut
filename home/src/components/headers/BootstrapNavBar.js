@@ -16,13 +16,15 @@ import IconItem from './../common/icons/IconItem';
 import { Link } from 'react-router-dom';
 
 import './BootstrapNavBar.css';
+import ContactForm from './ContactForm';
 export default class BootstrapNavBar extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.toggle = this.toggle.bind(this);
 		this.state = {
-			isOpen: false
+			isOpen: false,
+			isContactShow: false
 		};
 	}
 	toggle() {
@@ -30,6 +32,16 @@ export default class BootstrapNavBar extends React.Component {
 			isOpen: !this.state.isOpen
 		});
 	}
+	onShowContact = () => {
+		this.setState({
+			isContactShow: true
+		});
+	};
+	onhideContact = () => {
+		this.setState({
+			isContactShow: false
+		});
+	};
 	render() {
 		return (
 			<div>
@@ -79,9 +91,9 @@ export default class BootstrapNavBar extends React.Component {
 
 							<NavItem>
 								<NavLink>
-									<Link to='/contact/' className='navlink'>
+									<NavItem onClick={this.onShowContact} style={{ cursor: 'pointer' }}>
 										<IconItem name='phone-call' font='Feather' size={'1rem'} /> Kontakta
-									</Link>
+									</NavItem>
 								</NavLink>
 							</NavItem>
 
@@ -96,6 +108,7 @@ export default class BootstrapNavBar extends React.Component {
 						</Nav>
 					</Collapse>
 				</Navbar>
+				<ContactForm open={this.state.isContactShow} onClose={this.onhideContact} />
 			</div>
 		);
 	}

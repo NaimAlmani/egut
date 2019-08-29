@@ -52,7 +52,7 @@ const styles = (theme) => ({
 		padding: '10px 0',
 		textAlign: 'center',
 		margin: '10px 0',
-		background: 'rgb(97, 96, 84)',
+		background: theme.palette.secondary.main,
 		color: '#fff'
 	}
 });

@@ -20,6 +20,8 @@ import Categories from './components/category/Categories';
 import Activities from './components/activity/Activities';
 import ViewActivity from './components/activity/ViewActivity';
 import ViewOrg from './components/org/ViewOrg';
+import ViewPlace from './components/place/ViewPlace';
+import EmailsMain from './components/email/EmailsMain';
 import { LinearProgress } from '@material-ui/core';
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
@@ -70,6 +72,14 @@ class Root extends Component {
 							</Switch>
 							<Switch>
 								<PrivateRoute exact path='/organization/:id' component={ViewOrg} />
+							</Switch>
+
+							<Switch>
+								<PrivateRoute exact path='/place/:id' component={ViewPlace} />
+							</Switch>
+
+							<Switch>
+								<PrivateRoute exact path='/emails' component={EmailsMain} />
 							</Switch>
 						</OnImagesLoaded>
 					</AdminFrame>

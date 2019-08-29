@@ -9,6 +9,8 @@ import { Grid } from '@material-ui/core';
 import { showEditPlace, deletePlace } from './../../actions/place';
 import ConfirmDelete from './../common/ConfirmDelete';
 import IconItem from './../common/icons/IconItem';
+import { Link } from 'react-router-dom';
+
 // Generate required css
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
@@ -41,6 +43,12 @@ const styles = (theme) => ({
 	},
 	btnCont: {
 		margin: '10px auto'
+	},
+	linkClass: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class PlaceItem extends React.Component {
@@ -86,15 +94,17 @@ class PlaceItem extends React.Component {
 							</span>
 						) : null}
 						<CardActionArea className={classes.root}>
-							<div className={classes.mediaContaier}>
-								<img className={classes.image} src={config.imagesPath + place.image} alt='logo' />
-							</div>
-							<CardContent>
-								<Typography gutterBottom variant='h5' component='h2'>
-									{place.name}
-								</Typography>
-								<Typography component='p'>{place.description}</Typography>
-							</CardContent>
+							<Link to={'place/' + place.id} className={classes.linkClass}>
+								<div className={classes.mediaContaier}>
+									<img className={classes.image} src={config.imagesPath + place.image} alt='logo' />
+								</div>
+								<CardContent>
+									<Typography gutterBottom variant='h5' component='h2'>
+										{place.name}
+									</Typography>
+									<Typography component='p'>{place.description}</Typography>
+								</CardContent>
+							</Link>
 						</CardActionArea>
 						<CardActions className={classes.cardAction}>
 							<div className={classes.btnCont}>

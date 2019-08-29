@@ -1,6 +1,15 @@
 import axiosInstance from './../utils/axiosInstance';
 import setAuthToken from '../utils/setAuthToken';
-import { GET_ALL_PLACES, ADD_NEW_PLACE, SHOW_EDIT_PLACE, UPDATE_PLACE, DELETE_PLACE } from './types';
+import {
+	GET_ALL_PLACES,
+	ADD_NEW_PLACE,
+	SHOW_EDIT_PLACE,
+	UPDATE_PLACE,
+	DELETE_PLACE,
+	PLACE_BY_ID,
+	CHANGE_PLACE_BACKGROUND,
+	SHOW_EDIT
+} from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
 // Login - Get User Token
@@ -88,4 +97,53 @@ export const showEditPlace = (place, isShow) => (dispatch) => {
 		type: SHOW_EDIT_PLACE,
 		payload: { place, isShow }
 	});
+};
+
+//view Activity
+export const getPlaceById = (id) => (dispatch) => {
+	dispatch(startLoading());
+	axiosInstance
+		.get('/api/place/placebyid', {
+			params: {
+				id: id
+			}
+		})
+		.then((res) => {
+			dispatch({
+				type: PLACE_BY_ID,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			console.log(err);
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const showEdit = (place, isShow) => (dispatch) => {
+	dispatch({
+		type: SHOW_EDIT,
+		payload: { place, isShow }
+	});
+};
+export const changePlaceBackground = (imageData) => (dispatch) => {
+	dispatch(startLoading());
+	const formData = new FormData();
+	formData.append('path', imageData.path);
+	formData.set('place_id', imageData.place_id);
+
+	axiosInstance
+		.post('/api/place/changebackgound', formData)
+		.then((res) => {
+			dispatch({
+				type: CHANGE_PLACE_BACKGROUND,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
 };

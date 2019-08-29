@@ -6,7 +6,7 @@ import config from './../../utils/config';
 
 import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
-import { Grid, CircularProgress, Button, Paper, LinearProgress } from '@material-ui/core';
+import { Grid, Button, Paper, LinearProgress } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
 import { getOrgById } from './../../actions/organization';
 import Title from '../common/Title';

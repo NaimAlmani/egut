@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'postmaster@mail.restadgard-utb.se'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
@@ -132,5 +132,5 @@ return [
     */
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
-
+    'pretend' => false,
 ];

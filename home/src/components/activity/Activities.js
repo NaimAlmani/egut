@@ -311,13 +311,13 @@ class activities extends Component {
 					) : null}
 					{this.state.showFilters === true ? (
 						<Grid item xs={10}>
-							<Grid container spacing={10}>
+							<Grid container spacing={8}>
 								{actsContent}
 							</Grid>
 						</Grid>
 					) : (
 						<Grid item xs={12}>
-							<Grid container spacing={10}>
+							<Grid container spacing={8}>
 								{actsContent}
 							</Grid>
 						</Grid>

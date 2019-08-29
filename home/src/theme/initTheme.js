@@ -8,7 +8,7 @@ const initTheme = {
 		},
 		secondary: {
 			light: '#f0f0f0',
-			main: '#a8a0ff',
+			main: 'rgb(97, 96, 84)',
 			dark: '#a8a0ff',
 			contrastText: '#fff'
 		},

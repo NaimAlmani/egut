@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +18,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         $this->app->bind('path.public', function () {
+            //in productions
             return base_path() . '/../public_html';
+            //in local
+            // return base_path() . '/';
         });
     }
 
@@ -28,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+
         Schema::defaultStringLength(191);
     }
 }

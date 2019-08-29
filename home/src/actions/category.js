@@ -37,7 +37,6 @@ export const addNewCategory = (category) => (dispatch) => {
 		icon_name: category.icon_name,
 		icon_font: category.icon_font
 	};
-	console.table(gr);
 	axiosInstance
 		.post('/api/category/create', gr)
 		.then((res) => {

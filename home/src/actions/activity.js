@@ -93,7 +93,6 @@ export const getActivityById = (id) => (dispatch) => {
 			dispatch(endLoading());
 		})
 		.catch((err) => {
-			console.log(err);
 			dispatch(endLoading());
 			dispatch(getErrors(err.response.data));
 		});

@@ -301,7 +301,7 @@ class ViewOrg extends React.Component {
 					<ChangeBackground org={org} onCancel={this.hideChangeBackground} />
 				) : null}
 				<Grid container>
-					<Activities activities={this.props.organization.activities} />
+					<Activities title='Activities' activities={this.props.organization.activities} />
 				</Grid>
 			</div>
 		);
