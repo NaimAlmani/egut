@@ -7,7 +7,8 @@ import {
 	DELETE_GROUP,
 	SELECT_GROUP_iCON,
 	RESET_GROUP_ICON,
-	SHOW_GROUP_ICON
+	SHOW_GROUP_ICON,
+	GROUP_BY_ID
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -117,4 +118,25 @@ export const resetIcon = () => (dispatch) => {
 		type: RESET_GROUP_ICON,
 		payload: null
 	});
+};
+export const getGroupById = (id) => (dispatch) => {
+	dispatch(startLoading());
+	axiosInstance
+		.get('/api/group/groupbyid', {
+			params: {
+				id: id
+			}
+		})
+		.then((res) => {
+			dispatch({
+				type: GROUP_BY_ID,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			console.log(err);
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
 };

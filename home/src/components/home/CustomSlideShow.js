@@ -8,6 +8,8 @@ import 'react-animated-slider/build/horizontal.css';
 import { Button } from '@material-ui/core';
 import randomBackground from './../../utils/randomBackground';
 import randomColor from './../../utils/randomColor';
+import config from './../../utils/config';
+
 const styles = (theme) => ({
 	slideContent: {
 		width: '100%'
@@ -32,27 +34,29 @@ const styles = (theme) => ({
 class CustomSlideShow extends Component {
 	render() {
 		const { classes } = this.props;
-		const images = [
+		/*	const images = [
 			{
-				title: 'Restad gård utbildning AB',
+				title: 'Restad gård utbildning',
 				image: randomBackground(1)
 			},
 			{
-				title: 'Restad gård utbildning AB',
+				title: 'Restad gård utbildning',
 				image: randomBackground(2)
 			},
 			{
-				title: 'Restad gård utbildning AB',
+				title: 'Restad gård utbildning',
 				image: randomBackground(3)
 			}
-		];
+		];*/
+		const images = this.props.slides;
+
 		return (
 			<Slider autoplay={3000}>
 				{images.map((item, index) => (
 					<div
 						key={index}
 						style={{
-							background: `url('${item.image}') no-repeat center center`,
+							background: `url('${config.imagesPath + item.image}') no-repeat center center`,
 							backgroundSize: 'cover',
 							backgroundAttachment: 'fixed'
 						}}
@@ -60,7 +64,7 @@ class CustomSlideShow extends Component {
 						<div className={classes.overlay} style={{ background: randomColor(index) }} />
 						<div className='center' style={{ marginTop: '15%' }}>
 							<h1>{item.title}</h1>
-							<p>{item.description}</p>
+							<p>{item.subtitle}</p>
 						</div>
 					</div>
 				))}

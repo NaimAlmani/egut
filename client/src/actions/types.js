@@ -32,7 +32,7 @@ export const DELETE_GROUP = 'DELETE_GROUP';
 export const SELECT_GROUP_iCON = 'SELECT_GROUP_iCON';
 export const SHOW_GROUP_ICON = 'SHOW_GROUP_ICON';
 export const RESET_GROUP_ICON = 'RESET_GROUP_ICON';
-
+export const GROUP_BY_ID = 'GROUP_BY_ID';
 //GROUP
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
 export const ADD_NEW_CATEGORY = 'ADD_NEW_CATEGORY';
@@ -42,7 +42,14 @@ export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 export const SELECT_CATEGORY_iCON = 'SELECT_CATEGORY_iCON';
 export const SHOW_CATEGORY_ICON = 'SHOW_CATEGORY_ICON';
 export const RESET_CATEGORY_ICON = 'RESET_CATEGORY_ICON';
+export const CATEGORY_BY_ID = 'CATEGORY_BY_ID';
 
+//SLIDE
+export const GET_ALL_SLIDES = 'GET_ALL_SLIDES';
+export const ADD_NEW_SLIDE = 'ADD_NEW_SLIDE';
+export const SHOW_EDIT_SLIDE = 'SHOW_EDIT_SLIDE';
+export const UPDATE_SLIDE = 'UPDATE_SLIDE';
+export const DELETE_SLIDE = 'DELETE_SLIDE';
 /**
  * Activity 
  */
@@ -93,6 +100,7 @@ export const ADD_EXIST_CONTACTS = 'ADD_EXIST_CONTACTS';
 // ACTIVITY members
 export const ACTIVITY_ACTIVATE_MEMBER = 'ACTIVITY_ACTIVATE_MEMBER';
 
+export const WEEKLY_ACTIVITIES = 'WEEKLY_ACTIVITIES';
 /******************************organization*************************************** */
 export const ORGANIZATION_BY_ID = 'ORGANIZATION_BY_ID';
 export const DELETE_IMAGE_FROM_ORG = 'DELETE_IMAGE_FROM_ORG';

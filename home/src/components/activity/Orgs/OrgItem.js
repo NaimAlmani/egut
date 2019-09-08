@@ -36,6 +36,12 @@ const styles = (theme) => ({
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText,
 		margin: '0 auto'
+	},
+	link: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class OrgItem extends React.Component {
@@ -50,10 +56,10 @@ class OrgItem extends React.Component {
 		const { classes, org } = this.props;
 		return (
 			<Grid item xs={12} sm={3} md={2}>
-				<Fade>
+				<Fade bottom>
 					<Card className={classes.card}>
 						<CardActionArea className={classes.root}>
-							<Link to={'./../organization/' + org.id}>
+							<Link to={'./../organization/' + org.id} className={classes.link}>
 								<div className={classes.mediaContaier}>
 									<img
 										className={classes.image}
@@ -62,10 +68,9 @@ class OrgItem extends React.Component {
 									/>
 								</div>
 								<CardContent>
-									<Typography gutterBottom variant='h5' component='h2'>
+									<Typography gutterBottom variant='h6' component='h2'>
 										{org.name}
 									</Typography>
-									<Typography component='p'>{org.description}</Typography>
 								</CardContent>
 							</Link>
 						</CardActionArea>

@@ -94,7 +94,7 @@ class ActivityItem extends React.Component {
 					<Card className={classes.card} style={{ background: imgPath }}>
 						<div className={classes.overlay} style={{ background: randomColor(this.props.index) }} />
 						<CardActionArea className={classes.root}>
-							<Link to={'activity/' + activity.id} className={classes.link}>
+							<Link to={'./../activity/' + activity.id} className={classes.link}>
 								<CardContent>
 									<Typography className={classes.title} gutterBottom variant='h5' component='h2'>
 										{activity.name}

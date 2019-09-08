@@ -254,6 +254,60 @@ class Dashboard extends Component {
 							</Card>
 						</Fade>
 					</Grid>
+
+					<Grid item xs={4}>
+						<Fade bottom>
+							<Card style={{ background: randomColor(1), margin: '10px' }}>
+								<Link to='/schema' className={classes.Link}>
+									<CardActionArea className={classes.root}>
+										<CardContent>
+											<Avatar className={classes.avatar}>
+												<IconItem name={'calendar'} color='#fff' size='30px' font='Feather' />
+											</Avatar>
+											<Typography
+												className={classes.whiteText}
+												gutterBottom
+												variant='h5'
+												component='h2'
+											>
+												{'aktiviteter schema'}
+											</Typography>
+											<Typography className={classes.whiteText} component='p'>
+												{''}
+											</Typography>
+										</CardContent>
+									</CardActionArea>
+								</Link>
+							</Card>
+						</Fade>
+					</Grid>
+
+					<Grid item xs={4}>
+						<Fade bottom>
+							<Card style={{ background: randomColor(1), margin: '10px' }}>
+								<Link to='/settings' className={classes.Link}>
+									<CardActionArea className={classes.root}>
+										<CardContent>
+											<Avatar className={classes.avatar}>
+												<IconItem name={'settings'} color='#fff' size='30px' font='Feather' />
+											</Avatar>
+											<Typography
+												className={classes.whiteText}
+												gutterBottom
+												variant='h5'
+												component='h2'
+											>
+												{'Settings'}
+											</Typography>
+											<Typography className={classes.whiteText} component='p'>
+												{''}
+											</Typography>
+										</CardContent>
+									</CardActionArea>
+								</Link>
+							</Card>
+						</Fade>
+					</Grid>
 				</Grid>
 			</div>
 		);

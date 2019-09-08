@@ -123,7 +123,7 @@ class OrgController extends Controller
         $org->email  = $email;
         $org->tel  = $tel;
         $org->contact  = $contact;
-        if ($request->logo->isValid()) {
+        if (!is_null($request->logo) && $request->logo != 'null') {
             $logoValidator = Validator::make($request->all(), [
                 'logo' => 'image',
             ]);

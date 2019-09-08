@@ -68,6 +68,7 @@ class AddImage extends Component {
 			organization_id: this.props.org.id
 		};
 		this.props.changeOrgBackground(data);
+		this.props.onCancel();
 	}
 
 	onChange(e) {

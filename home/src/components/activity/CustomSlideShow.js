@@ -10,6 +10,7 @@ import 'react-animated-slider/build/horizontal.css';
 import config from './../../utils/config';
 import isEmpty from './../../validation/is-empty';
 import { Link } from 'react-router-dom';
+import { Typography } from '@material-ui/core';
 const styles = (theme) => ({
 	slideContent: {
 		width: '100%'
@@ -58,9 +59,9 @@ class CustomSlideShow extends Component {
 				>
 					<div className={classes.overlay} style={{ background: randomColor(index) }} />
 					<div className='center'>
-						<h1>{item.name}</h1>
-						<p>{item.detail}</p>
-						<p>{item.description}</p>
+						<Typography variant='h2'>{item.name}</Typography>
+						<Typography>{item.detail}</Typography>
+						<Typography>{item.description}</Typography>
 						<Link
 							className={classes.btn}
 							href={'./../organization/' + item.id}

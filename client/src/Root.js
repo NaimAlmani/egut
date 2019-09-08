@@ -15,74 +15,118 @@ import Dashboard from './components/dashboard/Dashboard';
 import AdminFrame from './components/headers/AdminFrame';
 import Orgs from './components/org/Orgs';
 import Places from './components/place/Places';
+import Settings from './components/settings/Settings';
 import Groups from './components/group/Groups';
 import Categories from './components/category/Categories';
 import Activities from './components/activity/Activities';
 import ViewActivity from './components/activity/ViewActivity';
 import ViewOrg from './components/org/ViewOrg';
+import ViewCategory from './components/category/ViewCategory';
+import ViewGroup from './components/group/ViewGroup';
 import ViewPlace from './components/place/ViewPlace';
 import EmailsMain from './components/email/EmailsMain';
+import SchemaMain from './components/Schema/SchemaMain';
 import { LinearProgress } from '@material-ui/core';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
 	textField: {
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 		display: 'block'
+	},
+	loadingCont: {
+		position: 'fixed',
+		width: '100%',
+		height: '5px',
+		top: '0',
+		left: '0',
+		background: '#333'
 	}
 });
 let BrowserHistory = Router.BrowserHistory;
 class Root extends Component {
 	componentDidMount() {
-		this.props.setLoading(false);
+		this.props.setLoading(true);
 	}
 	render() {
+		const { classes } = this.props;
 		return (
 			<Router history={BrowserHistory}>
 				<MuiThemeProvider theme={theme}>
-					<AdminFrame>
-						<OnImagesLoaded onLoaded={() => this.props.setLoading(true)}>
-							{this.props.loading === true ? <LinearProgress /> : null}
+					<Scrollbars
+						autoHide
+						style={{ width: '100%', height: '100vh' }}
+						renderThumbVertical={({ style, ...props }) => (
+							<div
+								{...props}
+								style={{
+									...style,
+									backgroundColor: this.props.theme.palette.primary.main,
+									width: '4px',
+									opacity: '0.8',
+									borderRadius: '2px'
+								}}
+							/>
+						)}
+					>
+						<AdminFrame>
+							<OnImagesLoaded onLoaded={() => this.props.setLoading(true)}>
+								<Route exact path='/login' component={Login} />
+								<Route />
+								<Switch>
+									<PrivateRoute exact path='/register' component={Register} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/' component={Dashboard} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/orgs' component={Orgs} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/places' component={Places} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/groups' component={Groups} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/categories' component={Categories} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/activities' component={Activities} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/activity/:id' component={ViewActivity} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/organization/:id' component={ViewOrg} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/category/:id' component={ViewCategory} />
+								</Switch>
 
-							<Route exact path='/login' component={Login} />
-							<Route />
-							<Switch>
-								<PrivateRoute exact path='/register' component={Register} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/' component={Dashboard} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/orgs' component={Orgs} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/places' component={Places} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/groups' component={Groups} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/categories' component={Categories} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/activities' component={Activities} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/activity/:id' component={ViewActivity} />
-							</Switch>
-							<Switch>
-								<PrivateRoute exact path='/organization/:id' component={ViewOrg} />
-							</Switch>
+								<Switch>
+									<PrivateRoute exact path='/group/:id' component={ViewGroup} />
+								</Switch>
 
-							<Switch>
-								<PrivateRoute exact path='/place/:id' component={ViewPlace} />
-							</Switch>
+								<Switch>
+									<PrivateRoute exact path='/place/:id' component={ViewPlace} />
+								</Switch>
 
-							<Switch>
-								<PrivateRoute exact path='/emails' component={EmailsMain} />
-							</Switch>
-						</OnImagesLoaded>
-					</AdminFrame>
+								<Switch>
+									<PrivateRoute exact path='/emails' component={EmailsMain} />
+								</Switch>
+								<Switch>
+									<PrivateRoute exact path='/schema' component={SchemaMain} />
+								</Switch>
+
+								<Switch>
+									<PrivateRoute exact path='/settings' component={Settings} />
+								</Switch>
+							</OnImagesLoaded>
+						</AdminFrame>
+					</Scrollbars>
 				</MuiThemeProvider>
 			</Router>
 		);

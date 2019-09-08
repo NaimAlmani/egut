@@ -38,10 +38,11 @@ export default function(state = initialState, action) {
 				isEdit: action.payload.isShow
 			};
 		case UPDATE_ORG:
-			const oldOrgs = state.orgs.filter((o) => o.id !== state.selectedOrg.id);
+			const oldOrgs = state.orgs.filter((o) => o.id !== action.payload.id);
 			return {
 				...state,
-				orgs: [ action.payload, ...oldOrgs ]
+				orgs: [ action.payload, ...oldOrgs ],
+				selectedOrg: {}
 			};
 		case DELETE_ORG:
 			return {

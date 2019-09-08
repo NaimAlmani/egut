@@ -27,9 +27,15 @@ import IconItem from '../common/icons/IconItem';
 import CustomSlideShow from './CustomSlideShow';
 import MultiSelect from '../common/MultiSelect';
 import getArrayOfValues from './../../utils/getArrayOfValues';
-import CategoryList from './categoriesList/CategoryList';
-import GroupList from './groupList/GroupList';
+import CategoriesSlider from './categoriesList/CategoriesSlider';
+import HCategoriesSlider from './categoriesList/HCategoriesSlider';
 import { Scrollbars } from 'react-custom-scrollbars';
+
+import GroupFeed from './groupList/GroupFeed';
+import GroupsSlider from './groupList/GroupsSlider';
+import { Container, Col, Row } from 'reactstrap';
+import MediaQuery from 'react-responsive';
+
 const KEYS_TO_FILTERS = [ 'name' ];
 const styles = (theme) => ({
 	root: {
@@ -56,24 +62,21 @@ const styles = (theme) => ({
 	relativeContainer: {
 		position: 'relative'
 	},
-	AKtivCont: {
-		marginTop: '40px'
-	},
+	AKtivCont: {},
 	filter: {
 		display: 'inline-block',
 		textAlign: 'center'
 	},
 	searchCont: {
-		width: '100%',
-		textAlign: 'center'
+		width: '90%',
+		textAlign: 'right',
+		margin: '10px auto'
 	},
 	filterIconCont: {
 		display: 'inline-block'
 	},
 	searchTextField: {
-		position: 'relative',
-		display: 'inline-block',
-		top: '32px'
+		margin: '10px'
 	},
 	btnRoot: {
 		borderRadius: '10px'
@@ -81,7 +84,8 @@ const styles = (theme) => ({
 	pagination: {
 		margin: '10px auto',
 		padding: '10px',
-		boxShadow: '0px 6px 9px 1px #00000061'
+		width: '200px',
+		minWidth: '200px'
 	},
 
 	paginationSubContainer: {
@@ -158,8 +162,27 @@ const styles = (theme) => ({
 			border: 'none',
 			outline: 'none'
 		}
+	},
+	groupsCont: {
+		overflow: 'auto',
+		width: '100vw'
+	},
+	groups: {
+		width: 'auto'
+	},
+	sliderCont: {
+		width: '80%',
+		margin: '0 auto'
+	},
+	paginateCont: {
+		width: 'auto',
+		margin: '0 auto'
+	},
+	hContainer: {
+		marginTop: '20px'
 	}
 });
+
 class activities extends Component {
 	constructor(props) {
 		super(props);
@@ -259,9 +282,9 @@ class activities extends Component {
 		const days = getArrayOfValues(activity.days, 'name');
 		const allCategories = activity.categories;
 		const allGroups = activity.groups;
+
 		return (
 			<div className={classes.relativeContainer} id='activities'>
-				<CustomSlideShow content={slidesContent} />
 				<div className={classes.AKtivCont}>
 					<Title
 						iconName='heart'
@@ -278,73 +301,96 @@ class activities extends Component {
 							color={this.props.theme.palette.primary.main}
 						/>
 					</div>
-					<div className={classes.filter}>
-						<MultiSelect
-							options={days}
-							onChange={this.onDayChange}
-							value={this.state.selectedDays}
-							label={'Välj dag'}
-						/>
-					</div>
 					<div className={classes.filterIconCont}>
 						<Button
 							color='primary'
 							variant='outlined'
 							classes={{ root: classes.btnRoot }}
-							style={{ marginTop: '10px' }}
+							style={{ margin: '0 20px', height: '40px' }}
 							onClick={this.state.showFilters === true ? this.onHideFilter : this.onShowFilters}
 						>
 							<IconItem name='filter' size={20} />
 						</Button>
 					</div>
 				</div>
-				<Grid container style={{ background: '#fff', position: 'relative' }}>
+				<div style={{ marginTop: '30px' }}>
 					{this.state.showFilters === true ? (
-						<Grid item xs={12}>
-							<GroupList groups={allGroups} />
-						</Grid>
+						<div className={classes.hContainer}>
+							<GroupsSlider groups={allGroups} />
+						</div>
 					) : null}
+
 					{this.state.showFilters === true ? (
-						<Grid item xs={2} style={{ height: '1000px', overflow: 'auto' }}>
-							<CategoryList categories={allCategories} />
-						</Grid>
-					) : null}
-					{this.state.showFilters === true ? (
-						<Grid item xs={10}>
-							<Grid container spacing={8}>
-								{actsContent}
-							</Grid>
-						</Grid>
+						<div>
+							<MediaQuery minDeviceWidth={850}>
+								{(matches) =>
+									matches ? (
+										<Container fluid={true}>
+											<Row>
+												<Col xs={1}>
+													<CategoriesSlider categories={allCategories} />
+												</Col>
+												<Col item xs={11}>
+													<Container fluid={true}>
+														<Row style={{ paddingTop: '30px' }}>{actsContent} </Row>
+													</Container>
+												</Col>
+											</Row>
+										</Container>
+									) : (
+										<div>
+											<div className={classes.hContainer}>
+												<HCategoriesSlider categories={allCategories} />
+											</div>
+											<Container fluid={true}>
+												<Row>
+													<Col item xs={12}>
+														<Container fluid={true}>
+															<Row style={{ paddingTop: '30px' }}>{actsContent}</Row>
+														</Container>
+													</Col>
+												</Row>
+											</Container>
+										</div>
+									)}
+							</MediaQuery>
+						</div>
 					) : (
-						<Grid item xs={12}>
-							<Grid container spacing={8}>
-								{actsContent}
-							</Grid>
-						</Grid>
+						<Container fluid={true}>
+							<Row>
+								<Col item xs={12}>
+									<Container fluid={true}>
+										<Row>{actsContent}</Row>
+									</Container>
+								</Col>
+							</Row>
+						</Container>
 					)}
 
-					<ReactPaginate
-						previousLabel={<IconItem name='chevron-left' size={'30px'} />}
-						nextLabel={<IconItem name='chevron-right' size={'30px'} />}
-						breakLabel={'...'}
-						breakClassName={'break-me'}
-						pageCount={this.state.pageCount}
-						marginPagesDisplayed={2}
-						pageRangeDisplayed={5}
-						onPageChange={this.handlePageClick}
-						initialPage={this.state.selectedPage}
-						containerClassName={classes.pagination + ' pagination'}
-						pageClassName={classes.pageNumber}
-						pageLinkClassName={classes.pageLinkClassName}
-						activeClassName={classes.activeClassName}
-						activeLinkClassName={classes.activeLinkClassName}
-						previousClassName={classes.previousClassName}
-						nextClassName={classes.nextClassName}
-						nextLinkClassName={classes.nextLinkClassName}
-						previousLinkClassName={classes.previousLinkClassName}
-						subContainerClassName={classes.paginationSubContainer + ' pages pagination'}
-					/>
-				</Grid>
+					<div className={classes.paginateCont}>
+						<ReactPaginate
+							previousLabel={<IconItem name='chevron-left' size={'30px'} />}
+							nextLabel={<IconItem name='chevron-right' size={'30px'} />}
+							breakLabel={'...'}
+							breakClassName={'break-me'}
+							pageCount={this.state.pageCount}
+							marginPagesDisplayed={2}
+							pageRangeDisplayed={5}
+							onPageChange={this.handlePageClick}
+							initialPage={this.state.selectedPage}
+							containerClassName={classes.pagination + ' pagination'}
+							pageClassName={classes.pageNumber}
+							pageLinkClassName={classes.pageLinkClassName}
+							activeClassName={classes.activeClassName}
+							activeLinkClassName={classes.activeLinkClassName}
+							previousClassName={classes.previousClassName}
+							nextClassName={classes.nextClassName}
+							nextLinkClassName={classes.nextLinkClassName}
+							previousLinkClassName={classes.previousLinkClassName}
+							subContainerClassName={classes.paginationSubContainer + ' pages pagination'}
+						/>
+					</div>
+				</div>
 				<div />
 			</div>
 		);

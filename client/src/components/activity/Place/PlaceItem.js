@@ -7,17 +7,8 @@ import { Grid } from '@material-ui/core';
 import { deletePlace } from './../../../actions/activity';
 import ConfirmDelete from '../../common/ConfirmDelete';
 import IconItem from './../../common/icons/IconItem';
+import { ListItem, ListItemAvatar, Typography } from '@material-ui/core';
 // Generate required css
-import {
-	Card,
-	CardActionArea,
-	CardActions,
-	CardContent,
-	CardMedia,
-	Button,
-	Typography,
-	Avatar
-} from '@material-ui/core';
 
 const styles = (theme) => ({
 	root: {
@@ -48,11 +39,61 @@ const styles = (theme) => ({
 		background: theme.palette.error.contrastText,
 		margin: '0 auto'
 	},
-	avatar: {
-		margin: '10px auto',
-		width: 60,
-		height: 60,
+
+	deselectedAvatar: {
 		background: theme.palette.primary.main
+	},
+	selectedAvatar: {
+		background: theme.palette.pink.main,
+		width: '50px',
+		height: '50px'
+	},
+	orgImgCont: {
+		width: '100px',
+		height: '50px',
+		overflow: 'hidden',
+		borderTopLeftRadius: '4px',
+		borderBottomLeftRadius: '4px'
+	},
+	textCont: {
+		margin: '10px'
+	},
+	text: {
+		fontSize: '1.3em',
+		color: '#333',
+		lineHeight: '2'
+	},
+	selectedText: {
+		fontSize: '1.3em',
+		color: '#fff',
+		lineHeight: '2'
+	},
+	listItemRoot: {
+		border: '1px solid #bdbdbd',
+		padding: '5px',
+		margin: '10px',
+		borderRadius: '10px',
+		cursor: 'pointer',
+		width: '100%',
+		'&:hover': {
+			background: '#e3f2fd'
+		}
+	},
+	listItemRootSelected: {
+		border: '1px solid #1976d2',
+		background: '#2196f3',
+		padding: '5px',
+		margin: '10px',
+		borderRadius: '10px',
+		cursor: 'pointer',
+		'&:hover': {
+			background: '#e3f2fd'
+		}
+	},
+	IconCont: {
+		position: 'absolute',
+		top: '10px',
+		right: '10px'
 	}
 });
 class PlaceItem extends React.Component {
@@ -86,24 +127,20 @@ class PlaceItem extends React.Component {
 	render() {
 		const { classes, place } = this.props;
 		return (
-			<Grid item xs={12} sm={6} md={3}>
-				<Card className={classes.card}>
-					<CardActionArea className={classes.root}>
-						<div className={classes.mediaContaier}>
-							<img className={classes.image} src={config.imagesPath + place.image} alt={place.name} />
-						</div>
-						<CardContent>
-							<Typography gutterBottom variant='h5' component='h2'>
-								{place.name}
-							</Typography>
-						</CardContent>
-					</CardActionArea>
-					<CardActions>
-						<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
-							Delete
-						</Button>
-					</CardActions>
-				</Card>
+			<ListItem classes={{ root: classes.listItemRoot }} alignItems='flex-start'>
+				<ListItemAvatar>
+					<div className={classes.orgImgCont}>
+						<img className={classes.image} src={config.imagesPath + place.image} alt='place' />
+					</div>
+				</ListItemAvatar>
+				<div className={classes.textCont}>
+					<Typography noWrap={true} component='p'>
+						<span className={classes.text}>{place.name}</span>
+					</Typography>
+				</div>
+				<div className={classes.IconCont} onClick={this.onDelete}>
+					<IconItem name='x' size={25} color='#ff5722' />
+				</div>
 				<ConfirmDelete
 					open={this.state.isDelete}
 					title='Are you Sure ??'
@@ -111,7 +148,7 @@ class PlaceItem extends React.Component {
 					onClose={this.onCancelDelete}
 					onDelete={this.onConfirmDelete}
 				/>
-			</Grid>
+			</ListItem>
 		);
 	}
 }

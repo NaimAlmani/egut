@@ -6,12 +6,15 @@ import {
 	DELETE_GROUP,
 	SELECT_GROUP_iCON,
 	SHOW_GROUP_ICON,
-	RESET_GROUP_ICON
+	RESET_GROUP_ICON,
+	GROUP_BY_ID
 } from '../actions/types';
 
 const initialState = {
 	groups: [],
 	selectedGroup: {},
+	currentGroup: {},
+	activities: [],
 	isEdit: false,
 	icon: {},
 	isShowIcons: false
@@ -63,6 +66,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				icon: {}
+			};
+		case GROUP_BY_ID:
+			return {
+				...state,
+				currentGroup: action.payload.group,
+				activities: action.payload.activities
 			};
 		default:
 			return state;

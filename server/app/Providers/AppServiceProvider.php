@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
         //
         $this->app->bind('path.public', function () {
             //in productions
-            return base_path() . '/../public_html';
+            return base_path() . '/public';
             //in local
             // return base_path() . '/';
         });

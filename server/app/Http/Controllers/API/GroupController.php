@@ -14,46 +14,64 @@ class GroupController extends Controller
     //
     public function index(Request $request)
     {
-        $groups = Group::orderBy('created_at' , 'desc')->get();
+        $groups = Group::orderBy('created_at', 'desc')->get();
         return $groups->toJson();
     }
 
-       public function redirected(Request $request)
+    public function redirected(Request $request)
     {
         return response()->json('unAuthorized');
     }
+
+
+    public function groupbyid(Request $request)
+    {
+        $item = Group::find($request->id);
+        $activities = $item->activities()->get();
+        return response()->json(
+            [
+                'group' => $item,
+                'activities' => $activities
+            ]
+        );
+    }
+
+
     /**
      * create new organization
      */
-    public function create(Request $request){
-          $validator = Validator::make($request->all(), [
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'icon_name'=>'required',
-            'icon_font'=>'required',
+            'icon_name' => 'required',
+            'icon_font' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 401);
         }
-    $group = Group::create([
-        'name' => $request->name,
-        'description'=> $request->description,
-        'icon_name'=>$request->icon_name,
-        'icon_font'=>$request->icon_font]);
-    $group->save();
-    return $group->toJson();
+        $group = Group::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'icon_name' => $request->icon_name,
+            'icon_font' => $request->icon_font
+        ]);
+        $group->save();
+        return $group->toJson();
     }
-     /**
+    /**
      * update organization
      */
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         //validate
-          $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'icon_name'=>'required',
-            'icon_font'=>'required',
+            'icon_name' => 'required',
+            'icon_font' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 401);
         }
         //validate image
         //assign vars
@@ -70,20 +88,19 @@ class GroupController extends Controller
         $group->icon_name   = $icon_name;
         $group->icon_font   = $icon_font;
         $group->save();
-    return $group->toJson();
+        return $group->toJson();
     }
-     /**
+    /**
      * delete group
      */
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         $group = Group::find($request->id);
-        if($group->activities->count()<=0){
-             $group->delete();
-              return $group->toJson();
-        }else{
-           return response()->json(['error'=>'You can not delete this Item it has related activities'], 401);
+        if ($group->activities->count() <= 0) {
+            $group->delete();
+            return $group->toJson();
+        } else {
+            return response()->json(['error' => 'You can not delete this Item it has related activities'], 401);
         }
-
-
     }
 }

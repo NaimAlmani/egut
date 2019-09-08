@@ -2,33 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import config from './../../../utils/config';
-import { Grid } from '@material-ui/core';
-import ConfirmDelete from '../../common/ConfirmDelete';
+import { Grid, Avatar } from '@material-ui/core'; // Generate required css
+import { Card, CardActionArea, CardActions, CardContent, Button, Typography } from '@material-ui/core';
 import IconItem from './../../common/icons/IconItem';
-// Generate required css
-import {
-	Card,
-	CardActionArea,
-	CardActions,
-	CardContent,
-	CardMedia,
-	Button,
-	Typography,
-	Avatar
-} from '@material-ui/core';
-import Fade from 'react-reveal/Fade';
+import { Col } from 'reactstrap';
+import Flash from 'react-reveal/Flash';
+import { Link } from 'react-router-dom';
+
 const styles = (theme) => ({
 	root: {
 		color: theme.palette.primary.main,
-		minHeight: '250px'
+
+		textAlign: 'center'
+	},
+	whiteRoot: {
+		color: '#fff'
 	},
 	card: {
-		maxWidth: 345,
-		margin: '0  auto',
-		border: 'none',
-		boxShadow: 'none',
-		textAlign: 'center',
+		overflow: 'auto',
+		cursor: 'pointer'
+	},
+	avatar: {
+		margin: '10px auto',
+		padding: '10px',
+		width: 70,
+		height: 70,
 		background: 'transparent'
 	},
 	mediaContaier: {
@@ -43,36 +41,73 @@ const styles = (theme) => ({
 	},
 	deleteBtn: {
 		color: theme.palette.error.main,
-		background: theme.palette.error.contrastText,
-		margin: '0 auto'
+		background: theme.palette.error.contrastText
 	},
-	avatar: {
-		margin: '10px auto',
-		width: 60,
-		height: 60,
-		background: theme.palette.primary.main
+
+	whiteColor: {
+		color: '#fff',
+		textAlign: 'center'
+	},
+	blackColor: {
+		color: '#333'
+	},
+	linkClass: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class GroupItem extends React.Component {
-	componentDidCatch(error, info) {}
-
+	constructor(props) {
+		super(props);
+		this.state = {
+			isDelete: false
+		};
+	}
+	componentDidCatch(error, info) {
+		// You can also log the error to an error reporting service
+	}
 	render() {
-		const { classes, group } = this.props;
+		const { classes, group, isWhite } = this.props;
 		return (
-			<Grid item xs={6} sm={3} md={2}>
-				<Fade>
-					<div className={classes.card}>
-						<div className={classes.mediaContaier}>
-							<Avatar className={classes.avatar}>
-								<IconItem name={group.icon_name} font={group.icon_font} color='#fff' size='30px' />
-							</Avatar>
+			<Col item sm={6} md={3} lg={3}>
+				<Flash>
+					<Link to={'./../group/' + group.id} className={classes.linkClass}>
+						<div className={classes.card}>
+							<div className={isWhite === true ? classes.whiteRoot : classes.root}>
+								<div>
+									<Avatar className={classes.avatar}>
+										{isWhite === true ? (
+											<IconItem
+												name={group.icon_name}
+												font={group.icon_font}
+												color='#fff'
+												size='3em'
+											/>
+										) : (
+											<IconItem
+												name={group.icon_name}
+												font={group.icon_font}
+												color={this.props.theme.palette.primary.main}
+												size='3em'
+											/>
+										)}
+									</Avatar>
+									<Typography
+										gutterBottom
+										variant='caption'
+										component='caption'
+										className={isWhite === true ? classes.whiteColor : classes.blackColor}
+									>
+										{group.name}
+									</Typography>
+								</div>
+							</div>
 						</div>
-						<Typography gutterBottom variant='h5' component='h2' style={{ color: '#fff' }} color='#fff'>
-							{group.name}
-						</Typography>
-					</div>
-				</Fade>
-			</Grid>
+					</Link>
+				</Flash>
+			</Col>
 		);
 	}
 }

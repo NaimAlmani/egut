@@ -77,6 +77,7 @@ class ActivityForm extends Component {
 		};
 
 		this.props.addNewActivity(activityData);
+		this.props.onCancel();
 	}
 
 	onChange(e) {
@@ -139,8 +140,8 @@ class ActivityForm extends Component {
 							withIcon={true}
 							buttonText='Choose images'
 							onChange={this.onDrop}
-							imgExtension={[ '.jpg', '.gif', '.png', '.gif' ]}
-							maxFileSize={5242880}
+							imgExtension={[ '.jpg', '.gif', '.png', '.gif', '.jpeg' ]}
+							maxFileSize={10242880}
 							singleImage={true}
 							withPreview={true}
 							name='fileInput'

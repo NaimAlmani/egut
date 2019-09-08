@@ -103,6 +103,7 @@ class EditActivity extends Component {
 			is_active: this.state.isActive === true ? 1 : 0
 		};
 		this.props.updateActivity(activityData);
+		this.props.showEdit(this.props.selectedActivity, false);
 	}
 	handleChange = (name) => (event) => {
 		this.setState({ isActive: event.target.checked });

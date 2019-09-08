@@ -102,3 +102,7 @@ export const PARTICIPATE_MEMBER = 'PARTICIPATE_MEMBER';
 
 export const GET_SUCCESS = 'GET_SUCCESS';
 export const CLEAR_SUCCESS = 'CLEAR_SUCCESS';
+
+export const GET_HOME_INFO = 'GET_HOME_INFO';
+export const CATEGORY_BY_ID = 'CATEGORY_BY_ID';
+export const GROUP_BY_ID = 'GROUP_BY_ID';

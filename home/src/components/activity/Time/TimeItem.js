@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../../utils/config';
-import { Grid, TableRow, TableCell } from '@material-ui/core';
-import { deleteTime } from './../../../actions/activity';
-import ConfirmDelete from '../../common/ConfirmDelete';
+import { ListItem, Typography } from '@material-ui/core';
 import IconItem from './../../common/icons/IconItem';
 import isEmpty from './../../../validation/is-empty';
+import { Fade } from 'react-reveal';
 // Generate required css
 
 const styles = (theme) => ({
@@ -31,7 +30,6 @@ const styles = (theme) => ({
 	},
 	image: {
 		// ⚠️ object-fit is not supported by IE 11.
-		objectFit: 'cover',
 		width: '100%'
 	},
 	deleteBtn: {
@@ -39,15 +37,83 @@ const styles = (theme) => ({
 		background: theme.palette.error.contrastText,
 		margin: '0 auto'
 	},
-	avatar: {
-		margin: '10px auto',
-		width: 60,
-		height: 60,
-		background: theme.palette.error.main
+
+	deselectedAvatar: {
+		background: theme.palette.primary.main
 	},
-	trashIcon: {
-		color: theme.palette.error.main,
-		cursor: 'pointer'
+	selectedAvatar: {
+		background: theme.palette.pink.main,
+		width: '50px',
+		height: '50px'
+	},
+	orgImgCont: {
+		width: '100px',
+		height: '50px',
+		overflow: 'hidden',
+		borderTopLeftRadius: '4px',
+		borderBottomLeftRadius: '4px'
+	},
+	textCont: {
+		margin: '10px',
+		display: 'inline-block',
+		textAlign: 'center'
+	},
+	text: {
+		fontSize: '1em',
+		color: '#333',
+		lineHeight: '2'
+	},
+	datetext: {
+		color: '#bdbdbd',
+		fontSize: '1em'
+	},
+	Placetext: {
+		color: '#bdbdbd',
+		fontSize: '0.7em'
+	},
+	selectedText: {
+		fontSize: '1.3em',
+		color: '#fff',
+		lineHeight: '2'
+	},
+	divRoot: {
+		border: '1px solid #bdbdbd',
+		padding: '5px',
+		margin: '10px',
+		borderRadius: '10px',
+		cursor: 'pointer',
+		width: '100%',
+		'&:hover': {
+			background: '#e3f2fd'
+		}
+	},
+	listItemRootSelected: {
+		border: '1px solid #1976d2',
+		background: '#2196f3',
+		padding: '5px',
+		margin: '10px',
+		borderRadius: '10px',
+		cursor: 'pointer',
+		'&:hover': {
+			background: '#e3f2fd'
+		}
+	},
+	IconCont: {
+		position: 'absolute',
+		top: '10px',
+		right: '10px'
+	},
+	rightSection: {
+		textAlign: 'right',
+		display: 'block',
+		width: '80%',
+		float: 'right'
+	},
+	orgs: {
+		width: '100%',
+		textAlign: 'right',
+		float: 'right',
+		margin: '10px'
 	}
 });
 class TimeItem extends React.Component {
@@ -58,27 +124,10 @@ class TimeItem extends React.Component {
 			day: '',
 			place: ''
 		};
-
-		this.onDelete = this.onDelete.bind(this);
-		this.onConfirmDelete = this.onConfirmDelete.bind(this);
-		this.onCancelDelete = this.onCancelDelete.bind(this);
 	}
 
 	componentDidCatch(error, info) {
 		console.log(error);
-	}
-	onDelete() {
-		this.setState({
-			isDelete: true
-		});
-	}
-	onConfirmDelete() {
-		this.props.deleteTime(this.props.activityID, this.props.time.id);
-	}
-	onCancelDelete() {
-		this.setState({
-			isDelete: false
-		});
 	}
 	render() {
 		const { classes, time } = this.props;
@@ -94,18 +143,29 @@ class TimeItem extends React.Component {
 		}
 
 		return (
-			<TableRow key={time.name}>
-				<TableCell align='right'>{day}</TableCell>
-				<TableCell align='right'>{time.start_time}</TableCell>
-				<TableCell align='right'>{time.end_time}</TableCell>
-				{time.is_weekly === 1 ? (
-					<TableCell align='right'>weekly</TableCell>
-				) : (
-					<TableCell align='right'>{time.date}</TableCell>
-				)}
-				<TableCell>{place}</TableCell>
-			
-			</TableRow>
+			<Fade>
+				<ListItem classes={{ root: classes.divRoot }} alignItems='flex-start'>
+					<div className={classes.textCont}>
+						<Typography noWrap={true} variant='p'>
+							<span className={classes.text}>{day}</span>
+						</Typography>
+					</div>
+
+					<div className={classes.rightSection}>
+						<div className={classes.times}>
+							<Typography noWrap={true} component='p' variant='body1'>
+								<span className={classes.datetext}>{'från :' + time.start_time}</span>
+								<span className={classes.datetext}>{' - till: ' + time.end_time}</span>
+							</Typography>
+						</div>
+						<div className={classes.place}>
+							<Typography noWrap={true} component='p' variant='body1 '>
+								<span className={classes.Placetext}>{place}</span>
+							</Typography>
+						</div>
+					</div>
+				</ListItem>
+			</Fade>
 		);
 	}
 }
@@ -117,4 +177,4 @@ const mapStateToProps = (state) => ({
 	activity: state.activity
 });
 
-export default connect(mapStateToProps, { deleteTime })(withStyles(styles, { withTheme: true })(TimeItem));
+export default connect(mapStateToProps, {})(withStyles(styles, { withTheme: true })(TimeItem));

@@ -88,7 +88,7 @@ class PlaceItem extends React.Component {
 			<Grid item xs={12} sm={6} md={3}>
 				<Fade bottom>
 					<Card className={classes.card} style={{ background: randomColor(this.props.index) }}>
-						{place.favorite === 1 ? (
+						{place.favorite == 1 || place.favorite === true ? (
 							<span style={{ position: 'absolute', top: '2px', left: '2px' }}>
 								<IconItem name='star' color='#C5B358' />
 							</span>
@@ -102,7 +102,7 @@ class PlaceItem extends React.Component {
 									<Typography gutterBottom variant='h5' component='h2'>
 										{place.name}
 									</Typography>
-									<Typography component='p'>{place.description}</Typography>
+									<Typography noWrap ={true} component='p'>{place.description}</Typography>
 								</CardContent>
 							</Link>
 						</CardActionArea>

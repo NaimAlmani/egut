@@ -15,9 +15,9 @@ class ContactTable extends Component {
 				<Table className={classes.table}>
 					<TableHead>
 						<TableRow>
-							<TableCell align='center'>image</TableCell>
-							<TableCell align='center'>name</TableCell>
-							<TableCell align='center'>Email</TableCell>
+							<TableCell align='center'>bild</TableCell>
+							<TableCell align='center'>namn</TableCell>
+							<TableCell align='center'>e-post</TableCell>
 							<TableCell align='center'>tel</TableCell>
 							<TableCell align='center'>X</TableCell>
 						</TableRow>

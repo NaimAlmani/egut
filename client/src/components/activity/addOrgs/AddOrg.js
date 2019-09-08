@@ -13,7 +13,8 @@ import {
 	Slide,
 	DialogTitle,
 	DialogActions,
-	Button
+	Button,
+	List
 } from '@material-ui/core';
 import isEmpty from './../../../validation/is-empty';
 import { getAllOrgs } from './../../../actions/organization';
@@ -35,7 +36,9 @@ const styles = (theme) => ({
 		width: '100%'
 	},
 	dialogPapers: {
-		width: '50%',
+		width: '50vw',
+		maxWidth: '50vw',
+		minHeight: '500px',
 		textAlign: 'center'
 	}
 });
@@ -58,6 +61,7 @@ class AddOrg extends Component {
 
 	AddOrgs = () => {
 		this.props.addOrgsToActivity(this.props.currentActivity, this.props.activity.selectedOrgs);
+		this.props.onCancel();
 	};
 	render() {
 		const { classes, organization, activity } = this.props;
@@ -68,10 +72,18 @@ class AddOrg extends Component {
 			orgsContent = '';
 		} else {
 			if (isEmpty(this.state.searchTerm)) {
-				orgsContent = <OrgFeed orgs={foreignOrgs} />;
+				orgsContent = (
+					<List>
+						<OrgFeed orgs={foreignOrgs} />
+					</List>
+				);
 			} else {
 				const filteredOrgs = foreignOrgs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-				orgsContent = <OrgFeed orgs={filteredOrgs} />;
+				orgsContent = (
+					<List>
+						<OrgFeed orgs={filteredOrgs} />
+					</List>
+				);
 			}
 		}
 		return (

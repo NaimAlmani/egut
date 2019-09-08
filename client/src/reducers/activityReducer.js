@@ -44,7 +44,8 @@ import {
 	GET_ALL_CONTACTS,
 	ADD_EXIST_CONTACTS,
 	ACTIVITY_ACTIVATE_MEMBER,
-	ACTIVATE_ACTIVITY
+	ACTIVATE_ACTIVITY,
+	WEEKLY_ACTIVITIES
 } from '../actions/types';
 
 const initialState = {
@@ -78,7 +79,10 @@ const initialState = {
 	//contacts
 	contacts: [],
 	allContacts: [],
-	selectedContacts: []
+	selectedContacts: [],
+
+	//schema
+	times: []
 };
 
 export default function(state = initialState, action) {
@@ -139,7 +143,8 @@ export default function(state = initialState, action) {
 		case ADD_ORG_TO_ACTIVITY:
 			return {
 				...state,
-				orgs: [ ...state.orgs, ...action.payload ]
+				orgs: [ ...state.orgs, ...action.payload ],
+				selectedOrgs: []
 			};
 		case DELETE_ORG_FROM_ACTIVITY:
 			return {
@@ -160,12 +165,14 @@ export default function(state = initialState, action) {
 		case ADD_GROUP_TO_ACTIVITY:
 			return {
 				...state,
-				groups: [ ...state.groups, ...action.payload ]
+				groups: [ ...state.groups, ...action.payload ],
+				selectedGroups: []
 			};
 		case DELETE_GROUP_FROM_ACTIVITY:
 			return {
 				...state,
-				groups: state.groups.filter((o) => o.id !== action.payload.id)
+				groups: state.groups.filter((o) => o.id !== action.payload.id),
+				selectedGroups: []
 			};
 
 		//activity categories
@@ -182,12 +189,14 @@ export default function(state = initialState, action) {
 		case ADD_CATEGORY_TO_ACTIVITY:
 			return {
 				...state,
-				categories: [ ...state.categories, ...action.payload ]
+				categories: [ ...state.categories, ...action.payload ],
+				selectedCategories: []
 			};
 		case DELETE_CATEGORY_FROM_ACTIVITY:
 			return {
 				...state,
-				categories: state.categories.filter((o) => o.id !== action.payload.id)
+				categories: state.categories.filter((o) => o.id !== action.payload.id),
+				selectedCategories: []
 			};
 
 		//activitry places
@@ -204,12 +213,14 @@ export default function(state = initialState, action) {
 		case ADD_PLACE_TO_ACTIVITY:
 			return {
 				...state,
-				places: [ ...state.places, ...action.payload ]
+				places: [ ...state.places, ...action.payload ],
+				selectedPlaces: []
 			};
 		case DELETE_PLACE_FROM_ACTIVITY:
 			return {
 				...state,
-				places: state.places.filter((o) => o.id !== action.payload.id)
+				places: state.places.filter((o) => o.id !== action.payload.id),
+				selectedPlaces: []
 			};
 
 		//activitry TIMES
@@ -226,12 +237,14 @@ export default function(state = initialState, action) {
 		case ADD_TIME_TO_ACTIVITY:
 			return {
 				...state,
-				times: [ ...state.times, action.payload ]
+				times: [ ...state.times, action.payload ],
+				selectedTimes: []
 			};
 		case DELETE_TIME_FROM_ACTIVITY:
 			return {
 				...state,
-				times: state.times.filter((o) => o.id !== action.payload)
+				times: state.times.filter((o) => o.id !== action.payload),
+				selectedTimes: []
 			};
 		case GET_ALL_DAYS:
 			return {
@@ -297,6 +310,13 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				activities: newActivities
+			};
+
+		case WEEKLY_ACTIVITIES:
+			return {
+				...state,
+				times: action.payload.times,
+				activities: action.payload.activities
 			};
 		default:
 			return state;

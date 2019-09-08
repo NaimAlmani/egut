@@ -27,9 +27,7 @@ const styles = (theme) => ({
 		textAlign: 'center',
 		color: theme.palette.primary.main
 	},
-	TitleSubText: {
-		color: theme.palette.black.active
-	}
+	TitleSubText: {}
 });
 class Title extends React.Component {
 	constructor(props) {
@@ -42,17 +40,19 @@ class Title extends React.Component {
 		return (
 			<div style={{ marginBottom: '20px' }}>
 				<div className={classes.TitleContainer} style={{ background: background }}>
-					<IconItem
-						name={this.props.iconName}
-						font={!isEmpty(this.props.iconType) ? this.props.iconType : 'Feather'}
-						color={this.props.theme.palette.primary.main}
-						size={30}
-					/>
+					<span style={{ marginRight: '10px' }}>
+						<IconItem
+							name={this.props.iconName}
+							font={!isEmpty(this.props.iconFont) ? this.props.iconFont : 'Feather'}
+							color={this.props.theme.palette.primary.main}
+							size={30}
+						/>
+					</span>
 
 					<span className={classes.TitleText} style={{ color: color }}>
-						{this.props.text}
+						<Typography variant='h4'>{this.props.text}</Typography>
 					</span>
-					<Typography component='div' className={classes.TitleSubText}>
+					<Typography variant='body1' component='p' className={classes.TitleSubText}>
 						{this.props.subText}
 					</Typography>
 				</div>

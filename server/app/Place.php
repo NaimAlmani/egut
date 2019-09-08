@@ -6,20 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
 {
-       //
-         protected $fillable = [
-        'name', 'discription','favorite','image'
+    //
+    protected $fillable = [
+        'name', 'discription', 'favorite', 'image'
     ];
 
-      public function activities()
+    public function activities()
     {
-         return $this->belongsToMany('App\Activity');
+        return $this->belongsToMany('App\Activity');
     }
 
     public function activityTimes()
     {
-         return $this->hasMany('App\ActivityTime');
+        return $this->hasMany('App\ActivityTime');
     }
-
-
 }

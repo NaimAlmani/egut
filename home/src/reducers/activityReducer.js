@@ -1,4 +1,4 @@
-import { GET_ALL_ACTIVITIES, ACTIVITY_BY_ID, SELECT_CATEGORY, SELECT_GROUP } from '../actions/types';
+import { GET_ALL_ACTIVITIES, ACTIVITY_BY_ID, SELECT_CATEGORY, SELECT_GROUP, GET_ALL_DAYS } from '../actions/types';
 import foriegnItems from './../utils/foriegnItems';
 import filterActivities from './../utils/filterActivities';
 const initialState = {
@@ -33,7 +33,8 @@ const initialState = {
 	//contacts
 	contacts: [],
 	allContacts: [],
-	selectedContacts: []
+	selectedContacts: [],
+	days: []
 };
 
 export default function(state = initialState, action) {
@@ -97,7 +98,11 @@ export default function(state = initialState, action) {
 				contacts: action.payload.contacts,
 				members: action.payload.members
 			};
-
+		case GET_ALL_DAYS:
+			return {
+				...state,
+				days: action.payload
+			};
 		default:
 			return state;
 	}

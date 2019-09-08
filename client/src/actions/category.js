@@ -7,7 +7,8 @@ import {
 	DELETE_CATEGORY,
 	SELECT_CATEGORY_iCON,
 	RESET_CATEGORY_ICON,
-	SHOW_CATEGORY_ICON
+	SHOW_CATEGORY_ICON,
+	CATEGORY_BY_ID
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -117,4 +118,25 @@ export const resetIcon = () => (dispatch) => {
 		type: RESET_CATEGORY_ICON,
 		payload: null
 	});
+};
+export const getCategoryById = (id) => (dispatch) => {
+	dispatch(startLoading());
+	axiosInstance
+		.get('/api/category/categorybyid', {
+			params: {
+				id: id
+			}
+		})
+		.then((res) => {
+			dispatch({
+				type: CATEGORY_BY_ID,
+				payload: res.data
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			console.log(err);
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
 };

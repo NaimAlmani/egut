@@ -7,10 +7,10 @@ import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
 import { Grid, CircularProgress, Button } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
-import { getActivityById } from './../../actions/activity';
+import { getActivityById, getDays } from './../../actions/activity';
 
 // Generate required css
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, Typography } from '@material-ui/core';
 import CustomScroll from 'react-custom-scroll';
 
 import OrgFeed from './Orgs/OrgFeed';
@@ -25,11 +25,13 @@ import TimesTable from './Time/TimesTable';
 
 import ActivityImages from './ActivityImages';
 
-import ContactTable from './contacts/ContactTable';
+import ContactFeed from './contacts/ContactFeed';
 
 import Participate from './Participate';
-import randomColor from './../../utils/randomColor';
+
 import MemberMain from './members/MemberMain';
+
+import { Container, Row, Col } from 'reactstrap';
 const styles = (theme) => ({
 	header: {
 		position: 'relative',
@@ -104,6 +106,9 @@ const styles = (theme) => ({
 		borderRadius: '50%',
 		marginRight: '10px',
 		cursor: 'pointer'
+	},
+	memberBtn: {
+		marginTop: '10px'
 	}
 });
 class ViewActivity extends React.Component {
@@ -139,6 +144,7 @@ class ViewActivity extends React.Component {
 
 	componentDidMount() {
 		this.props.getActivityById(this.props.match.params.id);
+		this.props.getDays();
 	}
 	render() {
 		const { classes, activity } = this.props;
@@ -151,89 +157,123 @@ class ViewActivity extends React.Component {
 				<div className={classes.header} style={{ backgroundImage: imgPath }}>
 					<div className={classes.headerContent}>
 						<div className={classes.title}>
-							<h1>{act.name}</h1>
+							<Typography variant='h4' style={{ color: '#fff' }}>
+								{act.name}
+							</Typography>
 						</div>
 						<div className={classes.desc}>
-							<p> {act.description}</p>
+							<Typography variant='p' style={{ color: '#fff' }}>
+								{act.description}
+							</Typography>
 						</div>
 						<div className={classes.memberBtn}>
-							<Button color='primary' onClick={this.onParticipate}>
+							<Button color='primary' variant='outlined' onClick={this.onParticipate}>
 								Delta nu
 							</Button>
 						</div>
 					</div>
 				</div>
-				{/* activity orgs */}
-				{!isEmpty(this.props.activity.orgs) ? (
-					<div className={classes.sectionWhite}>
-						<div className={classes.orgHeader}>
-							<h1>Arrangerat av</h1>
-						</div>
-						<Grid container justify={'center'} alignItems={'center'}>
-							<OrgFeed orgs={this.props.activity.orgs} activityID={act.id} />
+
+				{/**Activity times */}
+				<Grid container justify='center' alignItems='center'>
+					{!isEmpty(this.props.activity.times) ? (
+						<Grid
+							item
+							md={4}
+							lg={4}
+							sm={12}
+							className={classes.sectionWhite}
+							style={{ background: '#f5f5f5' }}
+						>
+							<div className={classes.orgHeader}>
+								<Typography variant='h6'> Tider </Typography>
+							</div>
+							<div>
+								<TimesTable times={this.props.activity.times} activityID={act.id} />
+							</div>
 						</Grid>
+					) : null}
+					{/* activity orgs */}
+
+					<Grid
+						item
+						justify='center'
+						alignContent='center'
+						md={8}
+						lg={8}
+						sm={12}
+						className={classes.sectionWhite}
+						style={{ background: '#f5f5f5' }}
+					>
+						<div className={classes.orgHeader}>
+							<Typography variant='h6'>Kontakta oss</Typography>
+						</div>
+						<Grid container justify='center' alignItems='center'>
+							<ContactFeed contacts={this.props.activity.contacts} activityID={act.id} />
+						</Grid>
+					</Grid>
+				</Grid>
+				<Grid>
+					<div className={classes.orgHeader} style={{ margin: '40px' }}>
+						<Typography variant='h6'>Arrangerat av</Typography>
 					</div>
-				) : null}
+					<Grid container justify={'center'} alignItems={'center'}>
+						<OrgFeed orgs={this.props.activity.orgs} activityID={act.id} />
+					</Grid>
+				</Grid>
+
 				{/* activity groups */}
 				<Grid container>
+					{/**end activity times */}
 					{!isEmpty(this.props.activity.groups) ? (
 						<Grid item lg={6} md={6} sm={12} className={classes.sectionBlack}>
 							<div className={classes.orgHeader} style={{ marginBottom: '20px' }}>
-								<h1>Målgrupper</h1>
+								<Typography variant='subtitle1' style={{ color: '#fff' }}>
+									Målgrupper
+								</Typography>
 							</div>
 							<Grid container justify={'center'} alignItems={'center'}>
-								<GroupFeed groups={this.props.activity.groups} activityID={act.id} />
+								<GroupFeed isWhite={true} groups={this.props.activity.groups} activityID={act.id} />
 							</Grid>
 						</Grid>
 					) : null}
 
 					{/* activity categories */}
 					{!isEmpty(this.props.activity.categories) ? (
-						<Grid item lg={6} md={6} sm={12} className={classes.sectionWhite}>
+						<Grid item lg={6} md={6} sm={12} className={classes.sectionBlack}>
 							<div className={classes.orgHeader} style={{ marginBottom: '20px' }}>
-								<h1>kategorier</h1>
+								<Typography variant='subtitle1' style={{ color: '#fff' }}>
+									kategorier
+								</Typography>
 							</div>
 							<Grid container justify={'center'} alignItems={'center'}>
-								<CategoryFeed categories={this.props.activity.categories} activityID={act.id} />
-							</Grid>
-						</Grid>
-					) : null}
-					{/**Activity contacts */}
-					{!isEmpty(this.props.activity.contacts) ? (
-						<Grid item lg={6} md={6} sm={12} className={classes.sectionWhite}>
-							<div className={classes.orgHeader}>
-								<h1> Contact info </h1>
-							</div>
-							<Grid container justify={'center'} alignItems={'center'}>
-								<ContactTable contacts={this.props.activity.contacts} activityID={act.id} />
+								<CategoryFeed
+									isWhite={true}
+									categories={this.props.activity.categories}
+									activityID={act.id}
+								/>
 							</Grid>
 						</Grid>
 					) : null}
 				</Grid>
 				{/**end activity contacts */}
-				{/**Activity times */}
-				{!isEmpty(this.props.activity.times) ? (
-					<div className={classes.organizations}>
-						<div className={classes.orgHeader}>
-							<h1> Times </h1>
-						</div>
-						<Grid container justify={'center'} alignItems={'center'}>
-							<TimesTable times={this.props.activity.times} activityID={act.id} />
-						</Grid>
-					</div>
-				) : null}
-				{/**end activity times */}
 
 				{/**Activity images */}
-				{!isEmpty(this.props.activity.images) ? (
-					<div className={classes.organizations}>
-						<div className={classes.orgHeader}>
-							<h1> Images </h1>
-						</div>
 
-						<div style={{ width: '80%', margin: '0 auto' }}>
-							<ActivityImages images={changeToGallery(this.props.activity.images)} />
+				{!isEmpty(this.props.activity.images) ? (
+					<div>
+						<div className={classes.orgHeader}>
+							<div className={classes.orgHeader} style={{ margin: '40px' }}>
+								<Typography variant='h6'>Bilder</Typography>
+							</div>
 						</div>
+						<Container className={classes.organizations}>
+							<Row>
+								<div style={{ width: '80%', margin: '0 auto' }}>
+									<ActivityImages images={changeToGallery(this.props.activity.images)} />
+								</div>
+							</Row>
+						</Container>
 					</div>
 				) : null}
 				{/**end activity images */}
@@ -251,6 +291,6 @@ const mapStateToProps = (state) => ({
 	loading: state.loading
 });
 
-export default connect(mapStateToProps, { getActivityById, startLoading, endLoading, setLoading })(
+export default connect(mapStateToProps, { getActivityById, getDays, startLoading, endLoading, setLoading })(
 	withStyles(styles, { withTheme: true })(ViewActivity)
 );

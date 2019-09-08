@@ -9,7 +9,7 @@ class CategoryFeed extends Component {
 		const { categories } = this.props;
 
 		return categories.map((category) => (
-			<CategoryItem key={category.id} category={category} activityID={this.props.activityID} />
+			<CategoryItem key={category.id} category={category} isWhite={this.props.isWhite} />
 		));
 	}
 }

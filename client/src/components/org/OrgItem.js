@@ -6,11 +6,9 @@ import config from './../../utils/config';
 import randomColor from './../../utils/randomColor';
 import { Grid } from '@material-ui/core';
 import { showEdit, deleteOrg } from './../../actions/organization';
-import customStyles from './../../theme/customStyles';
 import { Link } from 'react-router-dom';
 import ConfirmDelete from './../common/ConfirmDelete';
 import Fade from 'react-reveal/Fade';
-import LinesEllipsis from 'react-lines-ellipsis';
 // Generate required css
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
@@ -103,17 +101,7 @@ class OrgItem extends React.Component {
 									<Typography gutterBottom variant='h5' component='h2'>
 										{org.name}
 									</Typography>
-
-									<LinesEllipsis
-										text={org.description}
-										maxLine='2'
-										ellipsis='...'
-										trimRight
-										basedOn='letters'
-										style={{
-											color: '#505050'
-										}}
-									/>
+									<Typography noWrap={true}>{org.description}</Typography>
 								</CardContent>
 							</Link>
 						</CardActionArea>

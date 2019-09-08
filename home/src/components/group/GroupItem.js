@@ -2,33 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import config from './../../utils/config';
-import { Grid, Avatar } from '@material-ui/core';
-import { showEditGroup, deleteGroup } from './../../actions/group';
-import customStyles from './../../theme/customStyles';
-import ConfirmDelete from './../common/ConfirmDelete';
-// Generate required css
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Grid, Avatar } from '@material-ui/core'; // Generate required css
+import { Card, CardActionArea, CardActions, CardContent, Button, Typography } from '@material-ui/core';
 import IconItem from '../common/icons/IconItem';
+import { Col } from 'reactstrap';
+import Flash from 'react-reveal/Flash';
+import { Link } from 'react-router-dom';
 
 const styles = (theme) => ({
 	root: {
 		color: theme.palette.primary.main,
-		minHeight: '250px',
 
 		textAlign: 'center'
 	},
+	whiteRoot: {
+		color: '#fff'
+	},
 	card: {
-		maxWidth: 345,
-		margin: '24px  auto',
-		height: '350',
-		overflow: 'auto'
+		overflow: 'auto',
+		cursor: 'pointer'
 	},
 	avatar: {
 		margin: '10px auto',
-		width: 60,
-		height: 60,
-		background: theme.palette.primary.main
+		padding: '10px',
+		width: 70,
+		height: 70,
+		background: 'transparent'
 	},
 	mediaContaier: {
 		width: '40%',
@@ -43,6 +42,19 @@ const styles = (theme) => ({
 	deleteBtn: {
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
+	},
+
+	whiteColor: {
+		color: '#fff'
+	},
+	blackColor: {
+		color: '#333'
+	},
+	linkClass: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class GroupItem extends React.Component {
@@ -51,69 +63,57 @@ class GroupItem extends React.Component {
 		this.state = {
 			isDelete: false
 		};
-
-		this.selectGroup = this.selectGroup.bind(this);
-		this.onDelete = this.onDelete.bind(this);
-		this.onConfirmDelete = this.onConfirmDelete.bind(this);
-		this.onCancelDelete = this.onCancelDelete.bind(this);
 	}
 	componentDidCatch(error, info) {
 		// You can also log the error to an error reporting service
 	}
-	onDelete() {
-		this.setState({
-			isDelete: true
-		});
-	}
-	onConfirmDelete() {
-		const group = {
-			id: this.props.group.id
-		};
-		this.props.deleteGroup(group);
-	}
-	onCancelDelete() {
-		this.setState({
-			isDelete: false
-		});
-	}
-	selectGroup = () => {
-		this.props.showEditGroup(this.props.group, true);
-	};
 	render() {
-		const { classes, group } = this.props;
+		const { classes, group, isWhite } = this.props;
 		return (
-			<Grid item xs={12} sm={6} md={3}>
-				<Card className={classes.card}>
-					<CardActionArea className={classes.root}>
-						<CardContent>
-							<Avatar className={classes.avatar}>
-								<IconItem name={group.icon_name} font={group.icon_font} color='#fff' size='30px' />
-							</Avatar>
-							<Typography gutterBottom variant='h5' component='h2'>
-								{group.name}
-							</Typography>
-							<Typography component='p'>{group.description}</Typography>
-						</CardContent>
-					</CardActionArea>
-					<CardActions>
-						<div style={{ margin: '0 auto' }}>
-							<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
-								Delete
-							</Button>
-							<Button size='small' color='primary' onClick={this.selectGroup}>
-								Edit
-							</Button>
+			<Col item sm={6} md={3} lg={3}>
+				<Flash>
+					<Link to={'group/' + group.id} className={classes.linkClass}>
+						<div className={classes.card}>
+							<div className={isWhite === true ? classes.whiteRoot : classes.root}>
+								<div>
+									<Avatar className={classes.avatar}>
+										{isWhite === true ? (
+											<IconItem
+												name={group.icon_name}
+												font={group.icon_font}
+												color='#fff'
+												size='3em'
+											/>
+										) : (
+											<IconItem
+												name={group.icon_name}
+												font={group.icon_font}
+												color={this.props.theme.palette.primary.main}
+												size='3em'
+											/>
+										)}
+									</Avatar>
+									<Typography
+										gutterBottom
+										variant='h5'
+										component='h2'
+										className={isWhite === true ? classes.whiteColor : classes.blackColor}
+									>
+										{group.name}
+									</Typography>
+									<Typography
+										noWrap={true}
+										component='p'
+										className={isWhite === true ? classes.whiteColor : classes.blackColor}
+									>
+										{group.description}
+									</Typography>
+								</div>
+							</div>
 						</div>
-					</CardActions>
-				</Card>
-				<ConfirmDelete
-					open={this.state.isDelete}
-					title='Are you Sure ??'
-					text={'do you want to delete ' + group.name}
-					onClose={this.onCancelDelete}
-					onDelete={this.onConfirmDelete}
-				/>
-			</Grid>
+					</Link>
+				</Flash>
+			</Col>
 		);
 	}
 }
@@ -123,6 +123,4 @@ GroupItem.propTypes = {
 };
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { showEditGroup, deleteGroup })(
-	withStyles(styles, { withTheme: true })(GroupItem)
-);
+export default connect(mapStateToProps, {})(withStyles(styles, { withTheme: true })(GroupItem));

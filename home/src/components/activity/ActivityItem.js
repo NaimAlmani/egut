@@ -13,6 +13,7 @@ import ConfirmDelete from './../common/ConfirmDelete';
 import { Card, CardActionArea, CardActions, CardContent, Switch, Button, Typography } from '@material-ui/core';
 import CustomScroll from 'react-custom-scroll';
 import AOS from 'aos';
+import { Col } from 'reactstrap';
 const styles = (theme) => ({
 	root: {
 		color: theme.palette.primary.main,
@@ -84,7 +85,7 @@ class ActivityItem extends React.Component {
 			activity.logoPath +
 			')';
 		return (
-			<Grid item xs={12} sm={6} md={3} style={{ padding: '5px' }}>
+			<Col sm={12} md={4} lg={3} style={{ padding: '5px' }}>
 				<Fade bottom>
 					<Card className={classes.card} style={{ background: imgPath, width: '100%' }}>
 						<div className={classes.overlay} style={{ background: randomColor(this.props.index) }} />
@@ -102,7 +103,7 @@ class ActivityItem extends React.Component {
 						</CardActionArea>
 					</Card>
 				</Fade>
-			</Grid>
+			</Col>
 		);
 	}
 }

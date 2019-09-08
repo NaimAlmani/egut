@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Grid, Avatar } from '@material-ui/core';
 import randomColor from './../../utils/randomColor';
+import { Link } from 'react-router-dom';
+
 import { Fade } from 'react-reveal';
 import { showEditCategory, deleteCategory } from './../../actions/category';
 import ConfirmDelete from './../common/ConfirmDelete';
@@ -43,6 +45,12 @@ const styles = (theme) => ({
 	deleteBtn: {
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
+	},
+	linkClass: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class CategoryItem extends React.Component {
@@ -86,20 +94,24 @@ class CategoryItem extends React.Component {
 				<Fade bottom>
 					<Card className={classes.card} style={{ background: randomColor(this.props.index) }}>
 						<CardActionArea className={classes.root}>
-							<CardContent>
-								<Avatar className={classes.avatar}>
-									<IconItem
-										name={category.icon_name}
-										font={category.icon_font}
-										color='#fff'
-										size='30px'
-									/>
-								</Avatar>
-								<Typography gutterBottom variant='h5' component='h2'>
-									{category.name}
-								</Typography>
-								<Typography component='p'>{category.description}</Typography>
-							</CardContent>
+							<Link to={'category/' + category.id} className={classes.linkClass}>
+								<CardContent>
+									<Avatar className={classes.avatar}>
+										<IconItem
+											name={category.icon_name}
+											font={category.icon_font}
+											color='#fff'
+											size='30px'
+										/>
+									</Avatar>
+									<Typography gutterBottom variant='h5' component='h2'>
+										{category.name}
+									</Typography>
+									<Typography noWrap={true} component='p'>
+										{category.description}
+									</Typography>
+								</CardContent>
+							</Link>
 						</CardActionArea>
 						<CardActions>
 							<div style={{ margin: '0 auto' }}>

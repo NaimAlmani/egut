@@ -17,7 +17,6 @@ class CustomSearchInput extends React.Component {
 				style={{
 					borderBottom: '1px solid' + color,
 					marginBottom: '10px',
-					...this.props.style
 				}}
 			>
 				<IconItem name='search' type='Feather' />

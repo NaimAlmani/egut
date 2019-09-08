@@ -8,7 +8,7 @@ class GroupFeed extends Component {
 	render() {
 		const { groups } = this.props;
 
-		return groups.map((group) => <GroupItem key={group.id} group={group} activityID={this.props.activityID} />);
+		return groups.map((group) => <GroupItem key={group.id} group={group} isWhite={this.props.isWhite} />);
 	}
 }
 const mapStateToProps = (state) => ({});

@@ -177,7 +177,7 @@ class ViewPlace extends React.Component {
 
 						<div className={classes.memberBtn}>
 							<Button color='primary' onClick={this.showChangeBackground}>
-								Change background
+								Ändra bakgrund
 							</Button>
 						</div>
 					</div>
@@ -190,7 +190,7 @@ class ViewPlace extends React.Component {
 					<ChangeBackground place={pls} onCancel={this.hideChangeBackground} />
 				) : null}
 				<Grid container>
-					<Activities title='Activities' activities={this.props.place.activities} />
+					<Activities title='Aktivititer' activities={this.props.place.activities} />
 				</Grid>
 			</div>
 		);

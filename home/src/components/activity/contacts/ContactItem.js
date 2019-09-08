@@ -8,11 +8,26 @@ import ConfirmDelete from '../../common/ConfirmDelete';
 import IconItem from './../../common/icons/IconItem';
 import Fade from 'react-reveal/Fade';
 // Generate required css
-import { TableRow, TableCell, Avatar } from '@material-ui/core';
+import { Grid, TableCell, Avatar, Card, Typography } from '@material-ui/core';
 
+import randomColor from './../../../utils/randomColor';
 const styles = (theme) => ({
+	card: {
+		position: 'relative',
+		marginTop: '50px',
+		padding: '10px',
+		paddingTop: '50px',
+		overflow: 'inherit'
+	},
 	avatar: {
-		margin: 10
+		margin: 10,
+		width: '100px',
+		height: '100px',
+		border: '1px solid ' + theme.palette.primary.main,
+		position: 'absolute',
+		top: '-60px',
+		left: 'calc(50% - 50px)',
+		zIndex: '999'
 	},
 	image: {
 		// ⚠️ object-fit is not supported by IE 11.
@@ -28,38 +43,31 @@ const styles = (theme) => ({
 		width: '40px',
 		height: '40px',
 		cursor: 'pointer'
+	},
+	infoCont: {
+		textAlign: 'right',
+		padding: '0 10px'
+	},
+	extLink: {
+		color: '#333',
+		textDecoration: 'none',
+		cursor: 'pointer',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class CotnactItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isDelete: false
+			isHovered: false
 		};
 
-		this.onDelete = this.onDelete.bind(this);
-		this.onConfirmDelete = this.onConfirmDelete.bind(this);
-		this.onCancelDelete = this.onCancelDelete.bind(this);
 		this.onMouseLeave = this.onMouseLeave.bind(this);
 		this.onMouseEnter = this.onMouseEnter.bind(this);
 	}
 
-	onDelete() {
-		this.setState({
-			isDelete: true
-		});
-	}
-	onConfirmDelete() {
-		const contact = {
-			id: this.props.contact.id
-		};
-		this.props.deleteContact(this.props.activityID, contact.id);
-	}
-	onCancelDelete() {
-		this.setState({
-			isDelete: false
-		});
-	}
 	onMouseEnter() {
 		this.setState({
 			isHover: true
@@ -72,21 +80,61 @@ class CotnactItem extends React.Component {
 		});
 	}
 	render() {
-		const { classes, contact } = this.props;
+		const { classes, contact, index } = this.props;
 		const themeColors = this.props.theme.palette;
 		return (
-			<TableRow key={contact.name} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
-				<TableCell align='center'>
-					<Avatar
-						alt='Remy Sharp'
-						src={config.imagesPath + 'small/' + contact.image}
-						className={classes.avatar}
-					/>
-				</TableCell>
-				<TableCell align='center'>{contact.name}</TableCell>
-				<TableCell align='center'>{contact.email}</TableCell>
-				<TableCell align='center'>{contact.tel}</TableCell>
-			</TableRow>
+			<Grid item md={6} lg={6} sm={12} style={{ marginTop: '20px' }}>
+				<Fade bottom>
+					<Card
+						className={classes.card}
+						key={contact.name}
+						onMouseEnter={this.onMouseEnter}
+						onMouseLeave={this.onMouseLeave}
+					>
+						<div align='center'>
+							<Avatar
+								alt='Remy Sharp'
+								src={config.imagesPath + 'small/' + contact.image}
+								className={classes.avatar}
+							/>
+						</div>
+						<div className={classes.infoCont}>
+							<Typography variant='h6' align='center'>
+								{contact.name}
+							</Typography>
+							<div style={{ textAlign: 'left' }}>
+								<a className={classes.extLink} href={'mailto:' + contact.email}>
+									<Typography variant='p'>
+										<span style={{ margin: '10px' }}>
+											<IconItem
+												name='mail'
+												font='Feather'
+												color={this.props.theme.palette.primary.main}
+												size={20}
+											/>
+										</span>
+
+										{contact.email}
+									</Typography>
+								</a>
+								<a className={classes.extLink} href={'tel:' + contact.email}>
+									<Typography variant='p'>
+										<span style={{ margin: '10px' }}>
+											<IconItem
+												name='phone'
+												font='Feather'
+												color={this.props.theme.palette.primary.main}
+												size={20}
+											/>
+										</span>
+										{contact.tel}
+									</Typography>
+								</a>
+							</div>
+						</div>
+					</Card>
+				</Fade>
+			</Grid>
 		);
 	}
 }

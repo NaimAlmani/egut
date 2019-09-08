@@ -47,7 +47,14 @@ export default class BootstrapNavBar extends React.Component {
 			<div>
 				<Navbar style={{ background: '#616054' }} dark expand='md'>
 					<NavbarBrand to='/'>
-						<img src='/images/rgText.png' alt='RESTAD GÅRD UTBILDNIND AB' />
+						<img
+							src='/images/logoRG.jpg'
+							alt='RESTAD GÅRD UTBILDNIND'
+							style={{ width: '60px', height: '50px' }}
+						/>
+						<p style={{ margin: '10px', color: '#fff', display: 'inline-block', fontSize: '0.8em' }}>
+							Restad gård utbildning
+						</p>
 					</NavbarBrand>
 					<NavbarToggler onClick={this.toggle} />
 					<Collapse isOpen={this.state.isOpen} navbar>

@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Gallery from 'react-grid-gallery';
 import { Button } from '@material-ui/core';
-import allImagesSelected from './../../utils/allImagesSelected';
-import IconItem from './../common/icons/IconItem';
-import { deleteActivityImage } from './../../actions/activity';
+import allImagesSelected from './../../../utils/allImagesSelected';
+import { deleteOrgImage } from './../../../actions/organization';
 const styles = (theme) => ({
 	captionStyle: {
 		backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -43,7 +42,7 @@ const styles = (theme) => ({
 		cursor: 'wait'
 	}
 });
-class ActivityImages extends Component {
+class OrgImages extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -89,7 +88,7 @@ class ActivityImages extends Component {
 	deleteImage() {
 		if (window.confirm(`Are you sure you want to delete image number ${this.state.currentImage}?`)) {
 			const deleteImageId = this.state.images[this.state.currentImage].id;
-			this.props.deleteActivityImage(deleteImageId);
+			this.props.deleteOrgImage(deleteImageId);
 			var images = this.state.images.slice();
 			images.splice(this.state.currentImage, 1);
 			this.setState({
@@ -133,6 +132,4 @@ class ActivityImages extends Component {
 }
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { deleteActivityImage })(
-	withStyles(styles, { withTheme: true })(ActivityImages)
-);
+export default connect(mapStateToProps, { deleteOrgImage })(withStyles(styles, { withTheme: true })(OrgImages));

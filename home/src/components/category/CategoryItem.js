@@ -2,31 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { Grid, Avatar } from '@material-ui/core';
-import { showEditCategory, deleteCategory } from './../../actions/category';
-import ConfirmDelete from './../common/ConfirmDelete';
-// Generate required css
+import { Grid, Avatar } from '@material-ui/core'; // Generate required css
 import { Card, CardActionArea, CardActions, CardContent, Button, Typography } from '@material-ui/core';
 import IconItem from '../common/icons/IconItem';
-
+import Jump from 'react-reveal/Jump';
+import { Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
 const styles = (theme) => ({
 	root: {
 		color: theme.palette.primary.main,
-		minHeight: '250px',
 
 		textAlign: 'center'
 	},
+	whiteRoot: {
+		color: '#fff'
+	},
 	card: {
-		maxWidth: 345,
-		margin: '24px  auto',
-		height: '350',
-		overflow: 'auto'
+		overflow: 'auto',
+		cursor: 'pointer'
 	},
 	avatar: {
 		margin: '10px auto',
-		width: 60,
-		height: 60,
-		background: theme.palette.primary.main
+		padding: '10px',
+		width: 70,
+		height: 70,
+		background: 'transparent'
 	},
 	mediaContaier: {
 		width: '40%',
@@ -41,6 +41,19 @@ const styles = (theme) => ({
 	deleteBtn: {
 		color: theme.palette.error.main,
 		background: theme.palette.error.contrastText
+	},
+
+	whiteColor: {
+		color: '#fff'
+	},
+	blackColor: {
+		color: '#333'
+	},
+	linkClass: {
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'none'
+		}
 	}
 });
 class CategoryItem extends React.Component {
@@ -49,74 +62,57 @@ class CategoryItem extends React.Component {
 		this.state = {
 			isDelete: false
 		};
-
-		this.selectCategory = this.selectCategory.bind(this);
-		this.onDelete = this.onDelete.bind(this);
-		this.onConfirmDelete = this.onConfirmDelete.bind(this);
-		this.onCancelDelete = this.onCancelDelete.bind(this);
 	}
 	componentDidCatch(error, info) {
 		// You can also log the error to an error reporting service
 	}
-	onDelete() {
-		this.setState({
-			isDelete: true
-		});
-	}
-	onConfirmDelete() {
-		const category = {
-			id: this.props.category.id
-		};
-		this.props.deleteCategory(category);
-	}
-	onCancelDelete() {
-		this.setState({
-			isDelete: false
-		});
-	}
-	selectCategory = () => {
-		this.props.showEditCategory(this.props.category, true);
-	};
 	render() {
-		const { classes, category } = this.props;
+		const { classes, category, isWhite } = this.props;
 		return (
-			<Grid item xs={12} sm={6} md={3}>
-				<Card className={classes.card}>
-					<CardActionArea className={classes.root}>
-						<CardContent>
-							<Avatar className={classes.avatar}>
-								<IconItem
-									name={category.icon_name}
-									font={category.icon_font}
-									color='#fff'
-									size='30px'
-								/>
-							</Avatar>
-							<Typography gutterBottom variant='h5' component='h2'>
-								{category.name}
-							</Typography>
-							<Typography component='p'>{category.description}</Typography>
-						</CardContent>
-					</CardActionArea>
-					<CardActions>
-						<div style={{ margin: '0 auto' }}>
-							<Button size='small' className={classes.deleteBtn} onClick={this.onDelete}>
-								Delete
-							</Button>
-							<Button size='small' color='primary' onClick={this.selectCategory}>
-								Edit
-							</Button>
+			<Col sm={12} md={4} lg={3}>
+				<Jump>
+					<Link to={'category/' + category.id} className={classes.linkClass}>
+						<div className={classes.card}>
+							<div className={isWhite === true ? classes.whiteRoot : classes.root}>
+								<div>
+									<Avatar className={classes.avatar}>
+										{isWhite === true ? (
+											<IconItem
+												name={category.icon_name}
+												font={category.icon_font}
+												color='#fff'
+												size='3em'
+											/>
+										) : (
+											<IconItem
+												name={category.icon_name}
+												font={category.icon_font}
+												color={this.props.theme.palette.primary.main}
+												size='3em'
+											/>
+										)}
+									</Avatar>
+									<Typography
+										gutterBottom
+										variant='h5'
+										component='h2'
+										className={isWhite === true ? classes.whiteColor : classes.blackColor}
+									>
+										{category.name}
+									</Typography>
+									<Typography
+										noWrap={true}
+										component='p'
+										className={isWhite === true ? classes.whiteColor : classes.blackColor}
+									>
+										{category.description}
+									</Typography>
+								</div>
+							</div>
 						</div>
-					</CardActions>
-				</Card>
-				<ConfirmDelete
-					open={this.state.isDelete}
-					title='Are you Sure ??'
-					text={'do you want to delete ' + category.name}
-					onClose={this.onCancelDelete}
-					onDelete={this.onConfirmDelete}
-				/>
-			</Grid>
+					</Link>
+				</Jump>
+			</Col>
 		);
 	}
 }
@@ -126,6 +122,4 @@ CategoryItem.propTypes = {
 };
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { showEditCategory, deleteCategory })(
-	withStyles(styles, { withTheme: true })(CategoryItem)
-);
+export default connect(mapStateToProps, {})(withStyles(styles, { withTheme: true })(CategoryItem));

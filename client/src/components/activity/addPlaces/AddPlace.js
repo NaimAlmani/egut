@@ -57,6 +57,7 @@ class AddPlace extends Component {
 
 	AddPlaces = () => {
 		this.props.addPlacesToActivity(this.props.currentActivity, this.props.activity.selectedPlaces);
+		this.props.onCancel();
 	};
 	render() {
 		const { classes, place } = this.props;

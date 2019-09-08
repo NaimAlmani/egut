@@ -57,6 +57,7 @@ class AddCategory extends Component {
 
 	AddCategorys = () => {
 		this.props.addCategoriesToActivity(this.props.currentActivity, this.props.activity.selectedCategories);
+		this.props.onCancel();
 	};
 	render() {
 		const { classes, category } = this.props;

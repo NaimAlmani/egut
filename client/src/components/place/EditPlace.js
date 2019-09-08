@@ -30,7 +30,9 @@ const styles = (theme) => ({
 		position: 'absolute',
 		top: '100px',
 		left: 'calc(50% - 200px)',
-		minWidth: '300px'
+		minWidth: '300px',
+		height: '75vh',
+		overflow: 'auto'
 	},
 	button: {
 		margin: theme.spacing.unit
@@ -94,14 +96,16 @@ class EditPlace extends Component {
 	};
 	onSubmit(e) {
 		e.preventDefault();
+		const newLogo = !isEmpty(this.state.pictures) ? this.state.pictures[0] : null;
 		const placeData = {
 			id: this.props.place.selectedPlace.id,
 			name: this.state.name,
 			description: this.state.description,
 			favorite: this.state.favorite,
-			image: this.state.pictures[0]
+			image: newLogo
 		};
 		this.props.updatePlace(placeData);
+		this.props.showEditPlace(this.props.selectedPlace, false);
 	}
 
 	onChange(e) {
@@ -154,7 +158,7 @@ class EditPlace extends Component {
 						<FormControlLabel
 							control={
 								<Switch
-									checked={this.state.favorite}
+									checked={this.state.favorite === 1}
 									onChange={this.handleSwitchChange}
 									value='favorite'
 									color='secondary'
@@ -173,7 +177,12 @@ class EditPlace extends Component {
 							name='fileInput'
 							className='imageInputFile'
 						/>
-
+						<div className={classes.oldImageCont}>
+							<label>The current image: </label>
+							<div className={classes.mediaContaier}>
+								<img className={classes.image} src={config.imagesPath + this.state.image} alt='logo' />
+							</div>
+						</div>
 						<div style={{ textAlign: 'right' }}>
 							<Button
 								variant='outlined'

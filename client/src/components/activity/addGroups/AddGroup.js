@@ -57,6 +57,7 @@ class AddGroup extends Component {
 
 	AddGroups = () => {
 		this.props.addGroupsToActivity(this.props.currentActivity, this.props.activity.selectedGroups);
+		this.props.onCancel();
 	};
 	render() {
 		const { classes, group } = this.props;

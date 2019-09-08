@@ -24,6 +24,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import NotFound from './components/layouts/NotFound';
 import Places from './components/place/Places';
 import ViewPlace from './components/place/ViewPlace';
+import ViewCategory from './components/category/ViewCategory';
+import ViewGroup from './components/group/ViewGroup';
 
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
@@ -31,6 +33,9 @@ const styles = (theme) => ({
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 		display: 'block'
+	},
+	pageholder: {
+		minHeight: '100vh'
 	}
 });
 let BrowserHistory = Router.BrowserHistory;
@@ -42,6 +47,7 @@ class Root extends Component {
 		this.props.setLoading(false);
 	}
 	render() {
+		const { classes } = this.props;
 		return (
 			<Router history={BrowserHistory}>
 				<MuiThemeProvider theme={theme}>
@@ -68,20 +74,22 @@ class Root extends Component {
 							/>
 						) : null}
 						<CustomSneakBar />
-						<Logo />
 						<BootstrapNavBar />
 						<OnImagesLoaded onLoaded={() => this.props.setLoading(true)}>
-							<Switch>
-								<Route exact path='/' component={Home} />
-								<Route exact path='/organization/:id' component={ViewOrg} />
-								<Route exact path='/organizations' component={Orgs} />
-								<Route exact path='/place/:id' component={ViewPlace} />
-								<Route exact path='/places' component={Places} />
-								<Route exact path='/activities' component={Activities} />
-								<Route exact path='/activity/:id' component={ViewActivity} />
-								<Route component={NotFound} />
-							</Switch>
-
+							<div className={classes.pageholder}>
+								<Switch>
+									<Route exact path='/' component={Home} />
+									<Route exact path='/organization/:id' component={ViewOrg} />
+									<Route exact path='/organizations' component={Orgs} />
+									<Route exact path='/place/:id' component={ViewPlace} />
+									<Route exact path='/places' component={Places} />
+									<Route exact path='/activities' component={Activities} />
+									<Route exact path='/activity/:id' component={ViewActivity} />
+									<Route exact path='/category/:id' component={ViewCategory} />
+									<Route exact path='/group/:id' component={ViewGroup} />
+									<Route component={NotFound} />
+								</Switch>
+							</div>
 							<Footer />
 						</OnImagesLoaded>
 					</Scrollbars>

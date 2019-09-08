@@ -83,9 +83,9 @@ class activities extends Component {
 		return (
 			<div className={classes.relativeContainer}>
 				<Title
-					iconName='globe'
+					iconName='heart'
 					text={this.props.title}
-					subText='You can manage the activity here'
+					subText={this.props.activities.length + '  akriviteter'}
 					color={this.props.theme.palette.primary.main}
 				/>
 				<CustomSearchInput

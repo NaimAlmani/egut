@@ -30,7 +30,9 @@ const styles = (theme) => ({
 		position: 'absolute',
 		top: '100px',
 		left: 'calc(50% - 200px)',
-		minWidth: '300px'
+		minWidth: '300px',
+		height: '75vh',
+		overflow: 'auto'
 	},
 	button: {
 		margin: theme.spacing.unit
@@ -78,20 +80,22 @@ class PlaceForm extends Component {
 	}
 	onSubmit(e) {
 		e.preventDefault();
+		const newLogo = !isEmpty(this.state.pictures) ? this.state.pictures[0] : null;
 		const placeData = {
 			name: this.state.name,
 			description: this.state.description,
 			favorite: this.state.favorite,
-			image: this.state.pictures[0]
+			image: newLogo
 		};
 		this.props.addNewPlace(placeData);
+		this.props.onCancel();
 	}
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 	handleSwitchChange = (event) => {
-		this.setState({ favorite: event.target.checked });
+		this.setState({ favorite: event.target.checked === true ? 1 : 0 });
 	};
 	render() {
 		const { classes } = this.props;
@@ -148,7 +152,7 @@ class PlaceForm extends Component {
 						<FormControlLabel
 							control={
 								<Switch
-									checked={this.state.favorite}
+									checked={this.state.favorite === 1 ? true : false}
 									onChange={this.handleSwitchChange}
 									value='favorite'
 									color='secondary'

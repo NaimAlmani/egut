@@ -1,68 +1,23 @@
-import {
-	GET_ALL_CATEGORIES,
-	ADD_NEW_CATEGORY,
-	SHOW_EDIT_CATEGORY,
-	UPDATE_CATEGORY,
-	DELETE_CATEGORY,
-	SELECT_CATEGORY_iCON,
-	SHOW_CATEGORY_ICON,
-	RESET_CATEGORY_ICON
-} from '../actions/types';
+import { GET_HOME_INFO, CATEGORY_BY_ID } from '../actions/types';
 
 const initialState = {
 	categories: [],
-	selectedCategory: {},
-	isEdit: false,
-	icon: {},
-	isShowIcons: false
+	currentCategory: {},
+	activities: []
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case GET_ALL_CATEGORIES:
+		case GET_HOME_INFO:
 			return {
 				...state,
-				categories: action.payload
+				categories: action.payload.categories
 			};
-		case ADD_NEW_CATEGORY:
+		case CATEGORY_BY_ID:
 			return {
 				...state,
-				categories: [ action.payload, ...state.categories ]
-			};
-		case SHOW_EDIT_CATEGORY:
-			return {
-				...state,
-				selectedCategory: action.payload.category,
-				isEdit: action.payload.isShow
-			};
-		case UPDATE_CATEGORY:
-			const newCategories = state.categories;
-			const currentIndex = state.categories.findIndex((x) => x.id === action.payload.id);
-			newCategories[currentIndex] = action.payload;
-			return {
-				...state,
-				categories: [ ...newCategories ]
-			};
-		case DELETE_CATEGORY:
-			return {
-				...state,
-				categories: state.categories.filter((c) => c.id !== action.payload)
-			};
-		case SELECT_CATEGORY_iCON:
-			return {
-				...state,
-				icon: action.payload,
-				isShowIcons: false
-			};
-		case SHOW_CATEGORY_ICON:
-			return {
-				...state,
-				isShowIcons: true
-			};
-		case RESET_CATEGORY_ICON:
-			return {
-				...state,
-				icon: {}
+				currentCategory: action.payload.category,
+				activities: action.payload.activities
 			};
 		default:
 			return state;

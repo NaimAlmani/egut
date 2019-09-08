@@ -103,26 +103,9 @@ class OrgItem extends React.Component {
 									<img className={classes.image} src={config.imagesPath + org.logoPath} alt='logo' />
 								</div>
 								<CardContent>
-									<Typography gutterBottom variant='h5' component='h2'>
+									<Typography gutterBottom variant='h6' component='h6'>
 										{org.name}
 									</Typography>
-									{!isEmpty(org.detail) ? (
-										<Typography component='h6' style={{ fontWeight: 'bold' }}>
-											{org.detail}
-										</Typography>
-									) : null}
-									{!isEmpty(org.description) ? (
-										<LinesEllipsis
-											text={org.description}
-											maxLine='2'
-											ellipsis='...'
-											trimRight
-											basedOn='letters'
-											style={{
-												color: '#c5c5c5'
-											}}
-										/>
-									) : null}
 								</CardContent>
 							</Link>
 						</CardActionArea>

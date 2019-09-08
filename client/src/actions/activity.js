@@ -48,7 +48,8 @@ import {
 	ADD_EXIST_CONTACTS,
 	//MEMBERS
 	ACTIVITY_ACTIVATE_MEMBER,
-	ACTIVATE_ACTIVITY
+	ACTIVATE_ACTIVITY,
+	WEEKLY_ACTIVITIES
 } from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
@@ -578,6 +579,21 @@ export const ActivateActivity = (activityID, isActive) => (dispatch) => {
 			dispatch({
 				type: ACTIVATE_ACTIVITY,
 				payload: { id: activityID, is_active: isActive }
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const getWeeklyActivities = () => (dispatch) => {
+	axiosInstance
+		.get('/api/day/activities')
+		.then((res) => {
+			dispatch({
+				type: WEEKLY_ACTIVITIES,
+				payload: res.data
 			});
 			dispatch(endLoading());
 		})

@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
-import { Paper, Typography, TextField, Button } from '@material-ui/core';
-import Icon from 'react-web-vector-icons';
-
-import { updateCategory, showEditCategory } from '../../actions/category';
-import { addNewCategory, resetIcon, showIcon, selectCategoryIcon } from '../../actions/category';
-import IconsList from './../icons/IconsList';
+import { updateSlide, showEditSlide } from '../../actions/slide';
+import { Paper, Typography, TextField, Button, FormControlLabel, Switch } from '@material-ui/core';
+import ImageUploader from 'react-images-upload';
 import Title from '../common/Title';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
@@ -33,7 +30,9 @@ const styles = (theme) => ({
 		position: 'absolute',
 		top: '100px',
 		left: 'calc(50% - 200px)',
-		minWidth: '300px'
+		minWidth: '300px',
+		height: '75vh',
+		overflow: 'auto'
 	},
 	button: {
 		margin: theme.spacing.unit
@@ -50,82 +49,66 @@ const styles = (theme) => ({
 		// ⚠️ object-fit is not supported by IE 11.
 		objectFit: 'cover',
 		width: '100%'
-	},
-	//icon container style
-	iconCont: {
-		textAlign: 'center',
-		margin: '10px'
-	},
-	IconCircle: {
-		background: theme.palette.primary.main,
-		width: '100px',
-		height: '100px',
-		margin: '0 auto',
-		borderRadius: '50%',
-		textAlign: 'center',
-		paddingTop: '5px'
-	},
-	chooseIcon: {
-		background: theme.palette.primary.main,
-		width: '100px',
-		height: '100px',
-		margin: '0 auto',
-		borderRadius: '50%',
-		textAlign: 'center',
-		paddingTop: '20px'
 	}
 });
 
-class EditCategory extends Component {
+class EditSlide extends Component {
 	constructor() {
 		super();
 		this.state = {
-			name: '',
-			description: ''
+			title: '',
+			subtitle: '',
+			pictures: [],
+			image: ''
 		};
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.onDrop = this.onDrop.bind(this);
 		this.onCancel = this.onCancel.bind(this);
-		this.chooseIcon = this.chooseIcon.bind(this);
+		this.handleSwitchChange = this.handleSwitchChange.bind(this);
 	}
 
 	componentDidMount() {
-		this.setState({
-			name: this.props.category.selectedCategory.name,
-			description: this.props.category.selectedCategory.description,
-			icon_name: this.props.category.icon_name,
-			icon_font: this.props.icon_font
-		});
-		this.props.selectCategoryIcon({
-			name: this.props.category.selectedCategory.icon_name,
-			type: this.props.category.selectedCategory.icon_font
-		});
+		if (!isEmpty(this.props.slide.selectedSlide)) {
+			this.setState({
+				title: this.props.slide.selectedSlide.title,
+				subtitle: this.props.slide.selectedSlide.subtitle,
+				image: this.props.slide.selectedSlide.image
+			});
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {}
 	onCancel() {
-		this.props.showEditCategory(this.props.selectedCategory, false);
+		this.props.showEditSlide(this.props.selectedSlide, false);
 	}
+	onDrop(picture, file) {
+		this.setState({
+			pictures: this.state.pictures.concat(picture),
+			image: file
+		});
+	}
+	handleSwitchChange = (event) => {
+		this.setState({ favorite: event.target.checked });
+	};
 	onSubmit(e) {
 		e.preventDefault();
+		const newLogo = !isEmpty(this.state.pictures) ? this.state.pictures[0] : null;
 		const placeData = {
-			id: this.props.category.selectedCategory.id,
-			name: this.state.name,
-			description: this.state.description,
-			icon_name: this.props.category.icon.name,
-			icon_font: this.props.category.icon.type
+			id: this.props.slide.selectedSlide.id,
+			title: this.state.title,
+			subtitle: this.state.subtitle,
+			image: newLogo
 		};
-		this.props.updateCategory(placeData);
-		this.props.showEditCategory(this.props.selectedCategory, false);
+		this.props.updateSlide(placeData);
+		this.props.showEditSlide(this.props.selectedSlide, false);
 	}
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
-	chooseIcon() {
-		this.props.showIcon(true);
-	}
+
 	render() {
 		const { classes } = this.props;
 		return (
@@ -137,7 +120,7 @@ class EditCategory extends Component {
 							<IconItem name='x' type='Feather' />
 						</span>
 					</div>
-					<Title text='Edit Category' color={this.props.theme.palette.primary.main} icon='map' />
+					<Title text='Edit Place' color={this.props.theme.palette.primary.main} icon='map' />
 					<form onSubmit={this.onSubmit} encType='multipart/form-data'>
 						<div className={classes.FieldContainer}>
 							<TextField
@@ -145,45 +128,47 @@ class EditCategory extends Component {
 								label='Name'
 								className={(classes.textField, classes.textfield)}
 								type='text'
-								name='name'
-								autoComplete='name'
+								name='title'
+								autoComplete='title'
 								margin='normal'
 								variant='outlined'
 								fullWidth={true}
 								onChange={this.onChange}
-								value={this.state.name}
+								value={this.state.title}
 							/>
 						</div>
 
 						<div className={classes.FieldContainer}>
 							<TextField
 								id='outlined-email-input'
-								label='Description'
+								label='subtitle'
 								className={(classes.textField, classes.textfield)}
 								type='text'
-								name='description'
+								name='subtitle'
 								margin='normal'
 								variant='outlined'
 								fullWidth={true}
 								onChange={this.onChange}
-								value={this.state.description}
+								value={this.state.subtitle}
 							/>
 						</div>
-						<div className={classes.iconCont}>
-							{!isEmpty(this.props.category.icon) ? (
-								<Button color='primary' className={classes.IconCircle} onClick={this.chooseIcon}>
-									<Icon
-										font={this.props.category.icon.type}
-										name={this.props.category.icon.name}
-										color={'#fff'}
-										size={50}
-									/>
-								</Button>
-							) : (
-								<Button color='primary' className={classes.chooseIcon} onClick={this.chooseIcon}>
-									<p style={{ color: '#fff' }}>Icon</p>
-								</Button>
-							)}
+
+						<ImageUploader
+							withIcon={true}
+							buttonText='Choose images'
+							onChange={this.onDrop}
+							imgExtension={[ '.jpg', '.gif', '.png', '.gif' ]}
+							maxFileSize={5242880}
+							singleImage={true}
+							withPreview={true}
+							name='fileInput'
+							className='imageInputFile'
+						/>
+						<div className={classes.oldImageCont}>
+							<label>The current image: </label>
+							<div className={classes.mediaContaier}>
+								<img className={classes.image} src={config.imagesPath + this.state.image} alt='logo' />
+							</div>
 						</div>
 						<div style={{ textAlign: 'right' }}>
 							<Button
@@ -207,16 +192,13 @@ class EditCategory extends Component {
 						</div>
 					</form>
 				</Paper>
-				{this.props.category.isShowIcons === true ? (
-					<IconsList onClose={this.hideIcons} iconParent={'category'} />
-				) : null}
 			</div>
 		);
 	}
 }
 
-EditCategory.propTypes = {
-	updateCategory: PropTypes.func.isRequired,
+EditSlide.propTypes = {
+	updateSlide: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired,
 	loading: PropTypes.object.isRequired
@@ -226,9 +208,9 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	loading: state.loading,
-	category: state.category
+	slide: state.slide
 });
 
-export default connect(mapStateToProps, { updateCategory, showEditCategory, showIcon, resetIcon, selectCategoryIcon })(
-	withStyles(styles, { withTheme: true })(EditCategory)
+export default connect(mapStateToProps, { updateSlide, showEditSlide })(
+	withStyles(styles, { withTheme: true })(EditSlide)
 );

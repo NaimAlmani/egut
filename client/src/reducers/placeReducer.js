@@ -35,7 +35,7 @@ export default function(state = initialState, action) {
 				isEdit: action.payload.isShow
 			};
 		case UPDATE_PLACE:
-			const oldPlaces = state.places.filter((o) => o.id !== state.selectedPlace.id);
+			const oldPlaces = state.places.filter((o) => o.id !== action.payload.id);
 			return {
 				...state,
 				places: [ action.payload, ...oldPlaces ]

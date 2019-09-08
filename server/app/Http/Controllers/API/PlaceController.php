@@ -23,6 +23,9 @@ class PlaceController extends Controller
     {
         return response()->json('unAuthorized');
     }
+
+
+
     /**
      * create new place
      */
@@ -34,18 +37,42 @@ class PlaceController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-        //save image
-        $image = $request->image;
         $imgName = "default.jpg";
-        if (!empty($image)) {
-            //saving image
-            $imgName  = md5(time() . uniqid()) . '.' .
+        if (!is_null($request->image) && $request->image != 'null') {
+            //save images
+            $image = $request->image;
+            //deal with images
+            //set the image name
+            $imgName = md5(time() . uniqid()) . '.' .
                 $image->getClientOriginalExtension();
-            $image->storeAs('/public/images/', $imgName);
-            //save to db
+            //set th images path
+            $smallPath = 'images/small/';
+            $originalPath = 'images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+            $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+            //save small image
+            $smallWidth = $width;
+            $smallHeight = $height;
+            switch (true) {
+                case $width <= 300:
+                    $smallWidth = $width / 2;
+                    $smallHeight = $height / 2;
+                    break;
+                case $width >= 1000:
+                    $smallWidth = $width / 4;
+                    $smallHeight = $height / 4;
+                default:
+                    $smallWidth = $width / 3;
+                    $smallHeight = $height / 3;
+            }
+            $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
         }
         $favorite = false;
-        if ($request->favorite == true) {
+        if ($request->favorite == 1) {
             $favorite = true;
         }
         $place = Place::create(['name' => $request->name, 'description' => $request->description, 'favorite' => $favorite, 'image' => $imgName]);
@@ -69,15 +96,44 @@ class PlaceController extends Controller
         $id = $request->id;
         $name = $request->name;
         $description = $request->description;
-        $favorite = $request->favorite;
         $image = $request->image;
         $imgName = "default.jpg";
-        if (!empty($image)) {
-            //saving image
-            $imgName  = md5(time() . uniqid()) . '.' .
+        if (!is_null($request->image) && $request->image != 'null') {
+            //save images
+            $image = $request->image;
+            //deal with images
+            //set the image name
+            $imgName = md5(time() . uniqid()) . '.' .
                 $image->getClientOriginalExtension();
-            $image->storeAs('/public/images/', $imgName);
-            //save to db
+            //set th images path
+            $smallPath = 'images/small/';
+            $originalPath = 'images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+            $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+            //save small image
+            $smallWidth = $width;
+            $smallHeight = $height;
+            switch (true) {
+                case $width <= 300:
+                    $smallWidth = $width / 2;
+                    $smallHeight = $height / 2;
+                    break;
+                case $width >= 1000:
+                    $smallWidth = $width / 4;
+                    $smallHeight = $height / 4;
+                default:
+                    $smallWidth = $width / 3;
+                    $smallHeight = $height / 3;
+            }
+            $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
+        }
+        $favorite = false;
+        if ($request->favorite == 1) {
+            $favorite = true;
         }
         //pring the row
         $place  = Place::find($request->id);

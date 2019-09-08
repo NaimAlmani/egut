@@ -120,6 +120,7 @@ class OrgForm extends Component {
 			tel: '',
 			contact: ''
 		};
+		this.props.onCancel();
 	}
 
 	onChange(e) {

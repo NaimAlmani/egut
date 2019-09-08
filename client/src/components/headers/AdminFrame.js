@@ -41,6 +41,7 @@ import { addPushedNotification } from './../../actions/notification';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import isEmpty from './../../validation/is-empty';
+import { LinearProgress } from '@material-ui/core';
 const drawerWidth = 240;
 
 const styles = (theme) => ({
@@ -63,6 +64,11 @@ const styles = (theme) => ({
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen
 		})
+	},
+	mainContainer: {
+		padding: '5px',
+		width: '100vw',
+		marginTop: '60px'
 	},
 	menuButton: {
 		marginLeft: 12,
@@ -128,6 +134,14 @@ const styles = (theme) => ({
 	},
 	subMenuItemRoot: {
 		height: 'auto'
+	},
+	loadingCont: {
+		position: 'fixed',
+		width: '100%',
+		height: '5px',
+		top: '0',
+		left: '0',
+		zIndex: '9999'
 	}
 });
 
@@ -265,15 +279,15 @@ class AdminFrame extends React.Component {
 		);
 
 		return (
-			<ScrollArea speed={0.8} className='area' contentClassName='content' horizontal={true}>
+			<div>
+				{this.props.loading === true ? (
+					<div className={classes.loadingCont}>
+						<LinearProgress color='primary' />
+					</div>
+				) : null}
 				<div className={classes.root}>
 					<CssBaseline />
-					<AppBar
-						position='fixed'
-						className={classNames(classes.appBar, {
-							[classes.appBarShift]: open
-						})}
-					>
+					<AppBar position='fixed' className={classNames(classes.appBar)}>
 						<Toolbar disableGutters={!open}>
 							<IconButton
 								color='inherit'
@@ -342,15 +356,7 @@ class AdminFrame extends React.Component {
 						/>
 					</Snackbar>
 					{/* * end email notification */}
-					<Drawer
-						className={classes.drawer}
-						variant='persistent'
-						anchor='left'
-						open={open}
-						classes={{
-							paper: classes.drawerPaper
-						}}
-					>
+					<Drawer anchor='left' open={open} onClose={this.handleDrawerClose}>
 						<div className={classes.drawerHeader}>
 							<IconButton onClick={this.handleDrawerClose}>
 								{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -418,12 +424,14 @@ class AdminFrame extends React.Component {
 									</ListItem>
 								</Link>
 
-								<ListItem button key={'trans'}>
-									<ListItemIcon>
-										<IconItem name='globe' />
-									</ListItemIcon>
-									<div id='translate' />
-								</ListItem>
+								<Link to='/schema' className={classes.Link}>
+									<ListItem button key={'Schema'}>
+										<ListItemIcon>
+											<IconItem name='calendar' />
+										</ListItemIcon>
+										<ListItemText primary={'Schema'} />
+									</ListItem>
+								</Link>
 
 								<ListItem button key={'logout'} onClick={this.onLogout}>
 									<ListItemIcon>
@@ -447,16 +455,12 @@ class AdminFrame extends React.Component {
 
 						<Divider />
 					</Drawer>
-					<main
-						className={classNames(classes.content, {
-							[classes.contentShift]: open
-						})}
-					>
+					<main>
 						<div className={classes.mainContainer}>{this.props.children}</div>
 					</main>
 					<Errors errors={this.props.errors} />
 				</div>
-			</ScrollArea>
+			</div>
 		);
 	}
 }
@@ -469,7 +473,8 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	email: state.email,
-	notification: state.notification
+	notification: state.notification,
+	loading: state.loading
 });
 export default connect(mapStateToProps, {
 	logoutUser,

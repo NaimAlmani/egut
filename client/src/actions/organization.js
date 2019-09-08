@@ -81,6 +81,8 @@ export const updateOrg = (org) => (dispatch) => {
 			dispatch(endLoading());
 		})
 		.catch((err) => {
+			console.log('err');
+			console.log(err);
 			dispatch(endLoading());
 			dispatch(getErrors(err.response.data));
 		});

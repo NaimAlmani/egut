@@ -68,6 +68,7 @@ class AddImage extends Component {
 			place_id: this.props.place.id
 		};
 		this.props.changePlaceBackground(data);
+		this.props.onCancel();
 	}
 
 	onChange(e) {

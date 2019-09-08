@@ -52,7 +52,6 @@ class ActivityImages extends Component {
 			currentImage: ''
 		};
 		this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
-		this.deleteImage = this.deleteImage.bind(this);
 	}
 	componentDidMount() {
 		this.setState({});
@@ -86,17 +85,6 @@ class ActivityImages extends Component {
 	onCurrentImageChange(index) {
 		this.setState({ currentImage: index });
 	}
-	deleteImage() {
-		if (window.confirm(`Are you sure you want to delete image number ${this.state.currentImage}?`)) {
-			const deleteImageId = this.state.images[this.state.currentImage].id;
-			this.props.deleteActivityImage(deleteImageId);
-			var images = this.state.images.slice();
-			images.splice(this.state.currentImage, 1);
-			this.setState({
-				images: images
-			});
-		}
-	}
 
 	render() {
 		const { classes } = this.props;
@@ -117,15 +105,6 @@ class ActivityImages extends Component {
 					srcSet={this.state.images}
 					onSelectImage={this.onSelectImage}
 					currentImageWillChange={this.onCurrentImageChange}
-					customControls={[
-						<button
-							style={{ background: 'transparent', boxShadow: 'none', border: 'none', color: '#f00' }}
-							key='deleteImage'
-							onClick={this.deleteImage}
-						>
-							delete
-						</button>
-					]}
 				/>
 			</div>
 		);

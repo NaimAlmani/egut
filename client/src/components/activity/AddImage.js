@@ -30,7 +30,9 @@ const styles = (theme) => ({
         position: 'absolute',
         top: '100px',
         left: 'calc(50% - 200px)',
-        minWidth: '300px'
+        minWidth: '300px',
+        height:'75vh',
+        overflow:'auto',
     },
     button: {
         margin: theme.spacing.unit
@@ -72,6 +74,8 @@ class AddImage extends Component {
             activity_id:this.props.activity.id
         };
         this.props.addNewImage(data);
+        this.props.onCancel();
+
     }
 
     onChange(e) {

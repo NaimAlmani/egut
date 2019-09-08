@@ -6,7 +6,7 @@ import config from './../../utils/config';
 
 import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
-import { Grid, Button, Paper, LinearProgress } from '@material-ui/core';
+import { Grid, Button, Paper, LinearProgress, Typography } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
 import { getOrgById } from './../../actions/organization';
 import Title from '../common/Title';
@@ -15,6 +15,7 @@ import IconItem from '../common/icons/IconItem';
 import OrgImages from './OrgImages';
 import Activities from './activities/Activities';
 import randomBackground from '../../utils/randomBackground';
+import { Col, Container, Row } from 'reactstrap';
 const styles = (theme) => ({
 	header: {
 		position: 'relative',
@@ -81,7 +82,7 @@ const styles = (theme) => ({
 		cursor: 'pointer'
 	},
 	orgInfoContainer: {
-		width: '80%',
+		mninidth: '70%',
 		margin: '40px auto',
 		textAlign: 'center',
 		fontSize: '1.25em'
@@ -112,6 +113,38 @@ const styles = (theme) => ({
 		'&:hover': {
 			textDecoration: 'none'
 		}
+	},
+	white: {
+		color: '#fff'
+	},
+	details: {
+		color: '#fff'
+	},
+	memberBtn: {
+		marginTop: '20px'
+	},
+	btn: {
+		color: '#fff',
+		borderColor: '#fff',
+		padding: '10px',
+		margin: '10px',
+
+		borderRadius: '5px',
+		border: '1px solid #fff',
+		'&:hover': {
+			textDecoration: 'none',
+			fontWeight: 'bold',
+			underline: 'none',
+			color: theme.palette.primary.main,
+			border: '1px solid ' + theme.palette.primary.main
+		}
+	},
+	desc: {
+		fontSize: '1rem'
+	},
+	subtitle: {
+		textAlign: 'center',
+		marginBottom: '20px'
 	}
 });
 class ViewOrg extends React.Component {
@@ -144,33 +177,56 @@ class ViewOrg extends React.Component {
 							<img src={logo} className={classes.logo} alt={org.name} />
 						</div>
 						<div className={classes.title}>
-							<h1>{org.name}</h1>
+							<Typography className={classes.white} variant='h5'>
+								{org.name}
+							</Typography>
 						</div>
 						{!isEmpty(org.detail) ? (
 							<div classNam={classes.desc}>
-								<p> {org.detail}</p>
+								<Typography variant='p' className={classes.details}>
+									{' '}
+									{org.detail}
+								</Typography>
 							</div>
 						) : null}
 						{!isEmpty(org.website) ? (
 							<div className={classes.memberBtn}>
-								<Button className={classes.btn} color='secondary' variant='outlined' href={org.website}>
-									visa mer
-								</Button>
+								<a variant='flat' className={classes.btn} target='#' href={org.website}>
+									Besök
+								</a>
 							</div>
 						) : null}
 					</div>
 				</div>
-
+				{!isEmpty(org.description) ? (
+					<Container>
+						<Row>
+							<Col
+								md={{ size: 8, offset: 2 }}
+								lg={{ size: 8, offset: 2 }}
+								sm={{ size: 'auto', offset: 1 }}
+							>
+								<div className={classes.orgInfoContainer}>
+									<Typography variant='p' className={classes.desc}>
+										{org.description}
+									</Typography>
+								</div>
+							</Col>
+						</Row>
+					</Container>
+				) : null}
 				<div className={classes.chipsCont}>
-					<Paper
+					<div
 						style={{
-							width: '100%',
+							width: '80%',
 							margin: ' 20px auto',
 							marginTop: '0',
 							padding: '20px 10px'
 						}}
 					>
-						<h3 style={{ textAlign: 'center' }}>Kontakt info</h3>
+						<Typography variant='h6' className={classes.subtitle}>
+							Kontakt info
+						</Typography>
 						<Grid container justify='center'>
 							{!isEmpty(org.website) ? (
 								<Grid
@@ -179,11 +235,11 @@ class ViewOrg extends React.Component {
 									sm={6}
 									md={3}
 									style={{
-										fontSize: '1.25em',
+										fontSize: '1rem',
 										textAlign: 'center'
 									}}
 								>
-									<span style={{ margin: '2px' }}>
+									<span style={{ margin: '5px' }}>
 										<IconItem name='globe' font='Feather' color={mainColor} size={'1em'} />
 									</span>
 									<a className={classes.extLink} href={org.website}>
@@ -199,11 +255,11 @@ class ViewOrg extends React.Component {
 									sm={6}
 									md={3}
 									style={{
-										fontSize: '1.25em',
+										fontSize: '1rem',
 										textAlign: 'center'
 									}}
 								>
-									<span style={{ margin: '2px' }}>
+									<span style={{ margin: '5px' }}>
 										<IconItem name='user' font='Feather' color={mainColor} size={'1.2em'} />
 									</span>
 
@@ -217,11 +273,11 @@ class ViewOrg extends React.Component {
 									sm={6}
 									md={3}
 									style={{
-										fontSize: '1.25em',
+										fontSize: '1rem',
 										textAlign: 'center'
 									}}
 								>
-									<span style={{ margin: '2px' }}>
+									<span style={{ margin: '5px' }}>
 										<IconItem name='mail' font='Feather' color={mainColor} size={'1.2em'} />
 									</span>
 									<a className={classes.extLink} href={'mailto:' + org.email}>
@@ -236,11 +292,11 @@ class ViewOrg extends React.Component {
 									sm={6}
 									md={3}
 									style={{
-										fontSize: '1.25em',
+										fontSize: '1rem',
 										textAlign: 'center'
 									}}
 								>
-									<span style={{ margin: '2px' }}>
+									<span style={{ margin: '5px' }}>
 										<IconItem name='phone-call' font='Feather' color={mainColor} size={'1.2em'} />
 									</span>
 									<a className={classes.extLink} href={'tel:' + org.email}>
@@ -249,22 +305,21 @@ class ViewOrg extends React.Component {
 								</Grid>
 							) : null}
 						</Grid>
-					</Paper>
-				</div>
-				{!isEmpty(org.description) ? (
-					<div className={classes.orgInfoContainer}>
-						<p className={classes.desc}>{org.description}</p>
 					</div>
-				) : null}
+				</div>
+
 				{!isEmpty(this.props.organization.images) ? (
-					<div className={classes.organizations}>
+					<div>
 						<div className={classes.orgHeader}>
 							<Title text={'Galleri'} subText='' color={this.props.theme.palette.primary.main} />
 						</div>
-
-						<div style={{ width: '80%', margin: '0 auto' }}>
-							<OrgImages images={changeToGallery(this.props.organization.images)} />
-						</div>
+						<Container className={classes.organizations}>
+							<Row>
+								<div style={{ width: '80%', margin: '0 auto' }}>
+									<OrgImages images={changeToGallery(this.props.organization.images)} />
+								</div>
+							</Row>
+						</Container>
 					</div>
 				) : null}
 				{!isEmpty(this.props.organization.activities) ? (

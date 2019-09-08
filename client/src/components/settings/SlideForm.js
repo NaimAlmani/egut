@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
-import { addNewCategory, resetIcon, showIcon } from '../../actions/category';
-import { Paper, TextField, Button, Avatar } from '@material-ui/core';
+import { addNewSlide } from '../../actions/slide';
+import { Paper, Typography, TextField, Button, FormControlLabel, Switch } from '@material-ui/core';
+import ImageUploader from 'react-images-upload';
 import Title from '../common/Title';
+import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
-import IconsList from './../icons/IconsList';
-import Icon from 'react-web-vector-icons';
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -30,29 +30,9 @@ const styles = (theme) => ({
 		position: 'absolute',
 		top: '100px',
 		left: 'calc(50% - 200px)',
-		minWidth: '300px'
-	},
-	iconCont: {
-		textAlign: 'center',
-		margin: '10px'
-	},
-	IconCircle: {
-		background: theme.palette.primary.main,
-		width: '100px',
-		height: '100px',
-		margin: '0 auto',
-		borderRadius: '50%',
-		textAlign: 'center',
-		paddingTop: '5px'
-	},
-	chooseIcon: {
-		background: theme.palette.primary.main,
-		width: '100px',
-		height: '100px',
-		margin: '0 auto',
-		borderRadius: '50%',
-		textAlign: 'center',
-		paddingTop: '20px'
+		minWidth: '300px',
+		height: '75vh',
+		overflow: 'auto'
 	},
 	button: {
 		margin: theme.spacing.unit
@@ -62,49 +42,59 @@ const styles = (theme) => ({
 	}
 });
 
-class CategoryForm extends Component {
+class SlideForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			description: '',
-			showIcons: false
+			title: '',
+			subtitle: '',
+			pictures: [],
+			image: ''
 		};
 
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
-		this.chooseIcon = this.chooseIcon.bind(this);
+		this.handleSwitchChange = this.handleSwitchChange.bind(this);
+		this.onDrop = this.onDrop.bind(this);
 	}
 
 	componentDidMount() {
-		this.props.resetIcon();
+		if (!isEmpty(this.props.slide.selectedPlace)) {
+			this.setState({
+				title: this.props.slide.selectedPlace.title,
+				subtitle: this.props.slide.selectedPlace.subtitle,
+				favorite: this.props.slide.selectedPlace.favorite,
+				image: this.props.slide.selectedPlace.image
+			});
+		}
 	}
 
+	componentWillReceiveProps(nextProps) {}
+
+	onDrop(picture, file) {
+		this.setState({
+			pictures: this.state.pictures.concat(picture),
+			image: file
+		});
+	}
 	onSubmit(e) {
 		e.preventDefault();
-		const categoryData = {
-			name: this.state.name,
-			description: this.state.description,
-			icon_name: this.props.category.icon.name,
-			icon_font: this.props.category.icon.type
+		const newLogo = !isEmpty(this.state.pictures) ? this.state.pictures[0] : null;
+		const placeData = {
+			title: this.state.title,
+			subtitle: this.state.subtitle,
+			image: newLogo
 		};
-
-		this.props.addNewCategory(categoryData);
-		this.setState({
-			name: '',
-			description: ''
-		});
-		this.props.resetIcon();
+		this.props.addNewSlide(placeData);
 		this.props.onCancel();
 	}
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
-	chooseIcon() {
-		this.props.showIcon(true);
-	}
-
+	handleSwitchChange = (event) => {
+		this.setState({ favorite: event.target.checked === true ? 1 : 0 });
+	};
 	render() {
 		const { classes } = this.props;
 		return (
@@ -113,10 +103,10 @@ class CategoryForm extends Component {
 				<Paper className={classes.FormContainer} elevation={1}>
 					<div className={classes.closeIcon}>
 						<span onClick={this.props.onCancel} style={{ cursor: 'pointer', width: 'auto' }}>
-							<Icon name='x' font='Feather' />
+							<IconItem name='x' type='Feather' />
 						</span>
 					</div>
-					<Title text='CategoryForm' color={this.props.theme.palette.primary.main} icon='lock' />
+					<Title text='SlideForm' color={this.props.theme.palette.primary.main} icon='lock' />
 					<form onSubmit={this.onSubmit} encType='multipart/form-data'>
 						<div className={classes.FieldContainer}>
 							<TextField
@@ -124,49 +114,41 @@ class CategoryForm extends Component {
 								label='Name'
 								className={(classes.textField, classes.textfield)}
 								type='text'
-								name='name'
-								autoComplete='name'
+								name='title'
+								autoComplete='title'
 								margin='normal'
 								variant='outlined'
 								fullWidth={true}
 								onChange={this.onChange}
-								value={this.state.name}
 							/>
 						</div>
 
 						<div className={classes.FieldContainer}>
 							<TextField
 								id='outlined-email-input'
-								label='Description'
+								label='Subtitle'
 								className={(classes.textField, classes.textfield)}
 								type='text'
-								name='description'
+								name='subtitle'
 								margin='normal'
 								variant='outlined'
 								fullWidth={true}
 								onChange={this.onChange}
-								value={this.state.description}
 							/>
 						</div>
+						<ImageUploader
+							withIcon={true}
+							buttonText='Choose images'
+							onChange={this.onDrop}
+							imgExtension={[ '.jpg', '.gif', '.png', '.gif' ]}
+							maxFileSize={5242880}
+							singleImage={true}
+							withPreview={true}
+							name='fileInput'
+							className='imageInputFile'
+						/>
 
-						<div className={classes.iconCont}>
-							{!isEmpty(this.props.category.icon) ? (
-								<Button color='primary' className={classes.IconCircle} onClick={this.chooseIcon}>
-									<Icon
-										font={this.props.category.icon.type}
-										name={this.props.category.icon.name}
-										color={'#fff'}
-										size={50}
-									/>
-								</Button>
-							) : (
-								<Button color='primary' className={classes.chooseIcon} onClick={this.chooseIcon}>
-									<p style={{ color: '#fff' }}>Icon</p>
-								</Button>
-							)}
-						</div>
-
-						<div style={{ textAlign: 'center' }}>
+						<div style={{ textAlign: 'right' }}>
 							<Button
 								variant='outlined'
 								color='primary'
@@ -187,17 +169,14 @@ class CategoryForm extends Component {
 							</Button>
 						</div>
 					</form>
-					{this.props.category.isShowIcons === true ? (
-						<IconsList onClose={this.hideIcons} iconParent={'category'} />
-					) : null}
 				</Paper>
 			</div>
 		);
 	}
 }
 
-CategoryForm.propTypes = {
-	addNewCategory: PropTypes.func.isRequired,
+SlideForm.propTypes = {
+	addNewSlide: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired,
 	loading: PropTypes.object.isRequired
@@ -207,9 +186,7 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 	errors: state.errors,
 	loading: state.loading,
-	category: state.category
+	slide: state.slide
 });
 
-export default connect(mapStateToProps, { addNewCategory, showIcon, resetIcon })(
-	withStyles(styles, { withTheme: true })(CategoryForm)
-);
+export default connect(mapStateToProps, { addNewSlide })(withStyles(styles, { withTheme: true })(SlideForm));

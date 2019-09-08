@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Slider from 'react-animated-slider';
 
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import randomColor from './../../utils/randomColor';
 import 'react-animated-slider/build/horizontal.css';
 import config from './../../utils/config';
@@ -54,7 +54,8 @@ const styles = (theme) => ({
 		height: 'auto'
 	},
 	name: {
-		margin: '20px'
+		margin: '20px',
+		color: '#fff'
 	},
 	description: {
 		width: '70%',
@@ -82,23 +83,9 @@ class CustomSlideShow extends Component {
 						<div className={classes.logoContanier}>
 							<img className={classes.logo} src={config.imagesPath + item.logoPath} alt={item.name} />
 						</div>
-						<h1 className={classes.name}>{item.name}</h1>
-						{!isEmpty(item.detail) ? <p>{item.detail}</p> : null}
-						{!isEmpty(item.description) ? (
-							<div className={classes.description}>
-								{' '}
-								<LinesEllipsis
-									text={item.description}
-									maxLine='2'
-									ellipsis='...'
-									trimRight
-									basedOn='letters'
-									style={{
-										color: '#fff'
-									}}
-								/>
-							</div>
-						) : null}
+						<Typography variant='h5' className={classes.name}>
+							{item.name}
+						</Typography>
 
 						<Link className={classes.btn} to={'/organization/' + item.id}>
 							Visa mer

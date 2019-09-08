@@ -23,7 +23,12 @@ Route::get('login', ['as' => 'login', 'uses' => 'API\OrgController@redirected'])
 Route::get('orgs', 'API\OrgController@index');
 Route::get('organization/organizationbyid', 'API\orgController@organizationbyid');
 
-Route::get('places', 'API\PlaceController@index');
+Route::get('category/categorybyid', 'API\CategoryController@categorybyid');
+Route::get('group/groupbyid', 'API\GroupController@groupbyid');
+
+Route::get('day/activities', 'API\DayController@daysactivities');
+
+
 Route::get('place/placebyid', 'API\PlaceController@placebyid');
 
 Route::get('activeactivities', 'API\activityController@activeactivities');
@@ -41,6 +46,27 @@ Route::post('email/inbound', 'API\emailsController@inbound');
 //participate
 Route::post('member/participate', 'API\membersController@participate');
 
+Route::get('categories', 'API\CategoryController@index');
+
+
+Route::get('home', 'API\HomeController@index');
+
+
+//get all days
+Route::get('activity/alldays', 'API\activityController@alldays');
+
+Route::get('places', 'API\PlaceController@index');
+//slides routes
+Route::get('slides', 'API\SlideController@index');
+
+
+
+
+
+
+
+
+
 
 
 //auth routes for admin
@@ -54,7 +80,6 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('org/delete', 'API\OrgController@delete');
 
     //Place
-    Route::get('places', 'API\PlaceController@index');
     Route::post('place/create', 'API\PlaceController@create');
     Route::post('place/update', 'API\PlaceController@update');
     Route::post('place/delete', 'API\PlaceController@delete');
@@ -66,7 +91,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('group/delete', 'API\GroupController@delete');
 
     //category
-    Route::get('categories', 'API\CategoryController@index');
+
     Route::post('category/create', 'API\CategoryController@create');
     Route::post('category/update', 'API\CategoryController@update');
     Route::post('category/delete', 'API\CategoryController@delete');
@@ -96,8 +121,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('activity/deletetime', 'API\activityController@deletetime');
 
 
-    //get all days
-    Route::get('activity/alldays', 'API\activityController@alldays');
+
 
     //activity images
     Route::post('activity/addimage', 'API\activityController@addimage');
@@ -124,4 +148,9 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('email/allemails', 'API\emailsController@allemails');
     Route::post('email/markasread', 'API\emailsController@markasread');
     Route::post('email/send', 'API\emailsController@send');
+
+
+    Route::post('slide/create', 'API\SlideController@create');
+    Route::post('slide/update', 'API\SlideController@update');
+    Route::post('slide/delete', 'API\SlideController@delete');
 });

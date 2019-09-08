@@ -6,12 +6,15 @@ import {
 	DELETE_CATEGORY,
 	SELECT_CATEGORY_iCON,
 	SHOW_CATEGORY_ICON,
-	RESET_CATEGORY_ICON
+	RESET_CATEGORY_ICON,
+	CATEGORY_BY_ID
 } from '../actions/types';
 
 const initialState = {
 	categories: [],
 	selectedCategory: {},
+	currentCategory: {},
+	activities: [],
 	isEdit: false,
 	icon: {},
 	isShowIcons: false
@@ -63,6 +66,13 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				icon: {}
+			};
+
+		case CATEGORY_BY_ID:
+			return {
+				...state,
+				currentCategory: action.payload.category,
+				activities: action.payload.activities
 			};
 		default:
 			return state;

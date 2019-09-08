@@ -7,64 +7,64 @@ import { connect } from 'react-redux';
 import { selectCategory } from '../../../actions/activity';
 import isContain from './../../../utils/isContain';
 import isEmpty from '../../../validation/is-empty';
+import { Typography } from '@material-ui/core';
 const styles = (theme) => ({
 	root: {
-		width: '100%',
-		maxWidth: 360
+		width: '100%'
 	},
 	catCont: {
 		width: '100%',
 		borderRadius: '10px',
 		textAlign: 'center',
-		padding: '5px',
-		paddingTop: '16px',
 		cursor: 'pointer',
-		transition: 'all 0.3s ease-in-out'
+		transition: 'all 0.3s ease-in-out',
+		marginBottom: '10px'
 	},
 	hoveredcatCont: {
 		width: '100%',
 		borderRadius: '10px',
 		textAlign: 'center',
-		padding: '5px',
-		paddingTop: '16px',
 		cursor: 'pointer',
-		boxShadow: '1px 8px 8px 3px #33333340',
-		transition: 'all 0.3s ease-in-out'
+		transition: 'all 0.3s ease-in-out',
+		marginBottom: '10px'
 	},
 	selectedcatCont: {
 		width: '100%',
 		borderRadius: '10px',
 		textAlign: 'center',
-		padding: '5px',
-		paddingTop: '16px',
 		cursor: 'pointer',
-		boxShadow: '0px 0px 16px 0px #33333340',
-		transition: 'all 0.3s ease-in-out',
-		background: theme.palette.select.light
+		marginBottom: '10px'
 	},
 	iconCont: {
-		width: '60px',
-		height: '60px',
+		width: '50px',
+		height: '50px',
 		borderRadius: '50%',
-		background: theme.palette.primary.main,
+		background: '#616054',
 		margin: '0 auto',
+		border: '1px solid #616054',
+		padding: '2px',
 		transition: 'all 0.3s ease-in-out'
 	},
 	hoveredIconCont: {
-		width: '60px',
-		height: '60px',
+		width: '50px',
+		height: '50px',
 		borderRadius: '50%',
-		background: theme.palette.select.light,
+		border: '1px solid #616054',
 		margin: '0 auto',
+		padding: '2px',
+
 		transition: 'all 0.5s ease-in-out'
 	},
 	selectedIconCont: {
-		width: '60px',
-		height: '60px',
+		width: '50px',
+		height: '50px',
 		borderRadius: '50%',
-		background: '#fff',
+		background: theme.palette.select.main,
 		margin: '0 auto',
-		transition: 'all 0.5s ease-in-out'
+		padding: '2px',
+
+		transition: 'all 0.5s ease-in-out',
+		border: '1px solid ' + theme.palette.primary.main
 	}
 });
 class CategoryItem extends React.Component {
@@ -102,7 +102,7 @@ class CategoryItem extends React.Component {
 	render() {
 		const { classes, category } = this.props;
 		return (
-			<ListItem className={classes.ActiveListItem}>
+			<div className={classes.ActiveListItem}>
 				<div
 					className={
 						this.state.isSelected ? (
@@ -131,13 +131,23 @@ class CategoryItem extends React.Component {
 						<IconItem
 							name={category.icon_name}
 							font={category.icon_font}
-							size={40}
-							color={this.state.isSelected ? this.props.theme.palette.select.mainL : '#fff'}
+							size={30}
+							color={
+								this.state.isSelected ? (
+									'#fff'
+								) : this.state.isHovered === true ? (
+									'#616054'
+								) : (
+									this.props.theme.palette.primary.main
+								)
+							}
 						/>
 					</div>
-					<p>{category.name}</p>
+					<Typography variant='body' Component='p'>
+						{category.name}
+					</Typography>
 				</div>
-			</ListItem>
+			</div>
 		);
 	}
 }

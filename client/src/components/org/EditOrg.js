@@ -31,7 +31,7 @@ const styles = (theme) => ({
 		top: '100px',
 		left: 'calc(50% - 200px)',
 		minWidth: '300px',
-		height: '700px',
+		height: '75vh',
 		overflow: 'auto'
 	},
 	button: {
@@ -78,13 +78,31 @@ class EditOrg extends Component {
 		if (!isEmpty(this.props.organization.selectedOrg)) {
 			this.setState({
 				name: this.props.organization.selectedOrg.name,
-				description: this.props.organization.selectedOrg.description,
-				oldLogo: this.props.organization.selectedOrg.logoPath,
-				motto: this.props.organization.selectedOrg.motto,
-				website: this.props.organization.selectedOrg.website,
-				email: this.props.organization.selectedOrg.email,
-				tel: this.props.organization.selectedOrg.tel,
-				contact: this.props.organization.selectedOrg.contact
+				description:
+					this.props.organization.selectedOrg.description === 'null'
+						? ''
+						: this.props.organization.selectedOrg.description,
+				oldLogo:
+					this.props.organization.selectedOrg.logoPath === 'null'
+						? ''
+						: this.props.organization.selectedOrg.logoPath,
+				motto:
+					this.props.organization.selectedOrg.detail === 'null'
+						? ''
+						: this.props.organization.selectedOrg.detail,
+				website:
+					this.props.organization.selectedOrg.website === 'null'
+						? ''
+						: this.props.organization.selectedOrg.website,
+				email:
+					this.props.organization.selectedOrg.email === 'null'
+						? ''
+						: this.props.organization.selectedOrg.email,
+				tel: this.props.organization.selectedOrg.tel === 'null' ? '' : this.props.organization.selectedOrg.tel,
+				contact:
+					this.props.organization.selectedOrg.contact === 'null'
+						? ''
+						: this.props.organization.selectedOrg.contact
 			});
 		}
 	}
@@ -126,6 +144,7 @@ class EditOrg extends Component {
 			tel: '',
 			contact: ''
 		};
+		this.props.showEdit(this.props.selectedOrg, false);
 	}
 
 	onChange(e) {
@@ -289,7 +308,7 @@ class EditOrg extends Component {
 							</Button>
 							<Button
 								variant='outlined'
-								color='error'
+								color='inherit'
 								className={classes.button}
 								size='large'
 								onClick={this.onCancel}

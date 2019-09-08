@@ -8,6 +8,8 @@ import { subscripeEmail } from './../../actions/forms';
 import IconItem from './../common/icons/IconItem';
 import { TextField, Paper } from '@material-ui/core';
 import { withTheme, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Container, Row, Col } from 'reactstrap';
+
 const styles = (theme) => ({
 	container: {
 		textAlign: 'center',
@@ -18,8 +20,7 @@ const styles = (theme) => ({
 		padding: '20px'
 	},
 	form: {
-		width: '50%',
-		margin: '10px auto'
+		textAlign: 'center'
 	},
 	overlay: {
 		position: 'absolute',
@@ -30,12 +31,11 @@ const styles = (theme) => ({
 
 	TextFieldCont: {
 		display: 'inline-flex',
-		width: '70%',
-		margin: '10px'
+		margin: '10px',
+		minWidth: '300px'
 	},
 	btnCont: {
 		display: 'inline-flex',
-		width: '25%',
 		margin: '10px'
 	},
 	title: {
@@ -79,47 +79,47 @@ class Subscription extends Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<Paper className={classes.container}>
-				<Typography variant='h3' className={classes.title}>
-					Subscription
+			<Container>
+				<Typography variant='h4' className={classes.title}>
+					Prenumerera på vårt nyhetsbrev!
 				</Typography>
-				<Typography variant='subtitle1'>lägger till dig e-post till vår e-postlista för att få </Typography>
-				<Typography variant='subtitle2'>de senaste nyheterna, aktiviteterna, evenemangen ..</Typography>
-
-				<form onSubmit={this.onSubmit} className={classes.form}>
-					<div className={classes.TextFieldCont}>
-						<TextField
-							variant='outlined'
-							autoFocus
-							margin='dense'
-							id='name'
-							label='Ditt e-post'
-							type='email'
-							fullWidth
-							required
-							name='email'
-							value={this.state.name}
-							onChange={this.onChange}
-							inputProps={{
-								style: {
-									borderColor: '#fff !important'
-								}
-							}}
-							InputLabelProps={{
-								color: '#fff'
-							}}
-						/>
-					</div>
-					<div className={classes.btnCont}>
-						<Button size='large' variant='outlined' color='primary' type='submit'>
-							<span className='notranslate'>
-								<IconItem name='subscriptions' font='MaterialIcons' size={16} />
-							</span>
-							Prenumeration
-						</Button>
-					</div>
-				</form>
-			</Paper>
+				<Row>
+					<Col sm='12' md={{ size: 6, offset: 3 }}>
+						<form onSubmit={this.onSubmit} className={classes.form}>
+							<div className={classes.TextFieldCont}>
+								<TextField
+									variant='outlined'
+									margin='dense'
+									id='name'
+									label='Ditt e-post'
+									type='email'
+									fullWidth
+									required
+									name='email'
+									value={this.state.name}
+									onChange={this.onChange}
+									inputProps={{
+										style: {
+											borderColor: '#fff !important'
+										}
+									}}
+									InputLabelProps={{
+										color: '#fff'
+									}}
+								/>
+							</div>
+							<div className={classes.btnCont}>
+								<Button size='large' variant='outlined' color='primary' type='submit'>
+									<span className='notranslate'>
+										<IconItem name='subscriptions' font='MaterialIcons' size={16} />
+									</span>
+									Skicka
+								</Button>
+							</div>
+						</form>
+					</Col>
+				</Row>
+			</Container>
 		);
 	}
 }

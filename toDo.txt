@@ -1,0 +1,21 @@
+* front end :
+    **CLIENT:
+        -number of in dashboard
+        -footer    ....>
+        -View activities for specific section 
+loading bar
+    **HOME:
+        - View activities for specific section (places  , categories , groups)
+        - change main activities view 
+        - decrease footer height
+        - remove descriptions from org item 
+        -
+*backend :
+        **emails:
+                - subscription emails
+                - participate emails 
+                - send email to group 
+                -
+        ** statistics :
+
+        **notifications 

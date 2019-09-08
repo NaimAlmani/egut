@@ -5,6 +5,7 @@ import loadingReducer from './loadingReducer';
 import customStylesReducer from './customStylesReducer';
 import orgReducer from './orgReducer';
 import placeReducer from './placeReducer';
+import slideReducer from './slideReducer';
 import groupReducer from './groupReducer';
 import activityReducer from './activityReducer';
 import iconReducer from './iconReducer';
@@ -18,6 +19,7 @@ export default combineReducers({
 	customStyles: customStylesReducer,
 	organization: orgReducer,
 	place: placeReducer,
+	slide: slideReducer,
 	group: groupReducer,
 	category: categoryReducer,
 	activity: activityReducer,

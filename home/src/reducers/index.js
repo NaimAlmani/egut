@@ -10,6 +10,7 @@ import activityReducer from './activityReducer';
 import iconReducer from './iconReducer';
 import categoryReducer from './categoryReducer';
 import successReducer from './successReducer';
+import slideReducer from './slideReducer';
 export default combineReducers({
 	auth: authReducer,
 	errors: errorReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
 	category: categoryReducer,
 	activity: activityReducer,
 	icon: iconReducer,
-	success: successReducer
+	success: successReducer,
+	slide: slideReducer
 });

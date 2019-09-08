@@ -3,26 +3,20 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../../utils/config';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { SelectOrg, deselectOrg } from './../../../actions/activity';
 // Generate required css
-import { Chip, Avatar } from '@material-ui/core';
+import { ListItem, ListItemAvatar } from '@material-ui/core';
 import IconItem from '../../common/icons/IconItem';
 import isContain from './../../../utils/isContain';
 const styles = (theme) => ({
 	root: {
-		color: theme.palette.primary.main,
-		minHeight: '250px'
+		width: '100%',
+		maxWidth: 360,
+		backgroundColor: theme.palette.background.paper
 	},
-	card: {
-		maxWidth: 345,
-		margin: '24px  auto',
-		height: '350',
-		overflow: 'auto'
-	},
-	Selectedchip: {
-		background: theme.palette.select.main,
-		color: theme.palette.select.contrastText
+	inline: {
+		display: 'inline'
 	},
 	mediaContaier: {
 		width: '40%',
@@ -32,19 +26,62 @@ const styles = (theme) => ({
 	image: {
 		// ⚠️ object-fit is not supported by IE 11.
 		objectFit: 'cover',
-		width: 'auto',
-		height: '100%'
-	},
-	chip: {},
-	deleteBtn: {
-		color: theme.palette.error.main,
-		background: theme.palette.error.contrastText
+		width: '100%',
+		height: 'auto'
 	},
 	deselectedAvatar: {
 		background: theme.palette.primary.main
 	},
 	selectedAvatar: {
-		background: theme.palette.pink.main
+		background: theme.palette.pink.main,
+		width: '50px',
+		height: '50px'
+	},
+	orgImgCont: {
+		width: '100px',
+		height: '50px',
+		overflow: 'hidden',
+		borderTopLeftRadius: '10px',
+		borderBottomLeftRadius: '10px'
+	},
+	textCont: {
+		margin: '10px'
+	},
+	text: {
+		fontSize: '1.3em',
+		color: '#333',
+		lineHeight: '2'
+	},
+	selectedText: {
+		fontSize: '1.3em',
+		color: '#fff',
+		lineHeight: '2'
+	},
+	listItemRoot: {
+		border: '1px solid #bdbdbd',
+		padding: '5px',
+		margin: '10px',
+		borderRadius: '10px',
+		cursor: 'pointer',
+		'&:hover': {
+			background: '#e3f2fd'
+		}
+	},
+	listItemRootSelected: {
+		border: '1px solid #1976d2',
+		background: '#43a047',
+		padding: '5px',
+		margin: '10px',
+		borderRadius: '10px',
+		cursor: 'pointer',
+		'&:hover': {
+			background: '#e3f2fd'
+		}
+	},
+	IconCont: {
+		position: 'absolute',
+		top: '10px',
+		right: '10px'
 	}
 });
 class OrgItem extends React.Component {
@@ -64,38 +101,32 @@ class OrgItem extends React.Component {
 	};
 	render() {
 		const { classes, org, activity } = this.props;
-		let content;
-		if (isContain(this.props.activity.selectedOrgs, this.props.org)) {
-			content = (
-				<Chip
-					color='primary'
-					onClick={this.onDeselectOrg}
-					clickable
-					label={org.name}
-					avatar={
-						<Avatar className={classes.selectedAvatar}>
-							<img className={classes.image} src={config.imagesPath + org.logoPath} alt='org' />
-						</Avatar>
-					}
-				/>
-			);
-		} else {
-			content = (
-				<Chip
-					color='primary'
-					onClick={this.onSelectOrg}
-					label={org.name}
-					variant='outlined'
-					clickable
-					avatar={
-						<Avatar className={classes.deselectedAvatar}>
-							<img className={classes.image} src={config.imagesPath + org.logoPath} alt='org' />
-						</Avatar>
-					}
-				/>
-			);
-		}
-		return <div> {content}</div>;
+		const isSelected = isContain(this.props.activity.selectedOrgs, this.props.org);
+		return (
+			<ListItem
+				classes={{ root: isSelected === true ? classes.listItemRootSelected : classes.listItemRoot }}
+				alignItems='flex-start'
+				onClick={isSelected === true ? this.onDeselectOrg : this.onSelectOrg}
+			>
+				<ListItemAvatar>
+					<div className={classes.orgImgCont}>
+						<img className={classes.image} src={config.imagesPath + org.logoPath} alt='org' />
+					</div>
+				</ListItemAvatar>
+				<div className={classes.textCont}>
+					<Typography noWrap={true} component='p'>
+						<span className={isSelected === true ? classes.selectedText : classes.text}>{org.name}</span>
+					</Typography>
+				</div>
+				<div className={classes.IconCont}>
+					{isSelected === true ? (
+						<IconItem name='check-circle' size={25} color='#fff' />
+					) : (
+						<IconItem name='circle' size={25} color='#333' />
+					)}
+				</div>
+			</ListItem>
+		);
 	}
 }
 

@@ -17,26 +17,27 @@ import IconItem from '../common/icons/IconItem';
 import EditActivity from './EditActivity';
 
 import AddOrg from './addOrgs/AddOrg';
-import OrgFeed from './Orgs/OrgFeed';
+import Orgs from './Orgs/Orgs';
 
 import AddGroup from './addGroups/AddGroup';
-import GroupFeed from './Group/GroupFeed';
+import Groups from './Group/Groups';
 
 import AddPlace from './addPlaces/AddPlace';
-import PlaceFeed from './Place/PlaceFeed';
+import Places from './Place/Places';
 
 import AddCategory from './addCategory/AddCategory';
-import CategoryFeed from './Category/CategoryFeed';
+import Categories from './Category/Categories';
+
 import AddTime from './addTime/AddTime';
-import TimesTable from './Time/TimesTable';
+import Times from './Time/Times';
 
 import AddImage from './AddImage';
-import ActivityImages from './ActivityImages';
 
 import ContactMain from './contacts/ContactMain';
-import ContactTable from './contacts/ContactTable';
 
 import MemberMain from './members/MemberMain';
+import Contacts from './contacts/Contacts';
+import Images from './images/Images';
 const styles = (theme) => ({
 	header: {
 		position: 'relative',
@@ -101,6 +102,12 @@ const styles = (theme) => ({
 		borderRadius: '50%',
 		marginRight: '10px',
 		cursor: 'pointer'
+	},
+	GridCont: {
+		background: '#f5f5f5'
+	},
+	gridItem: {
+		padding: '10px'
 	}
 });
 class ViewActivity extends React.Component {
@@ -252,96 +259,41 @@ class ViewActivity extends React.Component {
 					{activity.is_active ? <div className={classes.activeSign} /> : null}
 				</div>
 				{/* activity orgs */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1>Organizations</h1>
-						<div onClick={this.showAddOrg} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					<Grid container justify={'center'} alignItems={'center'}>
-						<OrgFeed orgs={this.props.activity.orgs} activityID={act.id} />
+				<Grid container classes={{ root: classes.GridCont }} style={{ background: '#f5f5f5' }}>
+					<Grid item md={4} sm={12} lg={4} style={{ padding: '10px' }}>
+						<Orgs orgs={this.props.activity.orgs} activityID={act.id} onClick={this.showAddOrg} />
 					</Grid>
-				</div>
-				{/* activity groups */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1>Groups</h1>
-						<div onClick={this.showAddGroup} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					<Grid container justify={'center'} alignItems={'center'}>
-						<GroupFeed groups={this.props.activity.groups} activityID={act.id} />
+					<Grid item md={4} sm={12} lg={4} style={{ padding: '10px' }}>
+						<Groups groups={this.props.activity.groups} activityID={act.id} onClick={this.showAddGroup} />
 					</Grid>
-				</div>
-				{/* activity places */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1>Places</h1>
-						<div onClick={this.showAddPlace} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					<Grid container justify={'center'} alignItems={'center'}>
-						<PlaceFeed places={this.props.activity.places} activityID={act.id} />
+					<Grid item md={4} sm={12} lg={4} style={{ padding: '10px' }}>
+						<Categories
+							categories={this.props.activity.categories}
+							activityID={act.id}
+							onClick={this.showAddCategory}
+						/>
 					</Grid>
-				</div>
-				{/* activity categories */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1>Categories</h1>
-						<div onClick={this.showAddCategory} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					<Grid container justify={'center'} alignItems={'center'}>
-						<CategoryFeed categories={this.props.activity.categories} activityID={act.id} />
+					<Grid item md={4} sm={12} lg={4} style={{ padding: '10px' }}>
+						<Places places={this.props.activity.places} activityID={act.id} onClick={this.showAddPlace} />
 					</Grid>
-				</div>
-				{/**Activity contacts */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1> Contact info </h1>
-						<div onClick={this.showAddContact} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					<Grid container justify={'center'} alignItems={'center'}>
-						<ContactTable contacts={this.props.activity.contacts} activityID={act.id} />
+					<Grid item md={6} sm={12} lg={8} style={{ padding: '10px' }}>
+						<Times times={this.props.activity.times} activityID={act.id} onClick={this.showAddTimes} />
 					</Grid>
-				</div>
-				{/**end activity contacts */}
-				{/**Activity times */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1> Times </h1>
-						<div onClick={this.showAddTimes} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					<Grid container justify={'center'} alignItems={'center'}>
-						<TimesTable times={this.props.activity.times} activityID={act.id} />
-					</Grid>
-				</div>
-				{/**end activity times */}
 
-				{/**Activity images */}
-				<div className={classes.organizations}>
-					<div className={classes.orgHeader}>
-						<h1> Images </h1>
-						<div onClick={this.showAddImage} className={classes.iconCont}>
-							<IconItem name='plus' color='#fff' size='2em' />
-						</div>
-					</div>
-					{!isEmpty(this.props.activity.images) ? (
-						<div style={{ width: '80%', margin: '0 auto' }}>
-							<ActivityImages images={changeToGallery(this.props.activity.images)} />
-						</div>
-					) : null}
-				</div>
-				{/**end activity images */}
-				{/**start activity contacts */}
+					<Grid item md={12} sm={12} lg={12} style={{ padding: '10px' }}>
+						<Contacts
+							contacts={this.props.activity.contacts}
+							activityID={act.id}
+							onClick={this.showAddContact}
+						/>
+					</Grid>
+					<Grid item md={12} sm={12} lg={12} style={{ padding: '10px' }}>
+						<Images images={this.props.activity.images} activityID={act.id} onClick={this.showAddImage} />
+					</Grid>
+				</Grid>
+
+				{/**start activity Forms */}
+				{/**start activity contact form */}
 				{this.state.isShowContact === true ? (
 					<ContactMain
 						open={this.state.isShowContact}
