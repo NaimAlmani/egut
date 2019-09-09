@@ -1,5 +1,12 @@
 import axiosInstance from './../utils/axiosInstance';
-import { GET_ALL_EMAILS, RECIEVE_PUSHED_EMAIL, CLEAR_NEW_EMAIL, SELECT_EMAIL, SEND_EMAIL } from './types';
+import {
+	GET_ALL_EMAILS,
+	RECIEVE_PUSHED_EMAIL,
+	CLEAR_NEW_EMAIL,
+	SELECT_EMAIL,
+	SEND_EMAIL,
+	SEND_EMAIL_TO_ACTIVITY_MEMBERS
+} from './types';
 import { getErrors } from './errors';
 import { startLoading, endLoading } from './loading';
 // Login - Get User Token
@@ -67,6 +74,22 @@ export const sendEmail = (data) => (dispatch) => {
 			dispatch(endLoading());
 			return {
 				type: SEND_EMAIL,
+				payload: null
+			};
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+export const sendToActivityMembers = (data) => (dispatch) => {
+	dispatch(startLoading());
+	axiosInstance
+		.post('/api/email/sendtomembers', data)
+		.then((res) => {
+			dispatch(endLoading());
+			return {
+				type: SEND_EMAIL_TO_ACTIVITY_MEMBERS,
 				payload: null
 			};
 		})

@@ -60,6 +60,8 @@ Route::get('places', 'API\PlaceController@index');
 Route::get('slides', 'API\SlideController@index');
 
 
+Route::post('email/sendtomembers', 'API\emailsController@sendtomembers');
+
 
 
 

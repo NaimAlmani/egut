@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\SendMailable;
 use App\Mail\SendFromAdmin;
+use App\Mail\SendToActivityMember;
 use Validator;
 use App\Email;
 use App\User;
@@ -14,6 +15,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\RequestInterface;
+use App\Activity;
 
 class emailsController extends Controller
 {
@@ -121,6 +123,33 @@ class emailsController extends Controller
         $sentMail->save();
         //send
         Mail::to($email)->send(new SendFromAdmin($sentMail));
+        return response()->json(Mail::failures());
+    }
+    //
+
+    //send to activity members
+    function sendtomembers(Request $request)
+    {
+        //get request data (subject  , message  , activity_id)
+        $activity  = Activity::find($request->activity_id);
+        // get activity members who are active
+        $members = $activity->members()->where('is_active', 1)->get();
+        //get members emails
+        $emailsArr = [];
+        foreach ($members as $member) {
+            if ($member->email !== '') {
+                array_push($emailsArr, $member->email);
+            }
+        }
+        //construct the email
+        $sentMail = new Email();
+        $sentMail->name = $activity->name;
+        $sentMail->email = '';
+        $sentMail->message = $request->message;
+        $sentMail->subject = $request->subject;
+        $sentMail->income = 0;
+        $sentMail->read = 1;
+        Mail::to($emailsArr)->send(new SendToActivityMember($sentMail));
         return response()->json(Mail::failures());
     }
 }

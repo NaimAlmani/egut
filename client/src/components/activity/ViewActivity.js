@@ -37,6 +37,7 @@ import ContactMain from './contacts/ContactMain';
 
 import MemberMain from './members/MemberMain';
 import Contacts from './contacts/Contacts';
+import SendEmail from './SendEmail';
 import Images from './images/Images';
 const styles = (theme) => ({
 	header: {
@@ -124,7 +125,8 @@ class ViewActivity extends React.Component {
 			loading: false,
 			isShowAddImage: false,
 
-			isShowMembers: false
+			isShowMembers: false,
+			isShowSendEmail: false
 		};
 		this.props.startLoading();
 	}
@@ -228,6 +230,17 @@ class ViewActivity extends React.Component {
 			isShowMembers: false
 		});
 	};
+
+	showSendEmail = () => {
+		this.setState({
+			isShowSendEmail: true
+		});
+	};
+	cancelShowSendEmail = () => {
+		this.setState({
+			isShowSendEmail: false
+		});
+	};
 	render() {
 		const { classes, activity } = this.props;
 		const act = activity.currentActivity;
@@ -250,11 +263,26 @@ class ViewActivity extends React.Component {
 						<div classNam={classes.desc}>
 							<p> {act.description}</p>
 						</div>
-						<div className={classes.memberBtn}>
-							<Button color='primary' onClick={this.showMembers}>
-								Show members
-							</Button>
-						</div>
+						{!isEmpty(this.props.activity.members) ? (
+							<div className={classes.memberBtn}>
+								<Button
+									variant='outlined'
+									style={{ margin: '10px' }}
+									color='primary'
+									onClick={this.showMembers}
+								>
+									{`visa medlemmar (${this.props.activity.members.length})`}
+								</Button>
+								<Button
+									variant='outlined'
+									style={{ margin: '10px' }}
+									color='secondary'
+									onClick={this.showSendEmail}
+								>
+									Skicka e-post till medlemmarna
+								</Button>
+							</div>
+						) : null}
 					</div>
 					{activity.is_active ? <div className={classes.activeSign} /> : null}
 				</div>
@@ -333,6 +361,13 @@ class ViewActivity extends React.Component {
 
 				{this.state.isShowAddImage === true ? (
 					<AddImage activity={act} onCancel={this.cancelShowAddImage} />
+				) : null}
+				{this.state.isShowSendEmail === true ? (
+					<SendEmail
+						open={this.state.isShowSendEmail}
+						onCancel={this.cancelShowSendEmail}
+						currentActivity={act}
+					/>
 				) : null}
 			</div>
 		);

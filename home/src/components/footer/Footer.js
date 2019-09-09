@@ -142,7 +142,7 @@ class Footer extends React.Component {
 									0762143512
 								</Typography>
 							</NavLink>
-							<NavLink className={classes.link} href='https://goo.gl/maps/8oDxZUQb1gDFKHFP9'>
+							<NavLink className={classes.link} href='https://g.page/RG-UTB?share'>
 								<IconItem name='map-pin' color='#fff' font='Feather' size={'1rem'} />
 								<Typography variant='p' className={classes.text}>
 									Kungsladugårdsvägen<br />
