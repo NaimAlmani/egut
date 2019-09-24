@@ -101,13 +101,6 @@ class GroupItem extends React.Component {
 									>
 										{group.name}
 									</Typography>
-									<Typography
-										noWrap={true}
-										component='p'
-										className={isWhite === true ? classes.whiteColor : classes.blackColor}
-									>
-										{group.description}
-									</Typography>
 								</div>
 							</div>
 						</div>

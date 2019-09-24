@@ -101,7 +101,6 @@ class OrgItem extends React.Component {
 									<Typography gutterBottom variant='h5' component='h2'>
 										{org.name}
 									</Typography>
-									<Typography noWrap={true}>{org.description}</Typography>
 								</CardContent>
 							</Link>
 						</CardActionArea>

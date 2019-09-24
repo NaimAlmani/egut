@@ -11,6 +11,7 @@ import ImageUploader from 'react-images-upload';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
 import windowSize from 'react-window-size';
+import RichText from './../common/RichText';
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -26,11 +27,11 @@ const styles = (theme) => ({
 		background: '#333'
 	},
 	FormContainer: {
-		width: '60%',
+		width: '75%',
 		padding: '20px 50px',
 		position: 'absolute',
 		top: '100px',
-		left: '15%',
+		left: '12.5%',
 		overflow: 'auto',
 		minWidth: '300px',
 		height: '80vh',
@@ -47,6 +48,11 @@ const styles = (theme) => ({
 	FieldContainer: {
 		display: 'inline-block',
 		width: '48%',
+		margin: '1%'
+	},
+	RichFieldContainer: {
+		display: 'inline-block',
+		width: '100%',
 		margin: '1%'
 	},
 	button: {
@@ -126,6 +132,11 @@ class OrgForm extends Component {
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
+	onChangeTextEditor = (value) => {
+		this.setState({
+			description: value
+		});
+	};
 
 	render() {
 		const { classes } = this.props;
@@ -171,20 +182,6 @@ class OrgForm extends Component {
 								fullWidth={true}
 								onChange={this.onChange}
 								helperText={'sub title / logo text'}
-							/>
-						</div>
-
-						<div className={classes.FieldContainer}>
-							<TextField
-								label='description'
-								className={(classes.textField, classes.textfield)}
-								type='text'
-								name='description'
-								margin='normal'
-								variant='outlined'
-								fullWidth={true}
-								onChange={this.onChange}
-								multiline
 							/>
 						</div>
 
@@ -247,7 +244,10 @@ class OrgForm extends Component {
 								helperText={'contact person name'}
 							/>
 						</div>
-
+						<div className={classes.RichFieldContainer}>
+							<Typography>description:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.description} />
+						</div>
 						<ImageUploader
 							withIcon={true}
 							buttonText='Choose images'

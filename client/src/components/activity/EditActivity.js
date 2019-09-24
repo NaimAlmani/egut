@@ -10,6 +10,8 @@ import Title from '../common/Title';
 import ImageUploader from 'react-images-upload';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
+import RichText from './../common/RichText';
+
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -26,12 +28,12 @@ const styles = (theme) => ({
 		background: '#333'
 	},
 	FormContainer: {
-		width: '400px',
+		width: '75%',
 		padding: '20px 50px',
 		position: 'fixed',
 		height: 'calc(100vh - 200px)',
 		top: '100px',
-		left: 'calc(50% - 200px)',
+		left: '12.5%',
 		minWidth: '300px',
 		overflow: 'auto'
 	},
@@ -111,7 +113,11 @@ class EditActivity extends Component {
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
-
+	onChangeTextEditor = (value) => {
+		this.setState({
+			description: value
+		});
+	};
 	render() {
 		const { classes } = this.props;
 		return (
@@ -141,19 +147,9 @@ class EditActivity extends Component {
 							/>
 						</div>
 
-						<div className={classes.FieldContainer}>
-							<TextField
-								id='outlined-email-input'
-								label='Description'
-								className={(classes.textField, classes.textfield)}
-								type='text'
-								name='description'
-								margin='normal'
-								variant='outlined'
-								fullWidth={true}
-								onChange={this.onChange}
-								value={this.state.description}
-							/>
+						<div className={classes.RichFieldContainer}>
+							<Typography>description:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.description} />
 						</div>
 
 						<ImageUploader

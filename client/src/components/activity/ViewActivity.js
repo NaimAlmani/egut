@@ -261,7 +261,7 @@ class ViewActivity extends React.Component {
 							<h1>{act.name}</h1>
 						</div>
 						<div classNam={classes.desc}>
-							<p> {act.description}</p>
+							<p dangerouslySetInnerHTML={{ __html: act.description }} />
 						</div>
 						{!isEmpty(this.props.activity.members) ? (
 							<div className={classes.memberBtn}>
@@ -316,7 +316,11 @@ class ViewActivity extends React.Component {
 						/>
 					</Grid>
 					<Grid item md={12} sm={12} lg={12} style={{ padding: '10px' }}>
-						<Images images={this.props.activity.images} activityID={act.id} onClick={this.showAddImage} />
+						<Images
+							images={changeToGallery(this.props.activity.images)}
+							activityID={act.id}
+							onClick={this.showAddImage}
+						/>
 					</Grid>
 				</Grid>
 

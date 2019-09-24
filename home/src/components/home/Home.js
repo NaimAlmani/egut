@@ -81,10 +81,7 @@ class Home extends Component {
 						<Typography variant='h6' style={{ color: '#fff' }}>
 							Kategorier
 						</Typography>
-						<Typography variant='p'>
-							Erbjuder aktiviteter för vuxna, ungdomar och barn. Aktiviteter kan även vara riktade för
-							kvinnor, män eller hela familjer.
-						</Typography>
+						<Typography variant='p' />
 
 						<Container fluid={true}>
 							<Row>

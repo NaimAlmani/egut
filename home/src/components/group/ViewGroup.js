@@ -143,10 +143,10 @@ class ViewGroup extends React.Component {
 							iconName={gr.icon_name}
 							iconType={gr.icon_font}
 							text={gr.name}
-							subText={gr.description}
 							color={this.props.theme.palette.primary.main}
 						/>
 					</div>
+					<p dangerouslySetInnerHTML={{ __html: gr.description }} />
 				</Fade>
 				<Container fluid={true}>
 					<Row>

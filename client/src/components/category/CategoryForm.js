@@ -5,11 +5,13 @@ import config from './../../utils/config';
 import { withStyles } from '@material-ui/core/styles';
 import customStyles from './../../theme/customStyles';
 import { addNewCategory, resetIcon, showIcon } from '../../actions/category';
-import { Paper, TextField, Button, Avatar } from '@material-ui/core';
+import { Paper, TextField, Button, Typography } from '@material-ui/core';
 import Title from '../common/Title';
 import isEmpty from './../../validation/is-empty';
 import IconsList from './../icons/IconsList';
 import Icon from 'react-web-vector-icons';
+import RichText from './../common/RichText';
+
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -25,11 +27,11 @@ const styles = (theme) => ({
 		background: '#333'
 	},
 	FormContainer: {
-		width: '400px',
+		width: '75%',
 		padding: '20px 50px',
 		position: 'absolute',
 		top: '100px',
-		left: 'calc(50% - 200px)',
+		left: '12.5%',
 		minWidth: '300px'
 	},
 	iconCont: {
@@ -104,7 +106,11 @@ class CategoryForm extends Component {
 	chooseIcon() {
 		this.props.showIcon(true);
 	}
-
+	onChangeTextEditor = (value) => {
+		this.setState({
+			description: value
+		});
+	};
 	render() {
 		const { classes } = this.props;
 		return (
@@ -116,7 +122,7 @@ class CategoryForm extends Component {
 							<Icon name='x' font='Feather' />
 						</span>
 					</div>
-					<Title text='CategoryForm' color={this.props.theme.palette.primary.main} icon='lock' />
+					<Title text='Skapa ny Kategorie' color={this.props.theme.palette.primary.main} icon='lock' />
 					<form onSubmit={this.onSubmit} encType='multipart/form-data'>
 						<div className={classes.FieldContainer}>
 							<TextField
@@ -134,19 +140,9 @@ class CategoryForm extends Component {
 							/>
 						</div>
 
-						<div className={classes.FieldContainer}>
-							<TextField
-								id='outlined-email-input'
-								label='Description'
-								className={(classes.textField, classes.textfield)}
-								type='text'
-								name='description'
-								margin='normal'
-								variant='outlined'
-								fullWidth={true}
-								onChange={this.onChange}
-								value={this.state.description}
-							/>
+						<div className={classes.RichFieldContainer}>
+							<Typography>description:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.description} />
 						</div>
 
 						<div className={classes.iconCont}>

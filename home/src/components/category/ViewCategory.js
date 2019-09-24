@@ -143,11 +143,11 @@ class ViewCategory extends React.Component {
 							iconName={cat.icon_name}
 							iconType={cat.icon_font}
 							text={cat.name}
-							subText={cat.description}
 							color={this.props.theme.palette.primary.main}
 						/>
 					</div>
 				</Fade>
+				<p dangerouslySetInnerHTML={{ __html: cat.description }} />
 				<Container fluid={true}>
 					<Row>
 						<Activities title='Aktiviteter' activities={this.props.category.activities} icon='heart' />

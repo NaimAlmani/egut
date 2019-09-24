@@ -94,9 +94,6 @@ class GroupItem extends React.Component {
 							<Typography style={{ color: '#fff' }} gutterBottom variant='h5' component='h2'>
 								{group.name}
 							</Typography>
-							<Typography noWrap={true} style={{ color: '#fff' }} component='p'>
-								{group.description}
-							</Typography>
 						</CardContent>
 					</CardActionArea>
 					<CardActions>

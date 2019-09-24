@@ -13,9 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('member/participate', 'API\membersController@participate');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
 Route::post('login', 'API\UserController@login');
 Route::get('login', ['as' => 'login', 'uses' => 'API\OrgController@redirected']);
 
@@ -43,8 +47,7 @@ Route::post('subscription/create', 'API\subscriptionsController@create');
 //inbound email fetch emails from mailgun
 Route::post('email/inbound', 'API\emailsController@inbound');
 
-//participate
-Route::post('member/participate', 'API\membersController@participate');
+
 
 Route::get('categories', 'API\CategoryController@index');
 
@@ -61,7 +64,7 @@ Route::get('slides', 'API\SlideController@index');
 
 
 Route::post('email/sendtomembers', 'API\emailsController@sendtomembers');
-
+//participate
 
 
 
@@ -80,6 +83,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('org/create', 'API\OrgController@create');
     Route::post('org/update', 'API\OrgController@update');
     Route::post('org/delete', 'API\OrgController@delete');
+    Route::post('org/changemainorg', 'API\OrgController@changemainorg');
 
     //Place
     Route::post('place/create', 'API\PlaceController@create');

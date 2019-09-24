@@ -25,8 +25,8 @@ const styles = (theme) => ({
 	avatar: {
 		margin: '10px auto',
 		padding: '10px',
-		width: 70,
-		height: 70,
+		width: 50,
+		height: 50,
 		background: 'transparent'
 	},
 	mediaContaier: {
@@ -71,7 +71,7 @@ class GroupItem extends React.Component {
 	render() {
 		const { classes, group, isWhite } = this.props;
 		return (
-			<Col item sm={6} md={3} lg={3}>
+			<div style={{ display: 'inline-block' }}>
 				<Flash>
 					<Link to={'./../group/' + group.id} className={classes.linkClass}>
 						<div className={classes.card}>
@@ -83,31 +83,23 @@ class GroupItem extends React.Component {
 												name={group.icon_name}
 												font={group.icon_font}
 												color='#fff'
-												size='3em'
+												size='1.5em'
 											/>
 										) : (
 											<IconItem
 												name={group.icon_name}
 												font={group.icon_font}
 												color={this.props.theme.palette.primary.main}
-												size='3em'
+												size='1.5em'
 											/>
 										)}
 									</Avatar>
-									<Typography
-										gutterBottom
-										variant='caption'
-										component='caption'
-										className={isWhite === true ? classes.whiteColor : classes.blackColor}
-									>
-										{group.name}
-									</Typography>
 								</div>
 							</div>
 						</div>
 					</Link>
 				</Flash>
-			</Col>
+			</div>
 		);
 	}
 }

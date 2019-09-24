@@ -61,7 +61,8 @@ const styles = (theme) => ({
 	text: {
 		fontSize: '1em',
 		color: '#333',
-		lineHeight: '2'
+		lineHeight: '2',
+		color: '#fff'
 	},
 	datetext: {
 		color: '#bdbdbd',
@@ -77,12 +78,12 @@ const styles = (theme) => ({
 		lineHeight: '2'
 	},
 	divRoot: {
-		border: '1px solid #bdbdbd',
+		borderBottom: '1px solid #bdbdbd',
 		padding: '5px',
 		margin: '10px',
-		borderRadius: '10px',
 		cursor: 'pointer',
-		width: '100%',
+		width: '90%',
+		margin: '0 auto',
 		'&:hover': {
 			background: '#e3f2fd'
 		}

@@ -69,24 +69,14 @@ class Orgs extends Component {
 	}
 	render() {
 		const { classes, organization } = this.props;
-		let orgsContent;
 		const { orgs } = organization;
-		if (orgs === null) {
-			orgsContent = '';
-		} else {
-			if (isEmpty(this.state.searchTerm)) {
-				orgsContent = <OrgFeed orgs={orgs} />;
-			} else {
-				const filteredOrgs = orgs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-				orgsContent = <OrgFeed orgs={filteredOrgs} />;
-			}
-		}
+		const anotherOrgs = orgs.filter((c) => c.is_main !== 1);
 		return (
 			<div className={classes.relativeContainer}>
 				<CustomSlideShow content={orgs} />
 				<h1 style={{ textAlign: 'center', margin: '20px' }}>Våra partners</h1>
 				<Grid container spacing={10} justify='center' alignItems='center'>
-					{orgsContent}
+					<OrgFeed orgs={anotherOrgs} />
 				</Grid>
 				<div />
 			</div>

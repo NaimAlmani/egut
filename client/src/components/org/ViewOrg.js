@@ -203,7 +203,7 @@ class ViewOrg extends React.Component {
 
 				<div className={classes.orgInfoContainer}>
 					<Typography component='p' className={classes.desc}>
-						{org.description}
+						<p dangerouslySetInnerHTML={{ __html: org.description }} />
 					</Typography>
 				</div>
 				<div className={classes.chipsCont}>

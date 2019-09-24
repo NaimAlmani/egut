@@ -11,8 +11,11 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Form,
-	TextField
+	TextField,
+	Typography
 } from '@material-ui/core';
+import RichText from './../common/RichText';
+
 const styles = (theme) => ({
 	slideContent: {
 		width: '100%'
@@ -58,6 +61,11 @@ class SendEmail extends Component {
 		this.props.sendToActivityMembers(data);
 		this.props.onCancel();
 	};
+	onChangeTextEditor = (value) => {
+		this.setState({
+			message: value
+		});
+	};
 	render() {
 		const { classes, open, onCancel, onSend } = this.props;
 		return (
@@ -80,21 +88,10 @@ class SendEmail extends Component {
 							onChange={this.onChange}
 						/>
 
-						<TextField
-							autoFocus
-							margin='dense'
-							id='name'
-							label='ditt meddelande'
-							type='email'
-							fullWidth
-							multiline
-							required
-							variant='outlined'
-							inputProps={{ style: { height: '300px' } }}
-							name='message'
-							value={this.state.message}
-							onChange={this.onChange}
-						/>
+						<div className={classes.RichFieldContainer}>
+							<Typography>meddelande:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.message} />
+						</div>
 					</form>
 				</DialogContent>
 				<DialogActions>

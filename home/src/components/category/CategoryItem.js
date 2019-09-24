@@ -100,13 +100,6 @@ class CategoryItem extends React.Component {
 									>
 										{category.name}
 									</Typography>
-									<Typography
-										noWrap={true}
-										component='p'
-										className={isWhite === true ? classes.whiteColor : classes.blackColor}
-									>
-										{category.description}
-									</Typography>
 								</div>
 							</div>
 						</div>

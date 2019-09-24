@@ -32,9 +32,9 @@ class membersController extends Controller
         $tel = $request->tel;
         $activity_id = $request->activity_id;
         //check if email is exist
-        $checkMember = Member::where('email', $email);
+        $checkMember = Member::where(['email' => $email, 'activity_id' => $activity_id]);
         if ($checkMember->count() > 0) {
-            return response()->json(['error' => 'email is exist'], 401);
+            return response()->json(['error' => 'email is exist'], 400);
         }
         //save to member db
         $member = new Member();
@@ -58,6 +58,8 @@ class membersController extends Controller
         // send mail to admin
         $admins = User::orderBy('created_at', 'desc')->get();
         //notify admins
+        $contactPersons = $activity->contacts()->get();
+        Log::info($contactPersons);
 
         $mailToAdmin = new Email();
         $mailToAdmin->name = $name;
@@ -69,6 +71,10 @@ class membersController extends Controller
         //  Mail::to($admins)->send(new SendMailable($mailToAdmin));
         //save to db
         $mailToAdmin->save();
+        //notify contact person
+
+
+
         //notify
         $note = new Notification();
         $note->type = "participation request";

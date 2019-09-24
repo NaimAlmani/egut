@@ -77,10 +77,31 @@ class ActivityController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
         $image = $request->logo;
-        //saving image
-        $imgName  = md5(time() . uniqid()) . '.' .
-            $image->getClientOriginalExtension();
-        $image->storeAs('/public/images/', $imgName);
+
+
+        $imgName = "defaultOrgLogo.jpg";
+        if ($request->logo->isValid()) {
+            //save images
+            $image = $request->logo;
+            //deal with images
+            //set the image name
+            $imgName = md5(time() . uniqid()) . '.' .
+                $image->getClientOriginalExtension();
+            //set th images path
+            $originalPath = 'images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+            $originalImage =  Image::make($image)->save(public_path($originalPath . $imgName));
+            //save small image
+        }
+        //END SAVE IMAGE
+
+
+
+
         //save to db
         $activity = Activity::create(['name' => $request->name, 'description' => $request->description, 'logoPath' => $imgName, 'is_active' => $request->is_active]);
         $activity->save();
@@ -111,18 +132,28 @@ class ActivityController extends Controller
         $activity->name  = $name;
         $activity->description  = $description;
         $activity->is_active = $is_active;
-        if (isset($image) && $image != "null" && $image != null) {
-            $logoValidator = Validator::make($request->all(), [
-                'logo' => 'image',
-            ]);
-            if ($logoValidator->fails()) {
-                return response()->json(['error' => $logoValidator->errors()], 401);
-            }
-            $imgName  = md5(time() . uniqid()) . '.' .
+
+        if ($request->logo->isValid()) {
+            //save images
+            $image = $request->logo;
+            //deal with images
+            //set the image name
+            $imgName = md5(time() . uniqid()) . '.' .
                 $image->getClientOriginalExtension();
-            $image->storeAs('/public/images/', $imgName);
-            $activity->logoPath = $imgName;
+            //set th images path
+            $originalPath = 'images/';
+
+            //get current image sizes
+            $width = Image::make($image)->width();
+            $height = Image::make($image)->height();
+            //save original image
+            $originalImage =  Image::make($image)->save(public_path($originalPath . $imgName));
+            //save small image
         }
+        //END SAVE IMAGE
+
+
+        $activity->logoPath = $imgName;
         //saving to db
         $activity->save();
         return $activity->toJson();
@@ -389,30 +420,17 @@ class ActivityController extends Controller
         $imgName = md5(time() . uniqid()) . '.' .
             $image->getClientOriginalExtension();
         //set th images path
-        $smallPath = 'images/small/';
+
         $originalPath = 'images/';
 
         //get current image sizes
         $width = Image::make($image)->width();
         $height = Image::make($image)->height();
         //save original image
-        $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+        $originalImage =  Image::make($image)->save(public_path($originalPath . $imgName));
         //save small image
         $smallWidth = $width;
         $smallHeight = $height;
-        switch (true) {
-            case $width <= 300:
-                $smallWidth = $width / 2;
-                $smallHeight = $height / 2;
-                break;
-            case $width >= 1000:
-                $smallWidth = $width / 4;
-                $smallHeight = $height / 4;
-            default:
-                $smallWidth = $width / 3;
-                $smallHeight = $height / 3;
-        }
-        $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
         //save to db
         $img = ActivityImage::create([
             'activity_id' => $request->activity_id,

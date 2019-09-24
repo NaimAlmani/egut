@@ -47,30 +47,14 @@ class OrgController extends Controller
             $imgName = md5(time() . uniqid()) . '.' .
                 $image->getClientOriginalExtension();
             //set th images path
-            $smallPath = 'images/small/';
             $originalPath = 'images/';
 
             //get current image sizes
             $width = Image::make($image)->width();
             $height = Image::make($image)->height();
             //save original image
-            $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+            $originalImage =  Image::make($image)->save(public_path($originalPath . $imgName));
             //save small image
-            $smallWidth = $width;
-            $smallHeight = $height;
-            switch (true) {
-                case $width <= 300:
-                    $smallWidth = $width / 2;
-                    $smallHeight = $height / 2;
-                    break;
-                case $width >= 1000:
-                    $smallWidth = $width / 4;
-                    $smallHeight = $height / 4;
-                default:
-                    $smallWidth = $width / 3;
-                    $smallHeight = $height / 3;
-            }
-            $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
         }
         //END SAVE IMAGE
 
@@ -137,7 +121,6 @@ class OrgController extends Controller
             $imgName = md5(time() . uniqid()) . '.' .
                 $image->getClientOriginalExtension();
             //set th images path
-            $smallPath = 'images/small/';
             $originalPath = 'images/';
 
             //get current image sizes
@@ -146,21 +129,6 @@ class OrgController extends Controller
             //save original image
             $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
             //save small image
-            $smallWidth = $width;
-            $smallHeight = $height;
-            switch (true) {
-                case $width <= 300:
-                    $smallWidth = $width / 2;
-                    $smallHeight = $height / 2;
-                    break;
-                case $width >= 1000:
-                    $smallWidth = $width / 4;
-                    $smallHeight = $height / 4;
-                default:
-                    $smallWidth = $width / 3;
-                    $smallHeight = $height / 3;
-            }
-            $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
             $org->logoPath = $imgName;
         }
         //saving to db
@@ -211,38 +179,22 @@ class OrgController extends Controller
         $imgName = md5(time() . uniqid()) . '.' .
             $image->getClientOriginalExtension();
         //set th images path
-        $smallPath = 'images/small/';
         $originalPath = 'images/';
 
         //get current image sizes
         $width = Image::make($image)->width();
         $height = Image::make($image)->height();
         //save original image
-        $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+        $originalImage =  Image::make($image)->save(public_path($originalPath . $imgName));
         //save small image
-        $smallWidth = $width;
-        $smallHeight = $height;
-        switch (true) {
-            case $width <= 300:
-                $smallWidth = $width / 2;
-                $smallHeight = $height / 2;
-                break;
-            case $width >= 1000:
-                $smallWidth = $width / 4;
-                $smallHeight = $height / 4;
-            default:
-                $smallWidth = $width / 3;
-                $smallHeight = $height / 3;
-        }
-        $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
         //save to db
         $img = OrganizationImage::create([
             'organization_id' => $request->organization_id,
             'title'             => $request->title,
             'description'       => $request->description,
             'path'              => $imgName,
-            'width'            => $smallWidth,
-            'height'           => $smallHeight
+            'width'            => $width,
+            'height'           => $height
         ]);
 
         $img->save();
@@ -275,34 +227,36 @@ class OrgController extends Controller
         $imgName = md5(time() . uniqid()) . '.' .
             $image->getClientOriginalExtension();
         //set th images path
-        $smallPath = 'images/small/';
         $originalPath = 'images/';
 
         //get current image sizes
         $width = Image::make($image)->width();
         $height = Image::make($image)->height();
         //save original image
-        $originalImage =  Image::make($image)->resize($width, $height)->save(public_path($originalPath . $imgName));
+        $originalImage =  Image::make($image)->save(public_path($originalPath . $imgName));
         //save small image
-        $smallWidth = $width;
-        $smallHeight = $height;
-        switch (true) {
-            case $width <= 300:
-                $smallWidth = $width / 2;
-                $smallHeight = $height / 2;
-                break;
-            case $width >= 1000:
-                $smallWidth = $width / 4;
-                $smallHeight = $height / 4;
-            default:
-                $smallWidth = $width / 3;
-                $smallHeight = $height / 3;
-        }
-        $smallImage =  Image::make($image)->resize($smallWidth, $smallHeight)->save(public_path($smallPath . $imgName));
+
         //save to db
         $org = Organization::find($request->organization_id);
         $org->background = $imgName;
         $org->save();
         return $org->toJson();
+    }
+
+    public function changemainorg(Request $request)
+    {
+        $org = Organization::find($request->id);
+
+        $org->is_main = 1;
+        $org->save();
+
+
+        $orgs  = Organization::where('id', '!=', $request->id);
+        foreach ($orgs as $or) {
+            $or->is_main = 0;
+            $or->save();
+        }
+        $returnedOrg = Organization::orderBy('id', 'desc')->get();
+        return $returnedOrg->toJson();
     }
 }

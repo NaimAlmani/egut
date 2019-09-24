@@ -7,8 +7,8 @@ const config = {
 		tls: true
 	}
 };
-/*
 
+/*
 // on Deploy
 const config = {
 	endPoint: 'https://service.restadgard-utb.se/',

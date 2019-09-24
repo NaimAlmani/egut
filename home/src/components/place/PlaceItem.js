@@ -106,18 +106,6 @@ class PlaceItem extends React.Component {
 									<Typography gutterBottom variant='h5' component='h2'>
 										{place.name}
 									</Typography>
-									{!isEmpty(place.description) ? (
-										<LinesEllipsis
-											text={place.description}
-											maxLine='2'
-											ellipsis='...'
-											trimRight
-											basedOn='letters'
-											style={{
-												color: '#c5c5c5'
-											}}
-										/>
-									) : null}
 								</CardContent>
 							</Link>
 						</CardActionArea>

@@ -171,7 +171,7 @@ class ViewPlace extends React.Component {
 						</div>
 						{!isEmpty(pls.description) ? (
 							<div className={classes.desc}>
-								<p> {pls.description}</p>
+								<p dangerouslySetInnerHTML={{ __html: pls.description }} />
 							</div>
 						) : null}
 

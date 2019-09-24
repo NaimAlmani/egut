@@ -10,6 +10,7 @@ import Title from '../common/Title';
 import ImageUploader from 'react-images-upload';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
+import RichText from './../common/RichText';
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -25,11 +26,11 @@ const styles = (theme) => ({
 		background: '#333'
 	},
 	FormContainer: {
-		width: '600px',
+		width: '75%',
 		padding: '20px 50px',
 		position: 'absolute',
 		top: '100px',
-		left: 'calc(50% - 200px)',
+		left: '12.5%',
 		minWidth: '300px',
 		height: '75vh',
 		overflow: 'auto'
@@ -49,6 +50,11 @@ const styles = (theme) => ({
 		// ⚠️ object-fit is not supported by IE 11.
 		objectFit: 'cover',
 		width: '100%'
+	},
+	FieldContainer: {
+		width: '50%',
+		padding: '10px',
+		display: 'inline-block'
 	}
 });
 
@@ -150,7 +156,11 @@ class EditOrg extends Component {
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
-
+	onChangeTextEditor = (value) => {
+		this.setState({
+			description: value
+		});
+	};
 	render() {
 		const { classes } = this.props;
 		return (
@@ -260,21 +270,10 @@ class EditOrg extends Component {
 							/>
 						</div>
 
-						<div className={classes.FieldContainer}>
-							<TextField
-								id='outlined-email-input'
-								label='Description'
-								className={(classes.textField, classes.textfield)}
-								type='text'
-								name='description'
-								margin='normal'
-								variant='outlined'
-								fullWidth={true}
-								onChange={this.onChange}
-								value={this.state.description}
-							/>
+						<div className={classes.RichFieldContainer}>
+							<Typography>description:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.description} />
 						</div>
-
 						<ImageUploader
 							withIcon={true}
 							buttonText='Choose images'

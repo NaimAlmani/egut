@@ -95,9 +95,6 @@ class ActivityItem extends React.Component {
 									<Typography className={classes.title} gutterBottom variant='h5' component='h2'>
 										{activity.name}
 									</Typography>
-									<Typography className={classes.description} component='p'>
-										{activity.description}
-									</Typography>
 								</CardContent>
 							</Link>
 						</CardActionArea>

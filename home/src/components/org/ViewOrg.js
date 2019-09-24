@@ -16,11 +16,12 @@ import OrgImages from './OrgImages';
 import Activities from './activities/Activities';
 import randomBackground from '../../utils/randomBackground';
 import { Col, Container, Row } from 'reactstrap';
+import { Fade } from 'react-reveal';
 const styles = (theme) => ({
 	header: {
 		position: 'relative',
 		width: '100%',
-		height: '80vh',
+		height: '50vh',
 		backgroundPosition: 'center',
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover'
@@ -82,9 +83,8 @@ const styles = (theme) => ({
 		cursor: 'pointer'
 	},
 	orgInfoContainer: {
-		mninidth: '70%',
 		margin: '40px auto',
-		textAlign: 'center',
+		textAlign: 'left',
 		fontSize: '1.25em'
 	},
 	chipsCont: {
@@ -108,7 +108,7 @@ const styles = (theme) => ({
 		textAlign: 'center'
 	},
 	extLink: {
-		color: '#333',
+		color: '#fff',
 		textDecoration: 'none',
 		'&:hover': {
 			textDecoration: 'none'
@@ -143,8 +143,12 @@ const styles = (theme) => ({
 		fontSize: '1rem'
 	},
 	subtitle: {
-		textAlign: 'center',
-		marginBottom: '20px'
+		textAlign: 'left',
+		margin: '20px',
+		marginTop: '20px',
+		paddingTop: '20px',
+		color: '#fff',
+		borderTop: '1px solid #eee'
 	}
 });
 class ViewOrg extends React.Component {
@@ -199,123 +203,97 @@ class ViewOrg extends React.Component {
 					</div>
 				</div>
 				{!isEmpty(org.description) ? (
-					<Container>
-						<Row>
-							<Col
-								md={{ size: 8, offset: 2 }}
-								lg={{ size: 8, offset: 2 }}
-								sm={{ size: 'auto', offset: 1 }}
-							>
-								<div className={classes.orgInfoContainer}>
+					<Grid container>
+						<Grid item md={8} lg={8} sm={'12'} style={{ padding: '20px' }}>
+							<div className={classes.orgInfoContainer}>
+								<Fade bottom>
 									<Typography variant='p' className={classes.desc}>
-										{org.description}
+										<p dangerouslySetInnerHTML={{ __html: org.description }} />
 									</Typography>
-								</div>
-							</Col>
-						</Row>
-					</Container>
-				) : null}
-				<div className={classes.chipsCont}>
-					<div
-						style={{
-							width: '80%',
-							margin: ' 20px auto',
-							marginTop: '0',
-							padding: '20px 10px'
-						}}
-					>
-						<Typography variant='h6' className={classes.subtitle}>
-							Kontakt info
-						</Typography>
-						<Grid container justify='center'>
-							{!isEmpty(org.website) ? (
-								<Grid
-									item
-									xs={12}
-									sm={6}
-									md={3}
-									style={{
-										fontSize: '1rem',
-										textAlign: 'center'
-									}}
-								>
-									<span style={{ margin: '5px' }}>
-										<IconItem name='globe' font='Feather' color={mainColor} size={'1em'} />
-									</span>
-									<a className={classes.extLink} href={org.website}>
-										{org.website}
-									</a>
-								</Grid>
-							) : null}
-
-							{!isEmpty(org.contact) ? (
-								<Grid
-									item
-									xs={12}
-									sm={6}
-									md={3}
-									style={{
-										fontSize: '1rem',
-										textAlign: 'center'
-									}}
-								>
-									<span style={{ margin: '5px' }}>
-										<IconItem name='user' font='Feather' color={mainColor} size={'1.2em'} />
-									</span>
-
-									{org.contact}
-								</Grid>
-							) : null}
-							{!isEmpty(org.email) ? (
-								<Grid
-									item
-									xs={12}
-									sm={6}
-									md={3}
-									style={{
-										fontSize: '1rem',
-										textAlign: 'center'
-									}}
-								>
-									<span style={{ margin: '5px' }}>
-										<IconItem name='mail' font='Feather' color={mainColor} size={'1.2em'} />
-									</span>
-									<a className={classes.extLink} href={'mailto:' + org.email}>
-										{org.email}
-									</a>
-								</Grid>
-							) : null}
-							{!isEmpty(org.tel) ? (
-								<Grid
-									item
-									xs={12}
-									sm={6}
-									md={3}
-									style={{
-										fontSize: '1rem',
-										textAlign: 'center'
-									}}
-								>
-									<span style={{ margin: '5px' }}>
-										<IconItem name='phone-call' font='Feather' color={mainColor} size={'1.2em'} />
-									</span>
-									<a className={classes.extLink} href={'tel:' + org.email}>
-										{org.tel}
-									</a>
-								</Grid>
-							) : null}
+								</Fade>
+							</div>
 						</Grid>
-					</div>
-				</div>
+						<Grid
+							item
+							md={4}
+							lg={4}
+							sm={'12'}
+							style={{ background: 'rgb(97, 96, 84)', color: '#fff', padding: '10px 10px 20px 10px ' }}
+						>
+							<div
+								className={classes.orgInfoContainer}
+								style={{ width: '70%', margin: '0 auto', color: '#fff' }}
+							>
+								<Fade top>
+									<div className={classes.logoContainer}>
+										<img src={logo} className={classes.logo} alt={org.name} />
+									</div>
+								</Fade>
+								<Typography variant='h6' className={classes.subtitle}>
+									Kontakt info
+								</Typography>
+								{!isEmpty(org.website) ? (
+									<Fade right>
+										<div style={{ marginTop: '10px', fontSize: '0.9em', width: '100%' }}>
+											<span style={{ margin: '10px' }}>
+												<IconItem name='globe' font='Feather' color={mainColor} size={'1em'} />
+											</span>
+											<a className={classes.extLink} href={org.website}>
+												{org.website}
+											</a>
+										</div>
+									</Fade>
+								) : null}
+								{!isEmpty(org.contact) ? (
+									<Fade right>
+										<div style={{ marginTop: '10px', fontSize: '0.9em', width: '100%' }}>
+											<span style={{ margin: '10px' }}>
+												<IconItem name='user' font='Feather' color={mainColor} size={'1.2em'} />
+											</span>
+
+											{org.contact}
+										</div>
+									</Fade>
+								) : null}
+								{!isEmpty(org.email) ? (
+									<Fade right>
+										<div style={{ marginTop: '10px', fontSize: '0.9em', width: '100%' }}>
+											<span style={{ margin: '10px' }}>
+												<IconItem name='mail' font='Feather' color={mainColor} size={'1.2em'} />
+											</span>
+											<a className={classes.extLink} href={'mailto:' + org.email}>
+												{org.email}
+											</a>
+										</div>
+									</Fade>
+								) : null}
+								{!isEmpty(org.tel) ? (
+									<Fade right>
+										<div style={{ marginTop: '10px', fontSize: '0.9em', width: '100%' }}>
+											<span style={{ margin: '10px' }}>
+												<IconItem
+													name='phone-call'
+													font='Feather'
+													color={mainColor}
+													size={'1.2em'}
+												/>
+											</span>
+											<a className={classes.extLink} href={'tel:' + org.email}>
+												{org.tel}
+											</a>
+										</div>
+									</Fade>
+								) : null}
+							</div>
+						</Grid>
+					</Grid>
+				) : null}
 
 				{!isEmpty(this.props.organization.images) ? (
 					<div>
-						<div className={classes.orgHeader}>
-							<Title text={'Galleri'} subText='' color={this.props.theme.palette.primary.main} />
-						</div>
 						<Container className={classes.organizations}>
 							<Row>
-								<div style={{ width: '80%', margin: '0 auto' }}>
+								<div style={{ width: '100%', margin: '0 auto' }}>
 									<OrgImages images={changeToGallery(this.props.organization.images)} />
 								</div>
 							</Row>
@@ -323,7 +301,7 @@ class ViewOrg extends React.Component {
 					</div>
 				) : null}
 				{!isEmpty(this.props.organization.activities) ? (
-					<Grid container>
+					<Grid container justify='center' alignItems='center' style={{ background: '#EEEEEE' }}>
 						<Activities activities={this.props.organization.activities} />
 					</Grid>
 				) : null}

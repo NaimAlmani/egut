@@ -11,8 +11,11 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Form,
-	TextField
+	TextField,
+	Typography
 } from '@material-ui/core';
+import RichText from './../common/RichText';
+
 import IconItem from '../common/icons/IconItem';
 const styles = (theme) => ({
 	slideContent: {
@@ -69,6 +72,11 @@ class SendEmail extends Component {
 		this.props.sendEmail(data);
 		this.props.onClose();
 	};
+	onChangeTextEditor = (value) => {
+		this.setState({
+			message: value
+		});
+	};
 	render() {
 		const { classes, open, onClose, onSend, email } = this.props;
 		return (
@@ -104,21 +112,10 @@ class SendEmail extends Component {
 							onChange={this.onChange}
 						/>
 
-						<TextField
-							autoFocus
-							margin='dense'
-							id='name'
-							label='Message'
-							type='email'
-							fullWidth
-							multiline
-							required
-							variant='outlined'
-							inputProps={{ style: { height: '300px' } }}
-							name='message'
-							value={this.state.message}
-							onChange={this.onChange}
-						/>
+						<div className={classes.RichFieldContainer}>
+							<Typography>description:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.message} />
+						</div>
 					</form>
 				</DialogContent>
 				<DialogActions>

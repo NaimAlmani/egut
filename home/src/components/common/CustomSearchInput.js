@@ -8,6 +8,18 @@ import IconItem from './../common/icons/IconItem';
 // Generate required css
 
 class CustomSearchInput extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			text: ''
+		};
+	}
+	onChange = (e) => {
+		this.setState({
+			text: e.target.value
+		});
+		this.props.onChange();
+	};
 	render() {
 		const { placeholder, onChange } = this.props;
 		const color = this.props.color || '#333';
@@ -15,14 +27,13 @@ class CustomSearchInput extends React.Component {
 			<div
 				className='searchInput'
 				style={{
-					border: '1px solid' + color,
 					borderRadius: '10px',
 					paddingLeft: '40px',
 					marginBottom: '10px',
-					width: '255px'
+					width: '255px',
+					background: 'transparent'
 				}}
 			>
-				<IconItem name='search' type='Feather' />
 				<SearchInput onChange={onChange} placeholder={placeholder} />
 			</div>
 		);

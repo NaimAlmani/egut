@@ -10,6 +10,8 @@ import ImageUploader from 'react-images-upload';
 import Title from '../common/Title';
 import IconItem from '../common/icons/IconItem';
 import isEmpty from './../../validation/is-empty';
+import RichText from './../common/RichText';
+
 const styles = (theme) => ({
 	popupPageContainer: {
 		position: 'fixed',
@@ -25,11 +27,11 @@ const styles = (theme) => ({
 		background: '#333'
 	},
 	FormContainer: {
-		width: '400px',
+		width: '75%',
 		padding: '20px 50px',
 		position: 'absolute',
 		top: '100px',
-		left: 'calc(50% - 200px)',
+		left: '12.5%',
 		minWidth: '300px',
 		height: '75vh',
 		overflow: 'auto'
@@ -97,6 +99,11 @@ class PlaceForm extends Component {
 	handleSwitchChange = (event) => {
 		this.setState({ favorite: event.target.checked === true ? 1 : 0 });
 	};
+	onChangeTextEditor = (value) => {
+		this.setState({
+			description: value
+		});
+	};
 	render() {
 		const { classes } = this.props;
 		return (
@@ -108,7 +115,7 @@ class PlaceForm extends Component {
 							<IconItem name='x' type='Feather' />
 						</span>
 					</div>
-					<Title text='PlaceForm' color={this.props.theme.palette.primary.main} icon='lock' />
+					<Title text='Add new local' color={this.props.theme.palette.primary.main} icon='lock' />
 					<form onSubmit={this.onSubmit} encType='multipart/form-data'>
 						<div className={classes.FieldContainer}>
 							<TextField
@@ -125,18 +132,9 @@ class PlaceForm extends Component {
 							/>
 						</div>
 
-						<div className={classes.FieldContainer}>
-							<TextField
-								id='outlined-email-input'
-								label='Description'
-								className={(classes.textField, classes.textfield)}
-								type='text'
-								name='description'
-								margin='normal'
-								variant='outlined'
-								fullWidth={true}
-								onChange={this.onChange}
-							/>
+						<div className={classes.RichFieldContainer}>
+							<Typography>description:</Typography>
+							<RichText onChange={this.onChangeTextEditor} value={this.state.description} />
 						</div>
 						<ImageUploader
 							withIcon={true}

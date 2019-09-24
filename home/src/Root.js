@@ -53,7 +53,7 @@ class Root extends Component {
 				<MuiThemeProvider theme={theme}>
 					<Scrollbars
 						autoHide
-						style={{ width: '100%', height: '100vh' }}
+						style={{ height: '100vh' }}
 						renderThumbVertical={({ style, ...props }) => (
 							<div
 								{...props}

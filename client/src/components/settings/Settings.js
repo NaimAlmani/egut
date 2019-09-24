@@ -7,21 +7,24 @@ import EditSlide from './EditSlide';
 import { withStyles } from '@material-ui/core/styles';
 import {
 	Grid,
-	Card,
-	CardActionArea,
-	CardMedia,
-	CardContent,
+	FormControlLabel,
+	FormControl,
+	InputLabel,
+	Select,
 	Typography,
 	CardActions,
 	Dialog,
 	DialogContent,
-	Button
+	Button,
+	MenuItem
 } from '@material-ui/core';
 import { customStyles } from './../../theme/customStyles';
 import isEmpty from './../../validation/is-empty';
 import { getAllSlides } from './../../actions/slide';
+import { getSettings, changeMainOrg } from './../../actions/settings';
 import SearchInput, { createFilter } from 'react-search-input';
 import CustomSearchInput from './../common/CustomSearchInput';
+import { Link } from 'react-router-dom';
 import Title from '../common/Title';
 import IconItem from '../common/icons/IconItem';
 const KEYS_TO_FILTERS = [ 'name' ];
@@ -60,6 +63,11 @@ const styles = (theme) => ({
 		'&:hover': {
 			background: theme.palette.primary.main
 		}
+	},
+	formControl: {
+		width: '100%',
+		marginBottom: '40px',
+		borderBottom: '1px solid #333'
 	}
 });
 class Settings extends Component {
@@ -67,14 +75,22 @@ class Settings extends Component {
 		super(props);
 		this.state = {
 			searchTerm: '',
-			isAddNew: false
+			isAddNew: false,
+			selectedOrg: ''
 		};
 		this.searchUpdated = this.searchUpdated.bind(this);
 		this.ShowCreateForm = this.ShowCreateForm.bind(this);
 		this.onHideNewSlide = this.onHideNewSlide.bind(this);
+		this.selectChange = this.selectChange.bind(this);
 	}
 	componentDidMount() {
 		this.props.getAllSlides();
+		this.props.getSettings();
+		if (!isEmpty(this.props.settings.mainOrg)) {
+			this.setState({
+				selectedOrg: this.props.settings.mainOrg.id
+			});
+		}
 	}
 	// function to search array using for loop
 	searchUpdated(term) {
@@ -90,18 +106,25 @@ class Settings extends Component {
 			isAddNew: false
 		});
 	}
+	selectChange(event) {
+		this.setState({
+			[event.target.name]: event.target.value
+		});
+		this.props.changeMainOrg(event.target.value);
+	}
 	render() {
-		const { classes, slide } = this.props;
-		let placeContent;
+		const { classes, slide, settings } = this.props;
+		const { organizations } = settings;
+		let slideContent;
 		const { slides } = slide;
 		if (slides === null) {
-			placeContent = '';
+			slideContent = '';
 		} else {
 			if (isEmpty(this.state.searchTerm)) {
-				placeContent = <SlideFeed slides={slides} />;
+				slideContent = <SlideFeed slides={slides} />;
 			} else {
 				const filteredOrgs = slides.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-				placeContent = <SlideFeed slides={filteredOrgs} />;
+				slideContent = <SlideFeed slides={filteredOrgs} />;
 			}
 		}
 		return (
@@ -111,8 +134,37 @@ class Settings extends Component {
 					subText='You can manage the Settings here'
 					color={this.props.theme.palette.primary.main}
 				/>
+
 				<div className={classes.section}>
-					<Typography variant='h3' align='center' color='#333'>
+					<Typography variant='h5' align='center' color='#333'>
+						Main Organization
+					</Typography>
+
+					<Grid container spacing={10} justify='center' alignItems='center'>
+						<Grid item xs={12} sm={6} md={3} style={{ textAlign: 'center' }}>
+							<FormControl className={classes.formControl}>
+								<InputLabel htmlFor='age-simple'>Main Organization</InputLabel>
+								<Select
+									value={this.props.settings.mainOrg.id}
+									onChange={this.selectChange}
+									inputProps={{
+										name: 'age',
+										id: 'age-simple'
+									}}
+								>
+									{organizations.map((org) => {
+										return <MenuItem value={org.id}>{org.name}</MenuItem>;
+									})}
+								</Select>
+							</FormControl>
+						</Grid>
+						{slideContent}
+					</Grid>
+					<div />
+				</div>
+
+				<div className={classes.section}>
+					<Typography variant='h5' align='center' color='#333'>
 						Home slider
 					</Typography>
 					<CustomSearchInput
@@ -126,10 +178,11 @@ class Settings extends Component {
 								<IconItem name='plus' type='Feather' size={50} color='#fff' />
 							</Button>
 						</Grid>
-						{placeContent}
+						{slideContent}
 					</Grid>
 					<div />
 				</div>
+
 				{this.state.isAddNew ? <SlideForm onCancel={this.onHideNewSlide} /> : null}
 				{this.props.slide.isEdit === true ? <EditSlide /> : null}
 			</div>
@@ -145,7 +198,10 @@ Settings.propTypes = {
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
-	slide: state.slide
+	slide: state.slide,
+	settings: state.settings
 });
 
-export default connect(mapStateToProps, { getAllSlides })(withStyles(styles, { withTheme: true })(Settings));
+export default connect(mapStateToProps, { getAllSlides, getSettings, changeMainOrg })(
+	withStyles(styles, { withTheme: true })(Settings)
+);

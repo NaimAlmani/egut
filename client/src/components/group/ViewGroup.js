@@ -142,6 +142,7 @@ class ViewGroup extends React.Component {
 						subText={cat.description}
 						color={this.props.theme.palette.primary.main}
 					/>
+					<p dangerouslySetInnerHTML={{ __html: cat.description }} />
 				</div>
 				<Grid container>
 					<Activities title='Aktiviteter' activities={this.props.group.activities} icon='heart' />

@@ -24,8 +24,8 @@ const styles = (theme) => ({
 	avatar: {
 		margin: '10px auto',
 		padding: '10px',
-		width: 70,
-		height: 70,
+		width: 50,
+		height: 50,
 		background: 'transparent'
 	},
 	mediaContaier: {
@@ -70,7 +70,7 @@ class CategoryItem extends React.Component {
 	render() {
 		const { classes, category, isWhite } = this.props;
 		return (
-			<Col sm={12} md={4} lg={3}>
+			<div style={{ display: 'inline-block' }}>
 				<Jump>
 					<Link to={'./../category/' + category.id} className={classes.linkClass}>
 						<div className={classes.card}>
@@ -81,32 +81,24 @@ class CategoryItem extends React.Component {
 											<IconItem
 												name={category.icon_name}
 												font={category.icon_font}
-												color='#fff'
-												size='3em'
+												color='rgb(97, 96, 84)'
+												size='1.5em'
 											/>
 										) : (
 											<IconItem
 												name={category.icon_name}
 												font={category.icon_font}
 												color={this.props.theme.palette.primary.main}
-												size='3em'
+												size='1.5em'
 											/>
 										)}
 									</Avatar>
-									<Typography
-										gutterBottom
-										variant='caption'
-										component='caption'
-										className={isWhite === true ? classes.whiteColor : classes.blackColor}
-									>
-										{category.name}
-									</Typography>
 								</div>
 							</div>
 						</div>
 					</Link>
 				</Jump>
-			</Col>
+			</div>
 		);
 	}
 }

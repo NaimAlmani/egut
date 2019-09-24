@@ -12,6 +12,7 @@ import iconReducer from './iconReducer';
 import categoryReducer from './categoryReducer';
 import emailReducer from './emailReducer';
 import notificationReducer from './notificationReducer';
+import settingsReducer from './settingsReducer';
 export default combineReducers({
 	auth: authReducer,
 	errors: errorReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
 	activity: activityReducer,
 	icon: iconReducer,
 	email: emailReducer,
-	notification: notificationReducer
+	notification: notificationReducer,
+	settings: settingsReducer
 });

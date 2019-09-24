@@ -87,7 +87,7 @@ class activities extends Component {
 					onChange={this.searchUpdated}
 					color={this.props.theme.palette.primary.main}
 				/>
-				<Grid container spacing={10}>
+				<Grid container spacing={10} justify='center' alignItems='center'>
 					{actsContent}
 				</Grid>
 				<div />

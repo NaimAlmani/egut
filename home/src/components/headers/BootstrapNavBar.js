@@ -83,7 +83,7 @@ export default class BootstrapNavBar extends React.Component {
 							<NavItem>
 								<NavLink>
 									<Link to='/places' className='navlink'>
-										<IconItem name='map-pin' font='Feather' size={'1rem'} /> Vara lokaler
+										<IconItem name='map-pin' font='Feather' size={'1rem'} /> Våra lokaler
 									</Link>
 								</NavLink>
 							</NavItem>
