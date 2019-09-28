@@ -16,13 +16,15 @@ class IconItem extends React.Component {
 
 	render() {
 		return (
-			<Icon
-				name={this.props.name}
-				font={!isEmpty(this.props.font) ? this.props.font : 'Feather'}
-				color={!isEmpty(this.props.color) ? this.props.color : this.props.theme.palette.primary.main}
-				size={this.props.size}
-				className={this.props.className}
-			/>
+			<span className='notranslate'>
+				<Icon
+					name={this.props.name}
+					font={!isEmpty(this.props.font) ? this.props.font : 'Feather'}
+					color={!isEmpty(this.props.color) ? this.props.color : this.props.theme.palette.primary.main}
+					size={this.props.size}
+					className={this.props.className}
+				/>
+			</span>
 		);
 	}
 }

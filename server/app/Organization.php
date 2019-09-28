@@ -8,7 +8,7 @@ class Organization extends Model
 {
     //
     protected $fillable = [
-        'name', 'description', 'logoPath', 'detail', 'website', 'email', 'tel', 'contact', 'background'
+        'name', 'description', 'logoPath', 'detail', 'website', 'email', 'tel', 'contact', 'background', 'is_main'
     ];
     public function activities()
     {

@@ -56,7 +56,7 @@ class Home extends Component {
 				<div className={classes.Section}>
 					<CustomSlideShow slides={this.props.slide.slides} />
 				</div>
-				<Typography variant='h4' className={classes.mainTitle}>
+				<Typography variant='h4' className={classes.mainTitle + ' notranslate'}>
 					Restad Gård Utbildning
 				</Typography>
 				<div className={classes.section}>

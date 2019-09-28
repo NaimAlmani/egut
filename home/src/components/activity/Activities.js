@@ -356,7 +356,7 @@ class activities extends Component {
 							</MediaQuery>
 						</div>
 					) : (
-						<Container fluid={true}>
+						<Container fluid={true} style={{ minHeight: '60vh' }}>
 							<Row>
 								<Col item xs={12}>
 									<Container fluid={true}>

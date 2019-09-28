@@ -8,11 +8,7 @@ import { Grid } from '@material-ui/core';
 import { customStyles } from './../../theme/customStyles';
 import isEmpty from './../../validation/is-empty';
 import { getAllOrgs } from './../../actions/organization';
-import SearchInput, { createFilter } from 'react-search-input';
-import CustomSearchInput from './../common/CustomSearchInput';
-import Title from '../common/Title';
-import IconItem from '../common/icons/IconItem';
-const KEYS_TO_FILTERS = [ 'name' ];
+import shuffle from './../../utils/shuffle';
 const styles = (theme) => ({
 	root: {
 		position: 'relative',
@@ -73,10 +69,10 @@ class Orgs extends Component {
 		const anotherOrgs = orgs.filter((c) => c.is_main !== 1);
 		return (
 			<div className={classes.relativeContainer}>
-				<CustomSlideShow content={orgs} />
+				<CustomSlideShow content={shuffle(anotherOrgs)} />
 				<h1 style={{ textAlign: 'center', margin: '20px' }}>Våra partners</h1>
 				<Grid container spacing={10} justify='center' alignItems='center'>
-					<OrgFeed orgs={anotherOrgs} />
+					<OrgFeed orgs={shuffle(anotherOrgs)} />
 				</Grid>
 				<div />
 			</div>

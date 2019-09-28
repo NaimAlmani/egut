@@ -222,7 +222,7 @@ class ViewOrg extends React.Component {
 						>
 							<div
 								className={classes.orgInfoContainer}
-								style={{ width: '70%', margin: '0 auto', color: '#fff' }}
+								style={{ width: '100%', padding: '20px', margin: '0 auto', color: '#fff' }}
 							>
 								<Fade top>
 									<div className={classes.logoContainer}>

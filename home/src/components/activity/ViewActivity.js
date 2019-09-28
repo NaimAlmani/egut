@@ -155,7 +155,7 @@ class ViewActivity extends React.Component {
 		return (
 			<div className={classes.container}>
 				{/* activity info  section */}
-				<div className={classes.header} style={{ backgroundImage: imgPath }}>
+				<div className={classes.header} style={{ backgroundImage: imgPath, backgroundAttachment: 'fixed' }}>
 					<div className={classes.headerContent}>
 						<div className={classes.title}>
 							<Typography variant='h4' style={{ color: '#fff' }}>

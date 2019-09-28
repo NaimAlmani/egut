@@ -52,7 +52,10 @@ export default class BootstrapNavBar extends React.Component {
 							alt='RESTAD GÅRD UTBILDNIND'
 							style={{ width: '60px', height: '50px' }}
 						/>
-						<p style={{ margin: '10px', color: '#fff', display: 'inline-block', fontSize: '0.8em' }}>
+						<p
+							className='notranslate'
+							style={{ margin: '10px', color: '#fff', display: 'inline-block', fontSize: '0.8em' }}
+						>
 							Restad gård utbildning
 						</p>
 					</NavbarBrand>

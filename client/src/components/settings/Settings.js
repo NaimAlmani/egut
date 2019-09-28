@@ -158,7 +158,6 @@ class Settings extends Component {
 								</Select>
 							</FormControl>
 						</Grid>
-						{slideContent}
 					</Grid>
 					<div />
 				</div>

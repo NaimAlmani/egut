@@ -11,13 +11,13 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				organizations: action.payload,
-				mainOrg: action.payload.filter((c) => c.is_main === 1)[0]
+				mainOrg: action.payload.filter((c) => c.is_main === 1)[0] || ''
 			};
 		case CHANGE_MAIN_ORG:
 			return {
 				...state,
 				organizations: action.payload,
-				mainOrg: action.payload.filter((c) => c.is_main === 1)[0]
+				mainOrg: action.payload.filter((c) => c.is_main === 1)[0] || ''
 			};
 		default:
 			return state;

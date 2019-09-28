@@ -122,7 +122,7 @@ class Footer extends React.Component {
 						<img src={'/images/rg.png'} alt='Restad gard ab' className={classes.image} />
 					</Col>
 					{/**contact info */}
-					<Col lg={4} md={4} sm={12}>
+					<Col lg={4} md={4} sm={12} className='notranslate'>
 						<div className={classes.title}>
 							<Typography className={classes.whiteColor} variant='h6'>
 								Restad gård utbildning

@@ -17,13 +17,12 @@ import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typo
 
 const styles = (theme) => ({
 	root: {
-		color: theme.palette.primary.main,
-		minHeight: '250px'
+		color: theme.palette.primary.main
 	},
 	card: {
 		maxWidth: 345,
 		margin: '24px  auto',
-		height: '300px',
+
 		overflow: 'auto',
 		textAlign: 'center',
 		border: 'none',
@@ -97,18 +96,18 @@ class OrgItem extends React.Component {
 			<Grid item xs={12} sm={4} md={2}>
 				<Fade>
 					<Card className={classes.card}>
-						<CardActionArea className={classes.root}>
+						<div className={classes.root}>
 							<Link to={'/organization/' + org.id} className={classes.link}>
 								<div className={classes.mediaContaier}>
 									<img className={classes.image} src={config.imagesPath + org.logoPath} alt='logo' />
 								</div>
 								<CardContent>
-									<Typography gutterBottom variant='h6' component='h6'>
+									<Typography gutterBottom variant='p' component='p' style={{ color: '#333' }}>
 										{org.name}
 									</Typography>
 								</CardContent>
 							</Link>
-						</CardActionArea>
+						</div>
 					</Card>
 				</Fade>
 			</Grid>

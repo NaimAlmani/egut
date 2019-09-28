@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Slider from 'react-animated-slider';
 import './slideStyle.css';
 import 'react-animated-slider/build/horizontal.css';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import randomBackground from './../../utils/randomBackground';
 import randomColor from './../../utils/randomColor';
 import config from './../../utils/config';
@@ -63,8 +63,12 @@ class CustomSlideShow extends Component {
 					>
 						<div className={classes.overlay} style={{ background: randomColor(index) }} />
 						<div className='center' style={{ marginTop: '15%' }}>
-							<h1>{item.title}</h1>
-							<p>{item.subtitle}</p>
+							<Typography className={'notranslate'} style={{ color: '#fff' }} component='h3' variant='h3'>
+								{item.title}
+							</Typography>
+							<Typography className={'notranslate'} style={{ color: '#fff' }} variant='p'>
+								{item.subtitle}
+							</Typography>
 						</div>
 					</div>
 				))}

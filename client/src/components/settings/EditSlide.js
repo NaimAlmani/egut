@@ -157,8 +157,9 @@ class EditSlide extends Component {
 							withIcon={true}
 							buttonText='Choose images'
 							onChange={this.onDrop}
-							imgExtension={[ '.jpg', '.gif', '.png', '.gif' ]}
-							maxFileSize={5242880}
+							imgExtension={[ '.jpg', '.gif', '.png', '.gif', '.jpeg' ]}
+							maxFileSize={10000000}
+							label='Max image size 10 mb'
 							singleImage={true}
 							withPreview={true}
 							name='fileInput'

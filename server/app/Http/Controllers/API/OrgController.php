@@ -245,17 +245,15 @@ class OrgController extends Controller
 
     public function changemainorg(Request $request)
     {
+        $orgs  = Organization::where('is_main', 1)->update(['is_main' => 0]);
+
         $org = Organization::find($request->id);
 
         $org->is_main = 1;
         $org->save();
 
 
-        $orgs  = Organization::where('id', '!=', $request->id);
-        foreach ($orgs as $or) {
-            $or->is_main = 0;
-            $or->save();
-        }
+
         $returnedOrg = Organization::orderBy('id', 'desc')->get();
         return $returnedOrg->toJson();
     }
