@@ -57,6 +57,8 @@ class ContactForm extends Component {
 		this.setState({
 			captcha: e
 		});
+		console.log('e');
+		console.log(e);
 	};
 	onSubmit = () => {
 		const data = {
@@ -117,7 +119,12 @@ class ContactForm extends Component {
 							value={this.state.message}
 							onChange={this.onChange}
 						/>
-						<ReCAPTCHA sitekey='6LcMxr0UAAAAAMFOSMPIGAUSPTnEXpb4DZtY97gM' onChange={this.captchaChange} />
+						<ReCAPTCHA
+							sitekey='6LcMxr0UAAAAAMFOSMPIGAUSPTnEXpb4DZtY97gM'
+							onChange={(res) => {
+								this.captchaChange(res);
+							}}
+						/>
 					</form>
 				</DialogContent>
 				<DialogActions>

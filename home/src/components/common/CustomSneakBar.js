@@ -10,7 +10,7 @@ import { clearSuccess } from './../../actions/success';
 import IconItem from './icons/IconItem';
 const styles = (theme) => ({
 	content: {
-		background: green[600],
+		background: '#4CAF50',
 		color: '#fff'
 	},
 	successIcon: {
@@ -54,7 +54,7 @@ class CustomSneakBar extends React.Component {
 							<span className={classes.successIcon}>
 								<IconItem name='check-circle' size={25} />
 							</span>
-							Tack for registera dig !
+							Tack för registrering dig !
 						</span>
 					}
 					action={[

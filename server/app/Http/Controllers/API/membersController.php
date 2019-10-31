@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Member;
-use App\EMail;
+use App\Email;
 use App\Notification;
 use App\Activity;
 use App\User;
@@ -52,7 +52,7 @@ class membersController extends Controller
         $mailToGuest = new Email();
         $mailToGuest->name = $name;
         $mailToGuest->email = $email;
-        $messageToGuest = "tack för att du kontaktar oss kommer vi att svara till dig så snart som möjligt !";
+        $messageToGuest = "tack för regstrering dig på " . $activity->name . "  ! vi kommer att kontakta  dig snart . ";
         $mailToGuest->message = $messageToGuest;
         $mailToGuest->income = 1;
         $mailToGuest->read = 0;
@@ -70,7 +70,8 @@ class membersController extends Controller
         $mailToAdmin->subject = "participation request";
         $mailToAdmin->income = 1;
         $mailToAdmin->read = 0;
-        //  Mail::to($admins)->send(new SendMailable($mailToAdmin));
+        Mail::to($admins)->send(new SendMailable($mailToAdmin));
+        Mail::to($contactPersons)->send(new SendMailable($mailToAdmin));
         //save to db
         $mailToAdmin->save();
         //notify contact person

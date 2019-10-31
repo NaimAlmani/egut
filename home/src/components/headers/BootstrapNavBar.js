@@ -93,9 +93,9 @@ export default class BootstrapNavBar extends React.Component {
 
 							<NavItem>
 								<NavLink>
-									<Link to='http://blog.restadgard-utb.se/about/' className='navlink'>
+									<a href='http://blog.restadgard-utb.se/about/' className='navlink'>
 										<IconItem name='info' font='Feather' size={'1rem'} /> Om oss
-									</Link>
+									</a>
 								</NavLink>
 							</NavItem>
 

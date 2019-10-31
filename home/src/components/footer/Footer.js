@@ -142,7 +142,7 @@ class Footer extends React.Component {
 									0762143512
 								</Typography>
 							</NavLink>
-							<NavLink className={classes.link} href='https://g.page/RG-UTB?share'>
+							<NavLink className={classes.link} href='https://g.page/RG-UTB?share' target='_blank'>
 								<IconItem name='map-pin' color='#fff' font='Feather' size={'1rem'} />
 								<Typography variant='p' className={classes.text}>
 									Kungsladugårdsvägen<br />
@@ -201,13 +201,14 @@ class Footer extends React.Component {
 
 							<Col md={6} lg={6} sm={12}>
 								<div>
-									<NavLink className={classes.centeredlink}>
-										<Link to='https://blog.restadgard-utb.se/about/' className='navlink'>
-											<IconItem name='info' color='#fff' font='Feather' size={'1rem'} />
-											<Typography variant='p' className={classes.text}>
-												Om oss
-											</Typography>
-										</Link>
+									<NavLink
+										className={classes.centeredlink}
+										href='https://blog.restadgard-utb.se/about'
+									>
+										<IconItem name='info' color='#fff' font='Feather' size={'1rem'} />
+										<Typography variant='p' className={classes.text}>
+											Om oss
+										</Typography>
 									</NavLink>
 								</div>
 								<div>
