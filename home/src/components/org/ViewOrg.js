@@ -218,7 +218,7 @@ class ViewOrg extends React.Component {
 							md={4}
 							lg={4}
 							sm={'12'}
-							style={{ background: 'rgb(97, 96, 84)', color: '#fff', padding: '10px 10px 20px 10px ' }}
+							style={{ background: '#424242', color: '#fff', padding: '10px 10px 20px 10px ' }}
 						>
 							<div
 								className={classes.orgInfoContainer}
@@ -301,8 +301,8 @@ class ViewOrg extends React.Component {
 					</div>
 				) : null}
 				{!isEmpty(this.props.organization.activities) ? (
-					<Grid container justify='center' alignItems='center' style={{ background: '#EEEEEE' }}>
-						<Activities activities={this.props.organization.activities} />
+					<Grid container justify='center' alignItems='center' style={{ background: '#fff' }}>
+						<Activities activities={this.props.organization.activities.filter((c) => c.is_active === 1)} />
 					</Grid>
 				) : null}
 			</div>

@@ -4,23 +4,11 @@ import { connect } from 'react-redux';
 
 import ActivityFeed from './ActivityFeed';
 import { withStyles } from '@material-ui/core/styles';
-import {
-	Grid,
-	Button,
-	Card,
-	CardActionArea,
-	CardMedia,
-	CardContent,
-	Typography,
-	CardActions,
-	Dialog,
-	DialogContent
-} from '@material-ui/core';
-import { customStyles } from './../../theme/customStyles';
+import { Grid, Button, FormControl, InputLabel, Select } from '@material-ui/core';
 import ReactPaginate from 'react-paginate';
 import isEmpty from './../../validation/is-empty';
-import { getAllActivities } from './../../actions/activity';
-import SearchInput, { createFilter } from 'react-search-input';
+import { getAllActivities, getDays } from './../../actions/activity';
+import { createFilter } from 'react-search-input';
 import CustomSearchInput from './../common/CustomSearchInput';
 import Title from '../common/Title';
 import IconItem from '../common/icons/IconItem';
@@ -76,7 +64,8 @@ const styles = (theme) => ({
 		display: 'inline-block'
 	},
 	searchTextField: {
-		margin: '10px'
+		margin: '10px',
+		marginTop: '10px'
 	},
 	btnRoot: {
 		borderRadius: '10px'
@@ -180,6 +169,9 @@ const styles = (theme) => ({
 	},
 	hContainer: {
 		marginTop: '20px'
+	},
+	selectRoot: {
+		margin: '10px'
 	}
 });
 
@@ -202,6 +194,7 @@ class activities extends Component {
 
 	componentDidMount() {
 		this.props.getAllActivities();
+		this.props.getDays();
 		const actsCont = this.props.activity.fActivities.length / this.state.perPage;
 		this.setState({
 			data: this.props.activity.fActivities.slice(this.state.selectedPage, this.state.perPage),
@@ -232,9 +225,16 @@ class activities extends Component {
 		});
 	}
 	onDayChange = (e) => {
+		const currAct = this.state.data.filter(
+			(c) => c.times.filter((d) => d.day_id.toString() === e.target.value).length > 0
+		);
+		console.log('currAct');
+		console.log(currAct);
 		this.setState({
 			selectedDays: e.target.value
 		});
+		const newData = e.target.value !== '0' ? currAct : this.props.activity.fActivities;
+		this.setState({ data: newData });
 	};
 	onShowFilters = () => {
 		this.setState({
@@ -248,14 +248,10 @@ class activities extends Component {
 	};
 
 	handlePageClick = (data) => {
-		console.log(data);
-		console.log(this.props.activity.fActivities);
-		console.log(this.props.activity.fActivities.slice(data.selected * 2, 3));
 		const selected = data.selected;
 		let start = selected * this.state.perPage;
 		let end = start + this.state.perPage;
 		const newArr = this.props.activity.fActivities.slice(start, end);
-		console.log(newArr);
 		this.setState({
 			data: newArr
 		});
@@ -279,7 +275,10 @@ class activities extends Component {
 		//get slider info
 		const slidesContent = activities.slice(0, 5);
 		//get select days
-		const days = getArrayOfValues(activity.days, 'name');
+		const days = activity.days;
+		const daysOptions = days.map((day) => {
+			return <option value={day.id}>{day.name}</option>;
+		});
 		const allCategories = activity.categories;
 		const allGroups = activity.groups;
 
@@ -303,14 +302,29 @@ class activities extends Component {
 					</div>
 					<div className={classes.filterIconCont}>
 						<Button
-							color='primary'
+							color='secondary'
 							variant='outlined'
 							classes={{ root: classes.btnRoot }}
-							style={{ margin: '0 20px', height: '40px' }}
+							style={{ margin: '10px 20px', height: '40px' }}
 							onClick={this.state.showFilters === true ? this.onHideFilter : this.onShowFilters}
 						>
-							<IconItem name='filter' size={20} />
+							<IconItem name='filter' size={20} color='#333' />
 						</Button>
+						<FormControl className={classes.formControl}>
+							<Select
+								native
+								value={this.state.selectedDays}
+								onChange={this.onDayChange}
+								inputProps={{
+									name: '',
+									id: 'age-native-simple'
+								}}
+								classes={{ root: classes.selectRoot }}
+							>
+								<option value={0}>All dagar</option>
+								{daysOptions}
+							</Select>
+						</FormControl>
 					</div>
 				</div>
 				<div style={{ marginTop: '30px' }}>
@@ -407,4 +421,6 @@ const mapStateToProps = (state) => ({
 	activity: state.activity
 });
 
-export default connect(mapStateToProps, { getAllActivities })(withStyles(styles, { withTheme: true })(activities));
+export default connect(mapStateToProps, { getAllActivities, getDays })(
+	withStyles(styles, { withTheme: true })(activities)
+);

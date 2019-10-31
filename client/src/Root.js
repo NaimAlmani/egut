@@ -28,7 +28,7 @@ import EmailsMain from './components/email/EmailsMain';
 import SchemaMain from './components/Schema/SchemaMain';
 import { LinearProgress } from '@material-ui/core';
 import { Scrollbars } from 'react-custom-scrollbars';
-
+import SubList from './components/subscription/SubList';
 const theme = createMuiTheme(initTheme);
 const styles = (theme) => ({
 	textField: {
@@ -120,7 +120,9 @@ class Root extends Component {
 								<Switch>
 									<PrivateRoute exact path='/schema' component={SchemaMain} />
 								</Switch>
-
+								<Switch>
+									<PrivateRoute exact path='/subscription' component={SubList} />
+								</Switch>
 								<Switch>
 									<PrivateRoute exact path='/settings' component={Settings} />
 								</Switch>

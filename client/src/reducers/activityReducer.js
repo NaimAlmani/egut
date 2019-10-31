@@ -45,7 +45,8 @@ import {
 	ADD_EXIST_CONTACTS,
 	ACTIVITY_ACTIVATE_MEMBER,
 	ACTIVATE_ACTIVITY,
-	WEEKLY_ACTIVITIES
+	WEEKLY_ACTIVITIES,
+	DELETE_MEMBER_FROM_ACTIVITY
 } from '../actions/types';
 
 const initialState = {
@@ -80,7 +81,7 @@ const initialState = {
 	contacts: [],
 	allContacts: [],
 	selectedContacts: [],
-
+	members: [],
 	//schema
 	times: []
 };
@@ -311,7 +312,11 @@ export default function(state = initialState, action) {
 				...state,
 				activities: newActivities
 			};
-
+		case DELETE_MEMBER_FROM_ACTIVITY:
+			return {
+				...state,
+				members: state.members.filter((c) => c.id !== action.payload.id)
+			};
 		case WEEKLY_ACTIVITIES:
 			return {
 				...state,

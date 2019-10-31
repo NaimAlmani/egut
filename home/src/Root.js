@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { withStyles, withTheme, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import OnImagesLoaded from 'react-on-images-loaded';
 import Loading from './components/common/Loading';

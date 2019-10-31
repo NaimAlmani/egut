@@ -84,7 +84,7 @@ class CustomSlideShow extends Component {
 							<img className={classes.logo} src={config.imagesPath + item.logoPath} alt={item.name} />
 						</div>
 						<Typography variant='h5' className={classes.name}>
-							{item.name}
+							<span className='notranslate'> {item.name}</span>
 						</Typography>
 
 						<Link className={classes.btn} to={'/organization/' + item.id}>

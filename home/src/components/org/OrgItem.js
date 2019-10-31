@@ -102,8 +102,14 @@ class OrgItem extends React.Component {
 									<img className={classes.image} src={config.imagesPath + org.logoPath} alt='logo' />
 								</div>
 								<CardContent>
-									<Typography gutterBottom variant='p' component='p' style={{ color: '#333' }}>
-										{org.name}
+									<Typography
+										gutterBottom
+										variant='p'
+										component='p'
+										style={{ color: '#333' }}
+										notranslate
+									>
+										<span className='notranslate'>{org.name}</span>
 									</Typography>
 								</CardContent>
 							</Link>

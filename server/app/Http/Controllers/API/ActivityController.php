@@ -164,6 +164,12 @@ class ActivityController extends Controller
     public function delete(Request $request)
     {
         $act = Activity::find($request->id);
+        $act->organizations()->detach();
+        $act->categories()->detach();
+        $act->groups()->detach();
+        $act->places()->detach();
+        $act->contacts()->detach();
+        $act->members()->detach();
         $act->delete();
         return $act->toJson();
     }

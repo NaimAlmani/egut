@@ -49,6 +49,7 @@ import {
 	//MEMBERS
 	ACTIVITY_ACTIVATE_MEMBER,
 	ACTIVATE_ACTIVITY,
+	DELETE_MEMBER_FROM_ACTIVITY,
 	WEEKLY_ACTIVITIES
 } from './types';
 import { getErrors } from './errors';
@@ -587,6 +588,24 @@ export const ActivateActivity = (activityID, isActive) => (dispatch) => {
 			dispatch(getErrors(err.response.data));
 		});
 };
+
+export const deleteMember = (activityID, memberID) => (dispatch) => {
+	dispatch(startLoading);
+	axiosInstance
+		.post('/api/activity/deletemember', { activity: activityID, member: memberID })
+		.then((res) => {
+			dispatch({
+				type: DELETE_MEMBER_FROM_ACTIVITY,
+				payload: memberID
+			});
+			dispatch(endLoading());
+		})
+		.catch((err) => {
+			dispatch(endLoading());
+			dispatch(getErrors(err.response.data));
+		});
+};
+
 export const getWeeklyActivities = () => (dispatch) => {
 	axiosInstance
 		.get('/api/day/activities')

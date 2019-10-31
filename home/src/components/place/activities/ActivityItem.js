@@ -8,9 +8,11 @@ import randomColor from './../../../utils/randomColor';
 import config from './../../../utils/config';
 import { Grid } from '@material-ui/core';
 // Generate required css
-import { Card, CardActionArea, CardActions, CardContent, Switch, Button, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia, CardContent, Switch, Button, Typography } from '@material-ui/core';
 import CustomScroll from 'react-custom-scroll';
 import AOS from 'aos';
+import { Col } from 'reactstrap';
+
 const styles = (theme) => ({
 	root: {
 		color: theme.palette.primary.main,
@@ -18,17 +20,12 @@ const styles = (theme) => ({
 		overflow: 'auto'
 	},
 	card: {
-		maxWidth: 345,
-		margin: '24px  auto',
-		height: '350',
-		overflow: 'auto',
-		textAlign: 'center',
-		position: 'relative'
+		width: '100%',
+		margin: '10px auto',
+		height: 300
 	},
-	mediaContaier: {
-		width: '40%',
-		height: 'auto',
-		margin: '0 auto'
+	media: {
+		height: 250
 	},
 	image: {
 		// ⚠️ object-fit is not supported by IE 11.
@@ -54,7 +51,8 @@ const styles = (theme) => ({
 		}
 	},
 	title: {
-		color: '#fff'
+		color: '#303030',
+		fontSize: '0.9em'
 	},
 	description: {
 		color: '#fff'
@@ -64,17 +62,10 @@ const styles = (theme) => ({
 class ActivityItem extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			isDelete: false,
-			isActive: false
-		};
+		this.state = {};
 		AOS.init();
 	}
-	componentDidMount() {
-		this.setState({
-			isActive: this.props.activity.is_active === 1 ? true : false
-		});
-	}
+	componentDidMount() {}
 	componentDidCatch(error, info) {
 		// You can also log the error to an error reporting service
 	}
@@ -89,25 +80,26 @@ class ActivityItem extends React.Component {
 			activity.logoPath +
 			')';
 		return (
-			<Grid item xs={12} sm={6} md={3}>
+			<Col sm={12} md={4} lg={3} style={{ padding: '5px', paddingTop: '30px' }}>
 				<Fade bottom>
-					<Card className={classes.card} style={{ background: imgPath }}>
-						<div className={classes.overlay} style={{ background: randomColor(this.props.index) }} />
-						<CardActionArea className={classes.root}>
-							<Link to={'./../activity/' + activity.id} className={classes.link}>
+					<Card className={classes.card}>
+						<Link to={'./../activity/' + activity.id} className={classes.link}>
+							<CardActionArea>
+								<CardMedia
+									className={classes.media}
+									image={config.imagesPath + activity.logoPath}
+									title={activity.name}
+								/>
 								<CardContent>
-									<Typography className={classes.title} gutterBottom variant='h5' component='h2'>
+									<Typography gutterBottom variant='h6' component='h6' className={classes.title}>
 										{activity.name}
 									</Typography>
-									<Typography className={classes.description} component='p'>
-										{activity.description}
-									</Typography>
 								</CardContent>
-							</Link>
-						</CardActionArea>
+							</CardActionArea>
+						</Link>
 					</Card>
 				</Fade>
-			</Grid>
+			</Col>
 		);
 	}
 }

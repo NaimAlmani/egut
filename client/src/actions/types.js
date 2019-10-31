@@ -99,7 +99,7 @@ export const GET_ALL_CONTACTS = 'GET_ALL_CONTACTS';
 export const ADD_EXIST_CONTACTS = 'ADD_EXIST_CONTACTS';
 // ACTIVITY members
 export const ACTIVITY_ACTIVATE_MEMBER = 'ACTIVITY_ACTIVATE_MEMBER';
-
+export const DELETE_MEMBER_FROM_ACTIVITY = 'DELETE_MEMBER_FROM_ACTIVITY';
 export const WEEKLY_ACTIVITIES = 'WEEKLY_ACTIVITIES';
 /******************************organization*************************************** */
 export const ORGANIZATION_BY_ID = 'ORGANIZATION_BY_ID';
@@ -123,3 +123,6 @@ export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
 /*********************** SETTINGS */
 export const GET_SETTINGS = 'GET_SETTINGS';
 export const CHANGE_MAIN_ORG = 'CHANGE_MAIN_ORG';
+
+export const GET_ALL_SUBSCRIPTIONS = 'GET_ALL_SUBSCRIPTIONS';
+export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION';

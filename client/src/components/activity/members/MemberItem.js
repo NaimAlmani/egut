@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../../utils/config';
-import { activiateMember } from './../../../actions/activity';
+import { activiateMember, deleteMember } from './../../../actions/activity';
 import ConfirmDelete from '../../common/ConfirmDelete';
 import IconItem from './../../common/icons/IconItem';
 import Fade from 'react-reveal/Fade';
@@ -34,7 +34,8 @@ class MemberItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isActive: false
+			isActive: false,
+			isDelete: false
 		};
 	}
 	componentDidMount() {
@@ -49,6 +50,25 @@ class MemberItem extends React.Component {
 		});
 
 		this.props.activiateMember(this.props.activity.currentActivity.id, this.props.member.id, !this.state.isActive);
+	};
+	onDelete = () => {
+		this.setState({
+			isDelete: true
+		});
+	};
+	onConfirmDelete = () => {
+		const member = {
+			id: this.props.member.id
+		};
+		this.props.deleteMember(this.props.activityID, member);
+		this.setState({
+			isDelete: false
+		});
+	};
+	onCancelDelete = () => {
+		this.setState({
+			isDelete: false
+		});
 	};
 	render() {
 		const { classes, member } = this.props;
@@ -71,6 +91,18 @@ class MemberItem extends React.Component {
 						</div>
 					</TableCell>
 				</TableCell>
+				<TableCell>
+					<span style={{ cursor: 'pointer' }} onClick={this.onDelete}>
+						<IconItem name='trash-2' color='#f322323' />
+					</span>
+				</TableCell>
+				<ConfirmDelete
+					open={this.state.isDelete}
+					title='Are you Sure ??'
+					text={'do you want to delete ' + member.name}
+					onClose={this.onCancelDelete}
+					onDelete={this.onConfirmDelete}
+				/>
 			</TableRow>
 		);
 	}
@@ -83,4 +115,6 @@ const mapStateToProps = (state) => ({
 	activity: state.activity
 });
 
-export default connect(mapStateToProps, { activiateMember })(withStyles(styles, { withTheme: true })(MemberItem));
+export default connect(mapStateToProps, { activiateMember, deleteMember })(
+	withStyles(styles, { withTheme: true })(MemberItem)
+);

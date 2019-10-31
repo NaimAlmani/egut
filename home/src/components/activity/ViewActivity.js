@@ -205,7 +205,7 @@ class ViewActivity extends React.Component {
 						lg={4}
 						sm={12}
 						className={classes.sectionWhite}
-						style={{ background: 'rgb(97, 96, 84)' }}
+						style={{ background: '#333' }}
 					>
 						<Grid container justify='center' alignItems='center'>
 							<ContactFeed contacts={this.props.activity.contacts} activityID={act.id} />
@@ -217,7 +217,7 @@ class ViewActivity extends React.Component {
 				</Grid>
 				<Grid>
 					<div className={classes.orgHeader} style={{ margin: '40px' }}>
-						<Typography variant='h6'>Arrangerat av</Typography>
+						<Typography variant='h4'>Arrangerat av</Typography>
 					</div>
 					<Grid container justify={'center'} alignItems={'center'}>
 						<OrgFeed orgs={this.props.activity.orgs} activityID={act.id} />

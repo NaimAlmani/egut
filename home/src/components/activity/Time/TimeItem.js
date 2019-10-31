@@ -85,18 +85,18 @@ const styles = (theme) => ({
 		width: '90%',
 		margin: '0 auto',
 		'&:hover': {
-			background: '#e3f2fd'
+			background: '#000'
 		}
 	},
 	listItemRootSelected: {
 		border: '1px solid #1976d2',
-		background: '#2196f3',
+		background: '#000',
 		padding: '5px',
 		margin: '10px',
 		borderRadius: '10px',
 		cursor: 'pointer',
 		'&:hover': {
-			background: '#e3f2fd'
+			background: '#000'
 		}
 	},
 	IconCont: {
@@ -132,7 +132,6 @@ class TimeItem extends React.Component {
 	}
 	render() {
 		const { classes, time } = this.props;
-		const themeColors = this.props.theme.palette;
 		let day = '';
 		if (!isEmpty(this.props.activity.days)) {
 			day = this.props.activity.days.filter((c) => c.id === this.props.time.day_id)[0].name;

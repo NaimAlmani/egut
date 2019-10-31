@@ -14,6 +14,9 @@ import {
 	Form,
 	TextField
 } from '@material-ui/core';
+
+import ReCAPTCHA from 'react-google-recaptcha';
+
 const styles = (theme) => ({
 	slideContent: {
 		width: '100%'
@@ -44,18 +47,25 @@ class Participate extends Component {
 		this.state = {
 			name: '',
 			email: '',
-			tel: ''
+			tel: '',
+			captcha: ''
 		};
 	}
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
+	};
+	captchaChange = (e) => {
+		this.setState({
+			captcha: e
+		});
 	};
 	onSubmit = () => {
 		const data = {
 			name: this.state.name,
 			email: this.state.email,
 			tel: this.state.tel,
-			activity_id: this.props.activity.id
+			activity_id: this.props.activity.id,
+			captcha: this.state.captcha
 		};
 		this.props.participate(data);
 		this.props.onClose();
@@ -109,6 +119,7 @@ class Participate extends Component {
 							value={this.state.tel}
 							onChange={this.onChange}
 						/>
+						<ReCAPTCHA sitekey='6LcMxr0UAAAAAMFOSMPIGAUSPTnEXpb4DZtY97gM' onChange={this.captchaChange} />
 					</form>
 				</DialogContent>
 				<DialogActions>

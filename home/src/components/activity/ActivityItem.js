@@ -10,7 +10,7 @@ import { Grid } from '@material-ui/core';
 import customStyles from './../../theme/customStyles';
 import ConfirmDelete from './../common/ConfirmDelete';
 // Generate required css
-import { Card, CardActionArea, CardActions, CardContent, Switch, Button, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia, CardContent, Switch, Button, Typography } from '@material-ui/core';
 import CustomScroll from 'react-custom-scroll';
 import AOS from 'aos';
 import { Col } from 'reactstrap';
@@ -21,17 +21,12 @@ const styles = (theme) => ({
 		overflow: 'auto'
 	},
 	card: {
-		maxWidth: '100%',
-		height: '350',
-		overflow: 'auto',
-		textAlign: 'center',
-		position: 'relative',
-		padding: ''
+		width: '100%',
+		margin: '10px auto',
+		height: 300
 	},
-	mediaContaier: {
-		width: '40%',
-		height: 'auto',
-		margin: '0 auto'
+	media: {
+		height: 250
 	},
 	image: {
 		// ⚠️ object-fit is not supported by IE 11.
@@ -57,7 +52,8 @@ const styles = (theme) => ({
 		}
 	},
 	title: {
-		color: '#fff'
+		color: '#303030',
+		fontSize: '0.9em'
 	},
 	description: {
 		color: '#fff'
@@ -85,19 +81,23 @@ class ActivityItem extends React.Component {
 			activity.logoPath +
 			')';
 		return (
-			<Col sm={12} md={4} lg={3} style={{ padding: '5px' }}>
+			<Col sm={12} md={4} lg={3} style={{ padding: '5px', paddingTop: '30px' }}>
 				<Fade bottom>
-					<Card className={classes.card} style={{ background: imgPath, width: '100%' }}>
-						<div className={classes.overlay} style={{ background: randomColor(this.props.index) }} />
-						<CardActionArea className={classes.root}>
-							<Link to={'./../activity/' + activity.id} className={classes.link}>
+					<Card className={classes.card}>
+						<Link to={'./../activity/' + activity.id} className={classes.link}>
+							<CardActionArea>
+								<CardMedia
+									className={classes.media}
+									image={config.imagesPath + activity.logoPath}
+									title={activity.name}
+								/>
 								<CardContent>
-									<Typography className={classes.title} gutterBottom variant='h5' component='h2'>
+									<Typography gutterBottom variant='h6' component='h6' className={classes.title}>
 										{activity.name}
 									</Typography>
 								</CardContent>
-							</Link>
-						</CardActionArea>
+							</CardActionArea>
+						</Link>
 					</Card>
 				</Fade>
 			</Col>

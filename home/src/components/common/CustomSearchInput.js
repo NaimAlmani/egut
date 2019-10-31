@@ -30,6 +30,7 @@ class CustomSearchInput extends React.Component {
 					borderRadius: '10px',
 					paddingLeft: '40px',
 					marginBottom: '10px',
+					marginTop: '10px',
 					width: '255px',
 					background: 'transparent'
 				}}

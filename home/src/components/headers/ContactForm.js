@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import 'react-animated-slider/build/horizontal.css';
 import { Button } from '@material-ui/core';
 import { sendEmail } from './../../actions/forms';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 import {
 	Dialog,
 	DialogActions,
@@ -44,17 +46,24 @@ class ContactForm extends Component {
 		this.state = {
 			name: '',
 			email: '',
-			message: ''
+			message: '',
+			captcha: ''
 		};
 	}
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
+	captchaChange = (e) => {
+		this.setState({
+			captcha: e
+		});
+	};
 	onSubmit = () => {
 		const data = {
 			name: this.state.name,
 			email: this.state.email,
-			message: this.state.message
+			message: this.state.message,
+			captcha: this.state.captcha
 		};
 		this.props.sendEmail(data);
 		this.props.onClose();
@@ -80,7 +89,6 @@ class ContactForm extends Component {
 							value={this.state.name}
 							onChange={this.onChange}
 						/>
-
 						<TextField
 							variant='outlined'
 							autoFocus
@@ -94,7 +102,6 @@ class ContactForm extends Component {
 							value={this.state.email}
 							onChange={this.onChange}
 						/>
-
 						<TextField
 							autoFocus
 							margin='dense'
@@ -110,6 +117,7 @@ class ContactForm extends Component {
 							value={this.state.message}
 							onChange={this.onChange}
 						/>
+						<ReCAPTCHA sitekey='6LcMxr0UAAAAAMFOSMPIGAUSPTnEXpb4DZtY97gM' onChange={this.captchaChange} />
 					</form>
 				</DialogContent>
 				<DialogActions>

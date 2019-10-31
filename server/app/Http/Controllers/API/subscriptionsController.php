@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Log;
 
 class subscriptionsController extends Controller
 {
+    public function index()
+    {
+        $sub = Subscription::orderBy('created_at', 'desc')->get();
+        return $sub->toJson();
+    }
     //
     public function create(Request $request)
     {
@@ -56,5 +61,11 @@ class subscriptionsController extends Controller
         // send notification
         event(new NewNotification($note));
         return response()->json(Mail::failures());
+    }
+    public function delete(Request $request)
+    {
+        $sub = Subscription::find($request->id);
+        $sub->delete();
+        return $sub->toJson();
     }
 }

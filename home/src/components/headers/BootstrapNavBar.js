@@ -45,8 +45,8 @@ export default class BootstrapNavBar extends React.Component {
 	render() {
 		return (
 			<div>
-				<Navbar style={{ background: '#616054' }} dark expand='md'>
-					<NavbarBrand to='/'>
+				<Navbar style={{ background: '#333' }} dark expand='md'>
+					<NavbarBrand href={process.env.PUBLIC_URL}>
 						<img
 							src='/images/logoRG.jpg'
 							alt='RESTAD GÅRD UTBILDNIND'
@@ -56,7 +56,7 @@ export default class BootstrapNavBar extends React.Component {
 							className='notranslate'
 							style={{ margin: '10px', color: '#fff', display: 'inline-block', fontSize: '0.8em' }}
 						>
-							Restad gård utbildning
+							Restad Gård Utbildning
 						</p>
 					</NavbarBrand>
 					<NavbarToggler onClick={this.toggle} />
@@ -93,7 +93,7 @@ export default class BootstrapNavBar extends React.Component {
 
 							<NavItem>
 								<NavLink>
-									<Link to='/aboutus/' className='navlink'>
+									<Link to='http://blog.restadgard-utb.se/about/' className='navlink'>
 										<IconItem name='info' font='Feather' size={'1rem'} /> Om oss
 									</Link>
 								</NavLink>
@@ -104,6 +104,13 @@ export default class BootstrapNavBar extends React.Component {
 									<NavItem onClick={this.onShowContact} style={{ cursor: 'pointer' }}>
 										<IconItem name='phone-call' font='Feather' size={'1rem'} /> Kontakta
 									</NavItem>
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink>
+									<a href='https://blog.restadgard-utb.se' className='navlink'>
+										<IconItem name='blogger' font='MaterialCommunityIcons' size={'1rem'} /> Blog
+									</a>
 								</NavLink>
 							</NavItem>
 

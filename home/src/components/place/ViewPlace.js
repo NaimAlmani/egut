@@ -6,7 +6,7 @@ import config from './../../utils/config';
 
 import changeToGallery from './../../utils/changeToGallery';
 import isEmpty from './../../validation/is-empty';
-import { Grid, Button, Paper, LinearProgress } from '@material-ui/core';
+import { Grid, Button, Paper, LinearProgress, Typography } from '@material-ui/core';
 import { startLoading, endLoading, setLoading } from '../../actions/loading';
 import { getPlaceById } from './../../actions/place';
 import Title from '../common/Title';
@@ -139,7 +139,9 @@ class ViewPlace extends React.Component {
 				<div className={classes.header} style={{ backgroundImage: background, backgroundAttachment: 'fixed' }}>
 					<div className={classes.headerContent}>
 						<div className={classes.title}>
-							<h1>{org.name}</h1>
+							<Typography style={{ color: '#fff' }} variant='h4'>
+								{org.name}
+							</Typography>
 						</div>
 						{!isEmpty(org.description) ? (
 							<div classNam={classes.desc}>
@@ -150,7 +152,7 @@ class ViewPlace extends React.Component {
 				</div>
 				{!isEmpty(this.props.place.activities) ? (
 					<Grid container>
-						<Activities activities={this.props.place.activities} />
+						<Activities activities={this.props.place.activities.filter((c) => c.is_active === 1)} />
 					</Grid>
 				) : null}
 			</div>

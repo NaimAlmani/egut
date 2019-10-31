@@ -4,14 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import config from './../../../utils/config';
 import { Grid } from '@material-ui/core';
-import customStyles from './../../../theme/customStyles';
 import { Link } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
-import isEmpty from './../../../validation/is-empty';
-import LinesEllipsis from 'react-lines-ellipsis';
 
 // Generate required css
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography } from '@material-ui/core';
 
 const styles = (theme) => ({
 	root: {

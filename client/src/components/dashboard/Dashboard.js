@@ -308,6 +308,38 @@ class Dashboard extends Component {
 							</Card>
 						</Fade>
 					</Grid>
+
+					<Grid item xs={4}>
+						<Fade bottom>
+							<Card style={{ background: randomColor(1), margin: '10px' }}>
+								<Link to='/subscription' className={classes.Link}>
+									<CardActionArea className={classes.root}>
+										<CardContent>
+											<Avatar className={classes.avatar}>
+												<IconItem
+													name={'subscriptions'}
+													color='#fff'
+													size='30px'
+													font='MaterialIcons'
+												/>
+											</Avatar>
+											<Typography
+												className={classes.whiteText}
+												gutterBottom
+												variant='h5'
+												component='h2'
+											>
+												{'subscription'}
+											</Typography>
+											<Typography className={classes.whiteText} component='p'>
+												{''}
+											</Typography>
+										</CardContent>
+									</CardActionArea>
+								</Link>
+							</Card>
+						</Fade>
+					</Grid>
 				</Grid>
 			</div>
 		);

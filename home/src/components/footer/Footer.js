@@ -125,7 +125,7 @@ class Footer extends React.Component {
 					<Col lg={4} md={4} sm={12} className='notranslate'>
 						<div className={classes.title}>
 							<Typography className={classes.whiteColor} variant='h6'>
-								Restad gård utbildning
+								Restad Gård Utbildning
 							</Typography>
 						</div>
 						<Divider variant='inset' light={true} />
@@ -202,7 +202,7 @@ class Footer extends React.Component {
 							<Col md={6} lg={6} sm={12}>
 								<div>
 									<NavLink className={classes.centeredlink}>
-										<Link to='/about/' className='navlink'>
+										<Link to='https://blog.restadgard-utb.se/about/' className='navlink'>
 											<IconItem name='info' color='#fff' font='Feather' size={'1rem'} />
 											<Typography variant='p' className={classes.text}>
 												Om oss
@@ -224,18 +224,15 @@ class Footer extends React.Component {
 									</NavLink>
 								</div>
 								<div>
-									<NavLink className={classes.centeredlink} href='/organizations/'>
-										<IconItem name='globe' color='#fff' font='Feather' size={'1rem'} />
+									<NavLink className={classes.centeredlink} href='https://blog.restadgard-utb.se'>
+										<IconItem
+											name='blogger'
+											color='#fff'
+											font='MaterialCommunityIcons'
+											size={'1rem'}
+										/>
 										<Typography variant='p' className={classes.text}>
-											Organisationer
-										</Typography>
-									</NavLink>
-								</div>
-								<div>
-									<NavLink className={classes.centeredlink} href='/aboutus/'>
-										<IconItem name='info' color='#fff' font='Feather' size={'1rem'} />
-										<Typography variant='p' className={classes.text}>
-											Om oss
+											Blog
 										</Typography>
 									</NavLink>
 								</div>

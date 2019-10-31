@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\RequestInterface;
 use App\Activity;
+use App\Rules\Captcha;
 
 class emailsController extends Controller
 {
@@ -26,6 +27,7 @@ class emailsController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'email:rfc,dns',
+            'captcha' => new Captcha()
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
@@ -42,7 +44,7 @@ class emailsController extends Controller
         $mailToGuest->message = $messageToGuest;
         $mailToGuest->income = 1;
         $mailToGuest->read = 0;
-        //  Mail::to($request->email)->send(new SendMailable($mailToGuest));
+        Mail::to($request->email)->send(new SendMailable($mailToGuest));
         // send mail to admin
         $admins = User::orderBy('created_at', 'desc')->get();
         //notify admins
@@ -54,7 +56,7 @@ class emailsController extends Controller
         $mailToAdmin->subject = "contact form";
         $mailToAdmin->income = 1;
         $mailToAdmin->read = 0;
-        //  Mail::to($admins)->send(new SendMailable($mailToAdmin));
+        Mail::to($admins)->send(new SendMailable($mailToAdmin));
         //save to db
         $mailToAdmin->save();
         //notify

@@ -35,6 +35,8 @@ import AddImage from './AddImage';
 
 import ContactMain from './contacts/ContactMain';
 
+import Members from './members/Members';
+
 import MemberMain from './members/MemberMain';
 import Contacts from './contacts/Contacts';
 import SendEmail from './SendEmail';
@@ -311,6 +313,13 @@ class ViewActivity extends React.Component {
 					<Grid item md={12} sm={12} lg={12} style={{ padding: '10px' }}>
 						<Contacts
 							contacts={this.props.activity.contacts}
+							activityID={act.id}
+							onClick={this.showAddContact}
+						/>
+					</Grid>
+					<Grid item md={12} sm={12} lg={12} style={{ padding: '10px' }}>
+						<Members
+							members={this.props.activity.members}
 							activityID={act.id}
 							onClick={this.showAddContact}
 						/>

@@ -66,11 +66,11 @@ class ContactMain extends Component {
 			showForm: true
 		});
 	}
-	hideForm() {
+	hideForm = () => {
 		this.setState({
 			showForm: false
 		});
-	}
+	};
 	addExistedContact = () => {
 		this.props.addExistedContacts(this.props.currentActivity, this.props.activity.selectedContacts);
 	};

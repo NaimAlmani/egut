@@ -54,7 +54,7 @@ class ActivityImages extends Component {
 		this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
 	}
 	componentDidMount() {
-		this.setState({});
+		this.setState({ images: this.props.images });
 	}
 	componentWillReceiveProps(nextprops) {
 		this.setState({
@@ -105,6 +105,7 @@ class ActivityImages extends Component {
 					srcSet={this.state.images}
 					onSelectImage={this.onSelectImage}
 					currentImageWillChange={this.onCurrentImageChange}
+					customControls={[]}
 				/>
 			</div>
 		);

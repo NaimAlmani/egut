@@ -14,6 +14,7 @@ use App\User;
 use Validator;
 use App\Mail\SendMailable;
 use App\Events\NewNotification;
+use App\Rules\Captcha;
 
 class membersController extends Controller
 {
@@ -22,7 +23,8 @@ class membersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'email:rfc,dns'
+            'email' => 'email:rfc,dns',
+            'captcha' => new Captcha()
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);

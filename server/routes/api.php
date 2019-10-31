@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('activity/addexistcontacts', 'API\activityController@addexistcontacts');
     Route::post('activity/activatemember', 'API\activityController@activatemember');
     Route::post('activity/activateactivity', 'API\activityController@activateactivity');
-
+    Route::post('activity/deletemember', 'API\activityController@deletemember');
 
     /***********************organization*************** */
     //organization images
@@ -159,4 +159,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('slide/create', 'API\SlideController@create');
     Route::post('slide/update', 'API\SlideController@update');
     Route::post('slide/delete', 'API\SlideController@delete');
+
+    Route::get('subscriptions/', 'API\subscriptionsController@index');
+    Route::post('subscription/delete', 'API\subscriptionsController@delete');
 });

@@ -80,21 +80,6 @@ class CustomSlideShow extends Component {
 					<div className={classes.overlay} style={{ background: randomColor(index) }} />
 					<div className='center' style={{ marginTop: '15%' }}>
 						<h1 className={classes.name}>{item.name}</h1>
-						{!isEmpty(item.description) ? (
-							<div className={classes.description}>
-								{' '}
-								<LinesEllipsis
-									text={item.description}
-									maxLine='2'
-									ellipsis='...'
-									trimRight
-									basedOn='letters'
-									style={{
-										color: '#fff'
-									}}
-								/>
-							</div>
-						) : null}
 
 						<Link className={classes.btn} to={'/place/' + item.id}>
 							Visa mer
