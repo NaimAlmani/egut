@@ -47,7 +47,8 @@ class ContactForm extends Component {
 			name: '',
 			email: '',
 			message: '',
-			captcha: ''
+			captcha: '',
+			captchaError: false
 		};
 	}
 	onChange = (e) => {
@@ -61,14 +62,18 @@ class ContactForm extends Component {
 		console.log(e);
 	};
 	onSubmit = () => {
-		const data = {
-			name: this.state.name,
-			email: this.state.email,
-			message: this.state.message,
-			captcha: this.state.captcha
-		};
-		this.props.sendEmail(data);
-		this.props.onClose();
+		if (this.state.captcha === '' || this.state.captcha === null) {
+			this.setState({ captchaError: true });
+		} else {
+			const data = {
+				name: this.state.name,
+				email: this.state.email,
+				message: this.state.message,
+				captcha: this.state.captcha
+			};
+			this.props.sendEmail(data);
+			this.props.onClose();
+		}
 	};
 	render() {
 		const { classes, open, onClose, onSend } = this.props;
@@ -119,12 +124,16 @@ class ContactForm extends Component {
 							value={this.state.message}
 							onChange={this.onChange}
 						/>
+
 						<ReCAPTCHA
 							sitekey='6LcMxr0UAAAAAMFOSMPIGAUSPTnEXpb4DZtY97gM'
 							onChange={(res) => {
 								this.captchaChange(res);
 							}}
 						/>
+						{this.state.captchaError === true ? (
+							<h6 style={{ color: '#f00' }}>obligatoriskt fält</h6>
+						) : null}
 					</form>
 				</DialogContent>
 				<DialogActions>

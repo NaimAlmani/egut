@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Restad Gard utbildning AB</title>
+    <title>Restad Gard Utbildning</title>
 </head>
 
 <body>
@@ -57,14 +57,15 @@ padding:10px;
     <div class="header">
         <div class="logoCont">
             <img class="logo" src="https://restadgard-utb.se/images/logoRG.jpg" />
-           <div class="titleText"> Restad Gård utb </div>
+           <div class="titleText"> Restad Gård Utbildning </div>
         </div>
     </div>
     <div class="envelop">
-    <h4>Hej <span class="recieverName">{{$data->name}} !</span></h4>
-    <p class="message">Tack för att du har kontaktat oss i Restad Gård Utbildning.</p>
-    <p class="message">Vi har som mål att besvara ditt mejl inom två vardagar. </p>
-    <p class="message">Du är välkommen att besöka oss på <a href="https://www.restadgard-utb.se">https://www.restadgard-utb.se</a></p>
+    <h4>Hej ! </h4>
+    <h3 class="recieverName">namn: {{$data->name}} !</h3>
+    <h3 class="recieverName"><a href="mailto:".{{$data->email}}>email: {{$data->email}} !</h3>
+    <h3> meddelande: </h3>
+    <p class="message">{{$data->message}}</p>
     <p class="greeting">med vänliga hälsningar</p>
     <hr />
     <div class="footerCont">

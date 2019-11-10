@@ -48,7 +48,8 @@ class Participate extends Component {
 			name: '',
 			email: '',
 			tel: '',
-			captcha: ''
+			captcha: '',
+			captchaError: false
 		};
 	}
 	onChange = (e) => {
@@ -60,15 +61,19 @@ class Participate extends Component {
 		});
 	};
 	onSubmit = () => {
-		const data = {
-			name: this.state.name,
-			email: this.state.email,
-			tel: this.state.tel,
-			activity_id: this.props.activity.id,
-			captcha: this.state.captcha
-		};
-		this.props.participate(data);
-		this.props.onClose();
+		if (this.state.captcha === '' || this.state.captcha === null) {
+			this.setState({ captchaError: true });
+		} else {
+			const data = {
+				name: this.state.name,
+				email: this.state.email,
+				tel: this.state.tel,
+				activity_id: this.props.activity.id,
+				captcha: this.state.captcha
+			};
+			this.props.participate(data);
+			this.props.onClose();
+		}
 	};
 	render() {
 		const { classes, open, onClose, onSend } = this.props;
@@ -120,6 +125,9 @@ class Participate extends Component {
 							onChange={this.onChange}
 						/>
 						<ReCAPTCHA sitekey='6LcMxr0UAAAAAMFOSMPIGAUSPTnEXpb4DZtY97gM' onChange={this.captchaChange} />
+						{this.state.captchaError === true ? (
+							<h6 style={{ color: '#f00' }}>obligatoriskt fält</h6>
+						) : null}
 					</form>
 				</DialogContent>
 				<DialogActions>

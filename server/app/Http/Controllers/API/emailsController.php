@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\RequestInterface;
 use App\Activity;
+use App\Mail\ContactToAdmin;
+use App\Mail\WeeklyEmail;
 use App\Rules\Captcha;
+use App\Subscription;
 
 class emailsController extends Controller
 {
@@ -56,7 +59,7 @@ class emailsController extends Controller
         $mailToAdmin->subject = "contact form";
         $mailToAdmin->income = 1;
         $mailToAdmin->read = 0;
-        Mail::to($admins)->send(new SendMailable($mailToAdmin));
+        Mail::to($admins)->send(new ContactToAdmin($mailToAdmin));
         //save to db
         $mailToAdmin->save();
         //notify
@@ -153,5 +156,17 @@ class emailsController extends Controller
         $sentMail->read = 1;
         Mail::to($emailsArr)->send(new SendToActivityMember($sentMail));
         return response()->json(Mail::failures());
+    }
+    public function  weekly(Request $request)
+    {
+        $activities = Activity::where('is_active', 1)->orderBy('created_at', 'desc')->get();
+        $subscripers = Subscription::get();
+        $subArr = [];
+        foreach ($subscripers as $sub) {
+            array_push($subArr, $sub->email);
+        }
+
+        Mail::to($subArr)->send(new WeeklyEmail($activities));
+        return response()->json($activities);
     }
 }

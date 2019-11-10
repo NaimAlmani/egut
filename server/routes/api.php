@@ -66,7 +66,8 @@ Route::get('slides', 'API\SlideController@index');
 Route::post('email/sendtomembers', 'API\emailsController@sendtomembers');
 //participate
 
-
+// weekly activities
+Route::get('email/weekly', 'API\emailsController@weekly');
 
 
 

@@ -10,6 +10,7 @@ export const sendEmail = (data) => (dispatch) => {
 		.post('/api/email/income', data)
 		.then((res) => {
 			dispatch(endLoading());
+			dispatch(getSuccess());
 			return {
 				type: INCOME_EMAIL,
 				payload: null
@@ -45,7 +46,6 @@ export const participate = (data) => (dispatch) => {
 		.then((res) => {
 			dispatch(endLoading());
 			dispatch(getSuccess());
-
 			return {
 				type: PARTICIPATE_MEMBER,
 				payload: null

@@ -2,12 +2,38 @@
 <html>
 
 <head>
+     <meta charset="utf-8">
     <title>Restad Gard utbildning AB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 
 <body>
     <style>
-        .header {
+    .activityContainer{
+        width:100%;
+        height:100%
+    }
+    .activityLink{
+        text-decoration: none;
+
+    }
+    .imgCont:{
+        width:100%;
+        height:200px;
+        overflow:hidden;
+    }
+    .actImage{
+        width:100%;
+        height:auto;
+    }
+    .actName{
+        display: block;
+        width:100%;
+        font-size:1em;
+        text-align: center
+    }
+     .header {
 
         }
         .logoCont{
@@ -33,18 +59,6 @@
             margin:20px;
             text-align: left;
         }
-        .envelop{
-            min-width: 300px;
-
-            width:50%;
-
-            border-radius: 10px;
-            margin:20px auto;
-          -webkit-box-shadow: 4px 10px 45px -13px rgba(0,0,0,0.36);
--moz-box-shadow: 4px 10px 45px -13px rgba(0,0,0,0.36);
-box-shadow: 4px 10px 45px -13px rgba(0,0,0,0.36);
-padding:10px;
-        }
         .footerCont{
             text-align: right;
             font-size: 12px;
@@ -53,19 +67,31 @@ padding:10px;
             text-align: right;
             font-style: italic;
         }
+
     </style>
-    <div class="header">
+   <div className="container">
+        <div class="header">
         <div class="logoCont">
             <img class="logo" src="https://restadgard-utb.se/images/logoRG.jpg" />
            <div class="titleText"> Restad Gård utb </div>
         </div>
     </div>
-    <div class="envelop">
-    <h4>Hej <span class="recieverName">{{$data->name}} !</span></h4>
-    <p class="message">Tack för att du har kontaktat oss i Restad Gård Utbildning.</p>
-    <p class="message">Vi har som mål att besvara ditt mejl inom två vardagar. </p>
-    <p class="message">Du är välkommen att besöka oss på <a href="https://www.restadgard-utb.se">https://www.restadgard-utb.se</a></p>
-    <p class="greeting">med vänliga hälsningar</p>
+       <h5>Våra Aktiviteter</h5>
+       <div class="row">
+    @foreach($data as $act)
+    <div class="col col-lg-3 ">
+        <a href={{"https://restadgard-utb.se/activity/".$act->id}} class="activityLink">
+        <div class="activityContainer">
+            <div class="imgCont">
+                <img src={{"https://service.restadgard-utb.se/images/".$act->logoPath}} class="actImage">
+            </div>
+            <p class="actName">
+            {{$act->name}}
+        </div>
+    </div>
+    @endforeach
+   </div>
+   <p class="greeting">med vänliga hälsningar</p>
     <hr />
     <div class="footerCont">
         <div class="infoCont">
@@ -82,8 +108,8 @@ padding:10px;
         </div>
 
     </div>
-    </div>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

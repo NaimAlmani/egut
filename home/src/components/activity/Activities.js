@@ -225,9 +225,9 @@ class activities extends Component {
 		});
 	}
 	onDayChange = (e) => {
-		const currAct = this.state.data.filter(
+		const currAct = this.props.activity.fActivities.filter(
 			(c) => c.times.filter((d) => d.day_id.toString() === e.target.value).length > 0
-		);
+		).slice(this.state.selectedPage, this.state.perPage);
 		console.log('currAct');
 		console.log(currAct);
 		this.setState({
@@ -321,7 +321,7 @@ class activities extends Component {
 								}}
 								classes={{ root: classes.selectRoot }}
 							>
-								<option value={0}>All dagar</option>
+								<option value={0}>Alla dagar</option>
 								{daysOptions}
 							</Select>
 						</FormControl>
