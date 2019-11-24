@@ -16,10 +16,11 @@ class WeeklyEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data , $id)
     {
         //
         $this->data = $data;
+        $this->id=$id;
     }
 
     /**
@@ -29,6 +30,6 @@ class WeeklyEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.weeklyacts')->with(['data' => $this->data]);
+        return $this->view('emails.weeklyacts')->with(['data' => $this->data , 'id'=>$this->id]);
     }
 }

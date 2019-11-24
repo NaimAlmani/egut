@@ -164,9 +164,18 @@ class emailsController extends Controller
         $subArr = [];
         foreach ($subscripers as $sub) {
             array_push($subArr, $sub->email);
+              Mail::to($sub->email)->send(new WeeklyEmail($activities,$sub->id));
         }
 
-        Mail::to($subArr)->send(new WeeklyEmail($activities));
+        $mhmd = "mohammedmaani1988@gmail.com";
+      //  Mail::to($mhmd)->send(new WeeklyEmail($activities));
+      //  Mail::to($subArr)->send(new WeeklyEmail($activities));
         return response()->json($activities);
+    }
+    public function unsubscribe($id){
+      //  $id = Route::current()->parameter('id');
+        $sub = Subscription::find($id);
+        $sub->delete();
+        return  response()->json($id);
     }
 }

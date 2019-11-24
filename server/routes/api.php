@@ -68,6 +68,7 @@ Route::post('email/sendtomembers', 'API\emailsController@sendtomembers');
 
 // weekly activities
 Route::get('email/weekly', 'API\emailsController@weekly');
+Route::get('email/unsubscribe/{id}', 'API\emailsController@unsubscribe');
 
 
 

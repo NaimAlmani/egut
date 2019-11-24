@@ -28,6 +28,7 @@
     "react-lines-ellipsis": "^0.14.1",
     "react-nice-scrollbar": "0.0.3",
     "react-on-images-loaded": "^2.2.3",
+    "react-paginate": "^6.3.2",
     "react-photo-gallery": "^8.0.0",
     "react-progress-button": "^5.1.0",
     "react-redux": "^7.0.2",
