@@ -27,11 +27,18 @@ class GroupController extends Controller
     public function groupbyid(Request $request)
     {
         $item = Group::find($request->id);
-        $activities = $item->activities()->get();
+        $acts = $item->activities()->get();
+          $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
         return response()->json(
             [
                 'group' => $item,
-                'activities' => $activities
+                'activities' => $filteredItems
             ]
         );
     }

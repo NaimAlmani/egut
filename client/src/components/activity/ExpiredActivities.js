@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import ActivityFeed from './ActivityFeed';
+
+import ExpiredActivityFeed from './ExpiredActivityFeed';
 import ActivityForm from './ActivityForm';
 import EditActivity from './EditActivity';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import { customStyles } from './../../theme/customStyles';
 import isEmpty from './../../validation/is-empty';
-import { getAllActivities } from './../../actions/activity';
+import { getExpiredActivities } from './../../actions/activity';
 import SearchInput, { createFilter } from 'react-search-input';
 import CustomSearchInput from './../common/CustomSearchInput';
 import Title from '../common/Title';
@@ -64,7 +64,7 @@ class activities extends Component {
   }
 
   componentDidMount() {
-    this.props.getAllActivities();
+    this.props.getExpiredActivities();
   }
   searchUpdated(term) {
     this.setState({ searchTerm: term });
@@ -87,19 +87,19 @@ class activities extends Component {
       actsContent = '';
     } else {
       if (isEmpty(this.state.searchTerm)) {
-        actsContent = <ActivityFeed activities={activities} />;
+        actsContent = <ExpiredActivityFeed activities={activities} />;
       } else {
         const filteredActs = activities.filter(
           createFilter(this.state.searchTerm, KEYS_TO_FILTERS)
         );
-        actsContent = <ActivityFeed activities={filteredActs} />;
+        actsContent = <ExpiredActivityFeed activities={filteredActs} />;
       }
     }
     return (
       <div className={classes.relativeContainer}>
         <Title
           iconName='globe'
-          text=' Activity'
+          text=' expired activities'
           subText='You can manage the activity here'
           color={this.props.theme.palette.primary.main}
         />
@@ -124,24 +124,6 @@ class activities extends Component {
               </CardActionArea>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3} onClick={this.ShowCreateForm}>
-            <Card className={classes.card}>
-              <Link to='activities/expired' style={{ textDecoration: 'none' }}>
-                <CardActionArea
-                  style={{ height: '396px' }}
-                  className={classes.actionColor}
-                >
-                  <CardContent>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      <IconItem name='folder' type='Feather' size={50} />
-                      Expired activities
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Link>
-            </Card>
-          </Grid>
-
           {actsContent}
         </Grid>
         <div />
@@ -164,6 +146,6 @@ const mapStateToProps = state => ({
   activity: state.activity
 });
 
-export default connect(mapStateToProps, { getAllActivities })(
+export default connect(mapStateToProps, { getExpiredActivities })(
   withStyles(styles, { withTheme: true })(activities)
 );

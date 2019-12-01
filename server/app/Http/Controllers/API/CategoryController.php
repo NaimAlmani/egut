@@ -25,12 +25,19 @@ class CategoryController extends Controller
 
     public function categorybyid(Request $request)
     {
-        $item = Category::find($request->id);
-        $activities = $item->activities()->get();
+        $cat = Category::find($request->id);
+        $acts = $cat->activities()->get();
+         $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
         return response()->json(
             [
-                'category' => $item,
-                'activities' => $activities
+                'category' => $cat,
+                'activities' => $filteredItems
             ]
         );
     }

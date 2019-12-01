@@ -8,6 +8,8 @@ use App\Organization;
 use Validator;
 use Image;
 use File;
+use Carbon\Carbon;
+
 use App\OrganizationImage;
 
 class OrgController extends Controller
@@ -152,12 +154,19 @@ class OrgController extends Controller
     {
         $org = Organization::find($request->id);
         $images = $org->images()->get();
-        $activities = $org->activities()->get();
+        $acts = $org->activities()->get();
+          $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
         return response()->json(
             [
                 'organization' => $org,
                 'images' => $images,
-                'activities' => $activities
+                'activities' => $filteredItems
             ]
         );
     }

@@ -159,17 +159,22 @@ class emailsController extends Controller
     }
     public function  weekly(Request $request)
     {
-        $activities = Activity::where('is_active', 1)->orderBy('created_at', 'desc')->get();
+        $acts = Activity::where('is_active', 1)->orderBy('created_at', 'desc')->get();
+
+         $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
         $subscripers = Subscription::get();
         $subArr = [];
         foreach ($subscripers as $sub) {
             array_push($subArr, $sub->email);
-              Mail::to($sub->email)->send(new WeeklyEmail($activities,$sub->id));
+              Mail::to($sub->email)->send(new WeeklyEmail($filteredItems,$sub->id));
         }
 
-        $mhmd = "mohammedmaani1988@gmail.com";
-      //  Mail::to($mhmd)->send(new WeeklyEmail($activities));
-      //  Mail::to($subArr)->send(new WeeklyEmail($activities));
         return response()->json($activities);
     }
     public function unsubscribe($id){

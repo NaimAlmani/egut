@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::post('activity/create', 'API\activityController@create');
     Route::post('activity/update', 'API\activityController@update');
     Route::post('activity/delete', 'API\activityController@delete');
+     Route::get('activity/expired', 'API\activityController@expiredActivities');
     //activity orgs
     Route::post('activity/addorgs', 'API\activityController@addorgs');
     Route::post('activity/deleteorg', 'API\activityController@deleteorg');
@@ -164,4 +165,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
 
     Route::get('subscriptions/', 'API\subscriptionsController@index');
     Route::post('subscription/delete', 'API\subscriptionsController@delete');
+    /***expired actvities */
+    
+    
 });

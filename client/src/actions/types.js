@@ -51,9 +51,10 @@ export const SHOW_EDIT_SLIDE = 'SHOW_EDIT_SLIDE';
 export const UPDATE_SLIDE = 'UPDATE_SLIDE';
 export const DELETE_SLIDE = 'DELETE_SLIDE';
 /**
- * Activity 
+ * Activity
  */
 export const GET_ALL_ACTIVITIES = 'GET_ALL_ACTIVITIES';
+export const GET_EXPIRED_ACTIVITIES = 'GET_EXPIRED_ACTIVITIES';
 export const ADD_NEW_ACTIVITY = 'ADD_NEW_ACTIVITY';
 export const SHOW_EDIT_ACTIVITY = 'SHOW_EDIT_ACTIVITY';
 export const UPDATE_ACTIVITY = 'UPDATE_ACTIVITY';

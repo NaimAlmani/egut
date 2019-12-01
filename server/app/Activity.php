@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     protected $fillable = [
-        'name', 'description', 'logoPath', 'is_active'
+        'name', 'description', 'logoPath', 'is_active','is_weekly' , 'start_date','end_date'
     ];
     //organizations
     public function organizations()

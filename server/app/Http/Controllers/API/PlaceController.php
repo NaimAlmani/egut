@@ -162,11 +162,18 @@ class PlaceController extends Controller
     public function placebyid(Request $request)
     {
         $org = Place::find($request->id);
-        $activities = $org->activities()->get();
+        $acts = $org->activities()->get();
+         $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
         return response()->json(
             [
                 'place' => $org,
-                'activities' => $activities
+                'activities' => $filteredItems
             ]
         );
     }

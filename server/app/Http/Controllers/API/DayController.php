@@ -14,11 +14,18 @@ class DayController extends Controller
     public function daysactivities(Request $request)
     {
         $allTimes = ActivityTime::orderBy('created_at')->with('place', 'activity')->get();
-        //
+        //    
         $resultTimes = [];
         foreach ($allTimes as $time) {
-            if ($time->activity->is_active == 1 && $time->is_weekly == 1) {
-                array_push($resultTimes, $time);
+            $act= Activity::find($time->activity_id);
+            if($act){
+                if ($act->is_active == 1) {
+                       if ($act->is_weekly==true){
+                             array_push($resultTimes, $time);
+                        }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                            array_push($resultTimes, $time);
+                        }       
+               }
             }
         }
         $activities = Activity::orderBy('created_at')->with('organizations')->get();

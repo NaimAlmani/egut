@@ -18,15 +18,37 @@ use App\ActivityTime;
 use App\ActivityImage;
 use App\Contact;
 use App\Member;
-
+use Carbon\Carbon;
 class ActivityController extends Controller
 
 {
     //
     public function index(Request $request)
     {
-        $acts = Activity::with('groups', 'organizations')->orderBy('created_at', 'desc')->get();
-        return $acts->toJson();
+         $acts = Activity::with('groups', 'organizations')->orderBy('created_at', 'desc')->get();
+         $arr = [];
+
+
+          $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
+         return $filteredItems->toJson();
+    }
+
+      public function expiredActivities(Request $request)
+    {
+         $acts = Activity::with('groups', 'organizations')->orderBy('created_at', 'desc')->get();
+         $filteredItems  = $acts->filter(function($item) {
+            if ($item->is_weekly==false && !Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))){
+                return $item;
+            }      
+        });
+       
+        return $filteredItems->toJson();
     }
 
     /**
@@ -77,7 +99,19 @@ class ActivityController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
         $image = $request->logo;
-
+        $isWeekly = $request->isWeekly;
+       $startDateString = $request->startDate;
+       $endDateString = $request->endDate;
+       $startDate = Carbon::now();
+       $endDate = Carbon::now();
+      if ($startDateString!=null) {
+    // start Date is valid
+        $startDate  = Carbon::parse($startDateString);
+      }
+       if ($endDateString!=null) {
+    // end Date is valid
+        $endDate  = Carbon::parse($endDateString);
+      }
 
         $imgName = "defaultOrgLogo.jpg";
         if ($request->logo->isValid()) {
@@ -103,7 +137,7 @@ class ActivityController extends Controller
 
 
         //save to db
-        $activity = Activity::create(['name' => $request->name, 'description' => $request->description, 'logoPath' => $imgName, 'is_active' => $request->is_active]);
+        $activity = Activity::create(['name' => $request->name, 'description' => $request->description, 'logoPath' => $imgName, 'is_active' => $request->is_active , 'start_date'=>$startDate , 'end_date'=>$endDate , 'is_weekly'=>$isWeekly]);
         $activity->save();
         return $activity->toJson();
     }
@@ -126,13 +160,23 @@ class ActivityController extends Controller
         $description = $request->description;
         $is_active = $request->is_active;
         $image = $request->logo;
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         //pring the row
         $activity  = Activity::find($request->id);
         //assign new values to the model
         $activity->name  = $name;
         $activity->description  = $description;
         $activity->is_active = $is_active;
+      if($startDate!=null ){
+            //date is valid with new value 
+            $activity->start_date  = Carbon::parse($startDate);
+      } 
 
+       if($endDate!=null ){
+            //date is valid with new value 
+            $activity->end_date  = Carbon::parse($endDate);
+      } 
         if ($request->logo->isValid()) {
             //save images
             $image = $request->logo;
@@ -634,10 +678,21 @@ class ActivityController extends Controller
     public function activeactivities(Request $request)
     {
         $acts = Activity::with('groups', 'organizations', 'categories', 'Times')->where('is_active', 1)->orderBy('created_at', 'desc')->get();
+
+           $filteredItems  = $acts->filter(function($item) {
+               if ($item->is_weekly==true){
+                   return $item;
+            }else if(Carbon::now()->between(Carbon::parse($item->start_date),Carbon::parse($item->end_date))) {
+                  return $item;
+             }       
+        })->values();
+
         $days = Day::orderBy('created_at', 'desc')->get();
         $categories = Category::with('activities')->orderBy('created_at', 'desc')->get();
         $groups = Group::with('activities')->orderBy('created_at', 'desc')->get();
         //get activities times
-        return response()->json(['activities' => $acts, 'days' => $days, 'categories' => $categories, 'groups' => $groups]);
+        return response()->json(['activities' => $filteredItems, 'days' => $days, 'categories' => $categories, 'groups' => $groups]);
     }
+
+  
 }

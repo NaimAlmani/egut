@@ -76,7 +76,7 @@ const styles = theme => ({
   }
 });
 
-class ActivityItem extends React.Component {
+class ExpiredActivityItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -142,7 +142,10 @@ class ActivityItem extends React.Component {
               style={{ background: randomColor(this.props.index) }}
             />
             <CardActionArea className={classes.root}>
-              <Link to={'./activity/' + activity.id} className={classes.link}>
+              <Link
+                to={'./../activity/' + activity.id}
+                className={classes.link}
+              >
                 <CardContent>
                   <Typography
                     className={classes.title}
@@ -187,7 +190,7 @@ class ActivityItem extends React.Component {
   }
 }
 
-ActivityItem.propTypes = {
+ExpiredActivityItem.propTypes = {
   classes: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({});
@@ -196,4 +199,4 @@ export default connect(mapStateToProps, {
   showEdit,
   deleteActivity,
   ActivateActivity
-})(withStyles(styles, { withTheme: true })(ActivityItem));
+})(withStyles(styles, { withTheme: true })(ExpiredActivityItem));
