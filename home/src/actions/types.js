@@ -45,7 +45,7 @@ export const SHOW_CATEGORY_ICON = 'SHOW_CATEGORY_ICON';
 export const RESET_CATEGORY_ICON = 'RESET_CATEGORY_ICON';
 
 /**
- * Activity 
+ * Activity
  */
 export const GET_ALL_ACTIVITIES = 'GET_ALL_ACTIVITIES';
 export const ADD_NEW_ACTIVITY = 'ADD_NEW_ACTIVITY';
@@ -106,3 +106,5 @@ export const CLEAR_SUCCESS = 'CLEAR_SUCCESS';
 export const GET_HOME_INFO = 'GET_HOME_INFO';
 export const CATEGORY_BY_ID = 'CATEGORY_BY_ID';
 export const GROUP_BY_ID = 'GROUP_BY_ID';
+
+export const GET_ALL_IMAGES = 'GET_ALL_IMAGES';

@@ -1,4 +1,5 @@
-import config from './config';
+import config from './../../utils/config';
+import isEmpty from './../../validation/is-empty';
 const changeToGallery = images => {
   const result = [];
   images.map(img => {
@@ -9,8 +10,9 @@ const changeToGallery = images => {
       thumbnailWidth: img.width,
       thumbnailHeight: img.height,
       isSelected: img.isSelected || false,
-      caption: img.title,
-      description: img.description
+      caption: isEmpty(img.activity) ? img.title : img.activity.name,
+      description: img.description,
+      activity_id: !isEmpty(img.activity) ? img.activity.id : img.id
     });
   });
   return result;

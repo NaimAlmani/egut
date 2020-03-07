@@ -32,6 +32,7 @@ import ViewPlace from './components/place/ViewPlace';
 import ViewCategory from './components/category/ViewCategory';
 import ViewGroup from './components/group/ViewGroup';
 import About from './components/about/About';
+import MediaMain from './components/media/MediaMain';
 
 const theme = createMuiTheme(initTheme);
 const styles = theme => ({
@@ -99,6 +100,7 @@ class Root extends Component {
                   <Route exact path='/category/:id' component={ViewCategory} />
                   <Route exact path='/group/:id' component={ViewGroup} />
                   <Route exact path='/about' component={About} />
+                  <Route exact path='/images' component={MediaMain} />
                   <Route component={NotFound} />
                 </Switch>
               </div>
